@@ -4,8 +4,10 @@ package com.zshnb.ballplatform.controller;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.common.Response;
 import com.zshnb.ballplatform.entity.JobInfo;
+import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobInfoService;
+import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,9 @@ public class UserStudentAction {
 
     @Autowired
     private MPJobInfoService jobInfoService;
+
+    @Autowired
+    private MPJobRecruitmentService jobRecruitmentService;
 
     @PostMapping("{studentId}/job/info")
     public Response<String> addJobInfo(@PathVariable String studentId, @RequestBody JobInfo jobInfo) {
@@ -48,5 +53,9 @@ public class UserStudentAction {
         return Response.ok(list);
     }
 
-
+    @PostMapping("/{studentId}/job/recruitments/")
+    public Response<PageResponse<JobRecruitment>> listJobRecruitment(@PathVariable String studentId, @RequestBody PageQo pageQo){
+        PageResponse<JobRecruitment> list = jobRecruitmentService.listStudentJob(pageQo, studentId);
+        return Response.ok(list);
+    }
 }

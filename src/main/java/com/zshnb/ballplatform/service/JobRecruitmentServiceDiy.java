@@ -1,12 +1,13 @@
 package com.zshnb.ballplatform.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobRecruitment;
+import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.mapper.JobRecruitmentDao;
+import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
 import com.zshnb.ballplatform.utils.DateUtils;
@@ -29,6 +30,9 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
 
     @Autowired
     private JobRecruitmentDao jobRecruitmentDao;
+
+    @Autowired
+    private UserStudentDao studentDao;
 
     @Override
     public void add(JobRecruitment jobRecruitment) {
@@ -68,9 +72,9 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
 
     @Override
     public PageResponse<JobRecruitment> listTeacherJob(PageQo pageQo, String teacherId) {
-        JobRecruitment jobRecruitment = new JobRecruitment();
-        jobRecruitment.setPublisherId(teacherId);
-        Wrapper<JobRecruitment> eWrapper = new QueryWrapper<>(jobRecruitment);
+        QueryWrapper<JobRecruitment> eWrapper = new QueryWrapper<>();
+        eWrapper.eq("publisherId", teacherId);
+        eWrapper.or(ew -> ew.eq("publisherId", "0000"));
         if (pageQo.getPageSize() == -1) {
             List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(eWrapper);
             return new PageResponse<>(jobRecruitments.size(), jobRecruitments);
@@ -82,6 +86,7 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
 
     @Override
     public PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId) {
-        return null;
+        UserStudent student = studentDao.selectById(studentId);
+        return listTeacherJob(pageQo, student.getTeacherId());
     }
 }

@@ -85,3 +85,7 @@ PUT
 查看就业信息
 POST
 /student/{studentId}/job/infos
+
+查看企业招聘信息
+POST
+/student/{studentId}/job/recruitments/
