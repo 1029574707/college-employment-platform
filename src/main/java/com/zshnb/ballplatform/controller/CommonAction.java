@@ -71,14 +71,14 @@ public class CommonAction {
     public Response<String> register(@RequestBody UserQo userInfo) {
         if (userInfo.getUserType() == EUserType.USER_TYPE_STUDENT.typeCode) {
             if (studentService.alreadyExists(userInfo.getId())) {
-                return Response.error("该学号已注册");
+                throw new RuntimeException("该学号已注册");
             }
             UserStudent student = new UserStudent();
             BeanUtils.copyProperties(userInfo, student);
             studentService.addStudent(student);
         } else {
             if (teacherService.alreadyExists(userInfo.getId())) {
-                return Response.error("该教师工号已注册");
+                throw new RuntimeException("该教师工号已注册");
             }
             UserTeacher teacher = new UserTeacher();
             BeanUtils.copyProperties(userInfo, teacher);
@@ -100,7 +100,7 @@ public class CommonAction {
         switch (loginQo.getUserType()) {
             case 0:
                 if (!loginQo.getId().equals("0000") || !loginQo.getPassword().equals("123456")) {
-                    return Response.error("账号或密码错误");
+                    throw new RuntimeException("账号或密码错误");
                 }
                 userInfo.setId("0000");
                 userInfo.setName("admin");
@@ -109,7 +109,7 @@ public class CommonAction {
             case 1:
                 UserTeacher teacher = teacherService.getTeacherById(loginQo.getId());
                 if (teacher == null || !teacher.getPassword().equals(loginQo.getPassword())) {
-                    return Response.error("账号或密码错误");
+                    throw new RuntimeException("账号或密码错误");
                 }
                 BeanUtils.copyProperties(teacher, userInfo);
                 College collegeByTeacher = collegeService.college(userInfo.getCollegeId());
@@ -118,7 +118,7 @@ public class CommonAction {
             case 2:
                 UserStudent student = studentService.getStudentById(loginQo.getId());
                 if (student == null || !student.getPassword().equals(loginQo.getPassword())) {
-                    return Response.error("账号或密码错误");
+                    throw new RuntimeException("账号或密码错误");
                 }
                 BeanUtils.copyProperties(student, userInfo);
                 UserTeacher teacherById = teacherService.getTeacherById(student.getTeacherId());

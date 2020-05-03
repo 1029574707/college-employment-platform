@@ -28,7 +28,7 @@
 //
 //         HttpSession session = request.getSession();
 //         if (session.getAttribute("userId") == null || session.getAttribute("useType") == null) {
-//             return Response.error("用户信息获取失败，请重新登录");
+//             throw new RuntimeException("用户登录信息错误，请重新登录！");
 //         }
 //
 //         return joinPoint.proceed();
