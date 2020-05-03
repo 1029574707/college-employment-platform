@@ -43,19 +43,19 @@ public class CommonAction {
     @Autowired
     private MPUserStudentService studentService;
 
-    @PostMapping("/college/{collegeId}/teacher")
+    @PostMapping("/college/{collegeId}/teachers")
     public Response<PageResponse<UserTeacher>> teachers(@PathVariable int collegeId, @RequestBody PageQo pageQo) {
         PageResponse<UserTeacher> teachers = teacherService.teachers(collegeId, pageQo);
         return Response.ok(teachers);
     }
 
-    @PostMapping("/college/{collegeId}/class")
+    @PostMapping("/college/{collegeId}/classes")
     public Response<PageResponse<Class>> classes(@PathVariable int collegeId, @RequestBody PageQo pageQo) {
         PageResponse<Class> classes = classService.classes(collegeId, pageQo);
         return Response.ok(classes);
     }
 
-    @PostMapping("college")
+    @PostMapping("colleges")
     public Response<PageResponse<College>> colleges(@RequestBody PageQo pageQo) {
         PageResponse<College> colleges = collegeService.colleges(pageQo);
         return Response.ok(colleges);

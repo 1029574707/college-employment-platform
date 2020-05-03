@@ -25,7 +25,7 @@ public class UserAdminAction {
     @Autowired
     private MPJobRecruitmentService jobRecruitmentService;
 
-    @PostMapping("job")
+    @PostMapping("jobs")
     public Response<PageResponse<JobRecruitment>> listJob(@RequestBody PageQo pageQo) {
         PageResponse<JobRecruitment> list = jobRecruitmentService.list(pageQo);
         return Response.ok(list);
