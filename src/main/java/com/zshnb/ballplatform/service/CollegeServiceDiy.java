@@ -36,4 +36,9 @@ public class CollegeServiceDiy extends ServiceImpl<CollegeDao, College> implemen
         Page<College> collegePage = collegeDao.selectPage(page, null);
         return new PageResponse<>(collegePage.getTotal(), collegePage.getRecords());
     }
+
+    @Override
+    public College college(int collegeId) {
+        return collegeDao.selectById(collegeId);
+    }
 }

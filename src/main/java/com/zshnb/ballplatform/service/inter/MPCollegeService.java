@@ -21,4 +21,12 @@ public interface MPCollegeService extends IService<College> {
      * @return 学院列表
      */
     PageResponse<College> colleges(PageQo pageQo);
+
+    /**
+     * 查找学院
+     *
+     * @param collegeId 学院id
+     * @return 学院信息
+     */
+    College college(int collegeId);
 }

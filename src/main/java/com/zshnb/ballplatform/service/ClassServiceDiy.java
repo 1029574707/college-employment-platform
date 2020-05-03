@@ -48,4 +48,9 @@ public class ClassServiceDiy extends ServiceImpl<ClassDao, Class> implements MPC
         List<Class> records = classPage.getRecords();
         return new PageResponse<>(classPage.getTotal(), records);
     }
+
+    @Override
+    public Class classById(int id) {
+        return classDao.selectById(id);
+    }
 }

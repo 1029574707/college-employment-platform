@@ -24,4 +24,12 @@ public interface MPClassService extends IService<Class> {
      * @return 班级列表
      */
     PageResponse<Class> classes(int collegeId, PageQo pageQo);
+
+    /**
+     * 获取班级
+     *
+     * @param id 班级id
+     * @return 班级信息
+     */
+    Class classById(int id);
 }

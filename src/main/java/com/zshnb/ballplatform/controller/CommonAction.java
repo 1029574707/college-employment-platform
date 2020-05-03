@@ -15,6 +15,7 @@ import com.zshnb.ballplatform.service.inter.MPClassService;
 import com.zshnb.ballplatform.service.inter.MPCollegeService;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
 import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
+import com.zshnb.ballplatform.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -88,32 +89,49 @@ public class CommonAction {
 
     /**
      * 登录，登陆成功后设置session
-     *
-     * @param loginQo 登录信息
+     *  @param loginQo 登录信息
      * @param session session信息
+     * @return
      */
     @IgnoreSession
     @PostMapping("session")
-    public Response<String> login(@RequestBody LoginQo loginQo, HttpSession session) {
+    public Response<UserInfo> login(@RequestBody LoginQo loginQo, HttpSession session) {
+        UserInfo userInfo = new UserInfo();
         switch (loginQo.getUserType()) {
             case 0:
-                if (!loginQo.getId().equals("0000") || !loginQo.getId().equals("123456")) {
+                if (!loginQo.getId().equals("0000") || !loginQo.getPassword().equals("123456")) {
                     return Response.error("账号或密码错误");
                 }
+                userInfo.setId("0000");
+                userInfo.setName("admin");
+                userInfo.setPassword("123456");
+                break;
             case 1:
                 UserTeacher teacher = teacherService.getTeacherById(loginQo.getId());
                 if (teacher == null || !teacher.getPassword().equals(loginQo.getPassword())) {
                     return Response.error("账号或密码错误");
                 }
+                BeanUtils.copyProperties(teacher, userInfo);
+                College collegeByTeacher = collegeService.college(userInfo.getCollegeId());
+                userInfo.setCollegeName(collegeByTeacher.getName());
+                break;
             case 2:
                 UserStudent student = studentService.getStudentById(loginQo.getId());
                 if (student == null || !student.getPassword().equals(loginQo.getPassword())) {
                     return Response.error("账号或密码错误");
                 }
+                BeanUtils.copyProperties(student, userInfo);
+                UserTeacher teacherById = teacherService.getTeacherById(student.getTeacherId());
+                userInfo.setTeacherName(teacherById.getName());
+                Class aClass = classService.classById(student.getClassId());
+                userInfo.setClassName(aClass.getName());
+                College collegeByStudent = collegeService.college(userInfo.getCollegeId());
+                userInfo.setCollegeName(collegeByStudent.getName());
+                break;
         }
         session.setAttribute("userId", loginQo.getId());
         session.setAttribute("userType", loginQo.getUserType());
-        return Response.ok();
+        return Response.ok(userInfo);
     }
 
     @DeleteMapping("session")
