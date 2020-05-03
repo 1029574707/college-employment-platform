@@ -48,7 +48,7 @@ public class UserTeacherAction {
 
     @PostMapping("{id}/jobs")
     public Response<PageResponse<JobRecruitment>> listJob(@PathVariable String id, @RequestBody PageQo pageQo) {
-        PageResponse<JobRecruitment> list = jobRecruitmentService.list(pageQo, id);
+        PageResponse<JobRecruitment> list = jobRecruitmentService.listTeacherJob(pageQo, id);
         return Response.ok(list);
     }
 

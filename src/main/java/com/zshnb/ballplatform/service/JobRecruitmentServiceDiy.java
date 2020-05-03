@@ -67,7 +67,7 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
     }
 
     @Override
-    public PageResponse<JobRecruitment> list(PageQo pageQo, String teacherId) {
+    public PageResponse<JobRecruitment> listTeacherJob(PageQo pageQo, String teacherId) {
         JobRecruitment jobRecruitment = new JobRecruitment();
         jobRecruitment.setPublisherId(teacherId);
         Wrapper<JobRecruitment> eWrapper = new QueryWrapper<>(jobRecruitment);
@@ -78,5 +78,10 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
         Page<JobRecruitment> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
         Page<JobRecruitment> jobRecruitmentPage = jobRecruitmentDao.selectPage(page, eWrapper);
         return new PageResponse<>(jobRecruitmentPage.getTotal(), jobRecruitmentPage.getRecords());
+    }
+
+    @Override
+    public PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId) {
+        return null;
     }
 }

@@ -25,5 +25,7 @@ public interface MPJobRecruitmentService extends IService<JobRecruitment> {
 
     PageResponse<JobRecruitment> list(PageQo pageQo);
 
-    PageResponse<JobRecruitment> list(PageQo pageQo, String teacherId);
+    PageResponse<JobRecruitment> listTeacherJob(PageQo pageQo, String teacherId);
+
+    PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId);
 }
