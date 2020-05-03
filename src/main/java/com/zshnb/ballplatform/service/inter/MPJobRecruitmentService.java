@@ -17,9 +17,13 @@ public interface MPJobRecruitmentService extends IService<JobRecruitment> {
 
     void add(JobRecruitment jobRecruitment);
 
+    void add(JobRecruitment jobRecruitment, String publisherId);
+
     void delete(int id);
 
-    void update(JobRecruitment jobRecruitment);
+    void update(int id, JobRecruitment jobRecruitment);
 
     PageResponse<JobRecruitment> list(PageQo pageQo);
+
+    PageResponse<JobRecruitment> list(PageQo pageQo, String teacherId);
 }

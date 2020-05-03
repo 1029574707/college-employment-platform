@@ -1,13 +1,14 @@
 package com.zshnb.ballplatform.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
-import com.zshnb.ballplatform.entity.College;
 import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.mapper.JobRecruitmentDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,14 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
 
     @Override
     public void add(JobRecruitment jobRecruitment) {
+        jobRecruitment.setCreateTime(DateUtils.format(new Date()));
+        jobRecruitmentDao.insert(jobRecruitment);
+    }
+
+    @Override
+    public void add(JobRecruitment jobRecruitment, String publisherId) {
+        jobRecruitment.setCreateTime(DateUtils.format(new Date()));
+        jobRecruitment.setPublisherId(publisherId);
         jobRecruitmentDao.insert(jobRecruitment);
     }
 
@@ -40,7 +49,9 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
     }
 
     @Override
-    public void update(JobRecruitment jobRecruitment) {
+    public void update(int id, JobRecruitment jobRecruitment) {
+        jobRecruitment.setId(id);
+        jobRecruitment.setUpdateTime(DateUtils.format(new Date()));
         jobRecruitmentDao.updateById(jobRecruitment);
     }
 
@@ -52,6 +63,20 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
         }
         Page<JobRecruitment> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
         Page<JobRecruitment> jobRecruitmentPage = jobRecruitmentDao.selectPage(page, null);
+        return new PageResponse<>(jobRecruitmentPage.getTotal(), jobRecruitmentPage.getRecords());
+    }
+
+    @Override
+    public PageResponse<JobRecruitment> list(PageQo pageQo, String teacherId) {
+        JobRecruitment jobRecruitment = new JobRecruitment();
+        jobRecruitment.setPublisherId(teacherId);
+        Wrapper<JobRecruitment> eWrapper = new QueryWrapper<>(jobRecruitment);
+        if (pageQo.getPageSize() == -1) {
+            List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(eWrapper);
+            return new PageResponse<>(jobRecruitments.size(), jobRecruitments);
+        }
+        Page<JobRecruitment> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
+        Page<JobRecruitment> jobRecruitmentPage = jobRecruitmentDao.selectPage(page, eWrapper);
         return new PageResponse<>(jobRecruitmentPage.getTotal(), jobRecruitmentPage.getRecords());
     }
 }

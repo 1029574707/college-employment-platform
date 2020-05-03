@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MPPracticeInfoService extends IService<PracticeInfo> {
 
+    void score(int id, int fraction);
 }

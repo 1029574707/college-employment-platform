@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zsh
@@ -13,4 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MPEvaluationService extends IService<Evaluation> {
 
+    void add(Evaluation evaluation);
+
+    void delete(int id);
+
+    void update(Evaluation evaluation);
 }
