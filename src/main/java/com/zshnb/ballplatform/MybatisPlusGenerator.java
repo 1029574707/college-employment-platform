@@ -30,17 +30,17 @@ public class MybatisPlusGenerator {
 		gc.setAuthor("zsh");
 		String projectPath = System.getProperty("user.dir");
 		gc.setOutputDir(projectPath + "/src/main/java");
-		gc.setFileOverride(false);// 是否覆盖同名文件，默认是false
+		gc.setFileOverride(true);// 是否覆盖同名文件，默认是false
 		gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
 		gc.setEnableCache(false);// XML 二级缓存
 		gc.setBaseResultMap(true);// XML ResultMap
 		gc.setBaseColumnList(false);// XML columList
 		/* 自定义文件命名，注意 %s 会自动填充表实体属性！ */
-		// gc.setMapperName("%sDao");
-		// gc.setXmlName("%sDao");
-		// gc.setServiceName("MP%sService");
-		// gc.setServiceImplName("%sServiceDiy");
-		// gc.setControllerName("%sAction");
+		gc.setMapperName("%sDao");
+		gc.setXmlName("%sDao");
+		gc.setServiceName("MP%sService");
+		gc.setServiceImplName("%sServiceDiy");
+		gc.setControllerName("%sAction");
 		mpg.setGlobalConfig(gc);
 
 		// 数据源配置
@@ -52,7 +52,7 @@ public class MybatisPlusGenerator {
 		dsc.setDriverName("com.mysql.jdbc.Driver");
 		dsc.setUsername("root");
 		dsc.setPassword("root");
-		dsc.setUrl("jdbc:mysql://localhost:13306/ball_platform?useUnicode=true&characterEncoding=utf8");
+		dsc.setUrl("jdbc:mysql://localhost:3307/college-employment-platform?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false");
 		mpg.setDataSource(dsc);
 
 		// 策略配置
@@ -60,7 +60,7 @@ public class MybatisPlusGenerator {
 		// strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
 		strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
 //		strategy.setInclude(new String[] {"user", "sport_site", "companion", "coach", "coach_order", "sport_site_order", "bill", "sport_track", "message", "activity", "feedback"}); // 需要生成的表
-		strategy.setInclude(new String[]{"admin"});
+// 		strategy.setInclude(new String[]{"admin"});
 		// strategy.setExclude(new String[]{"test"}); // 排除生成的表
 		// 自定义实体父类
 		// strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");

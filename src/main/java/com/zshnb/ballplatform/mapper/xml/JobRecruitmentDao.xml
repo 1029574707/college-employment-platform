@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zshnb.ballplatform.mapper.JobRecruitmentDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zshnb.ballplatform.entity.JobRecruitment">
+        <id column="id" property="id" />
+        <result column="companyName" property="companyName" />
+        <result column="companyProperty" property="companyProperty" />
+        <result column="position" property="position" />
+        <result column="personCount" property="personCount" />
+        <result column="imgUrl" property="imgUrl" />
+        <result column="type" property="type" />
+        <result column="require" property="require" />
+        <result column="salary" property="salary" />
+        <result column="address" property="address" />
+        <result column="deadline" property="deadline" />
+        <result column="concatInfo" property="concatInfo" />
+        <result column="publisherId" property="publisherId" />
+        <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
+    </resultMap>
+
+</mapper>
