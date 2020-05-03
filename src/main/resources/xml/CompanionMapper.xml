@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zshnb.ballplatform.mapper.CompanionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zshnb.ballplatform.entity.Companion">
+        <id column="id" property="id" />
+        <result column="sport_item_id" property="sportItemId" />
+        <result column="sport_level" property="sportLevel" />
+        <result column="sport_site_id" property="sportSiteId" />
+        <result column="sex" property="sex" />
+        <result column="time" property="time" />
+    </resultMap>
+
+</mapper>
