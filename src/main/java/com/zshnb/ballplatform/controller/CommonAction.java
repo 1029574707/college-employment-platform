@@ -69,10 +69,16 @@ public class CommonAction {
     @PostMapping("/user")
     public Response<String> register(@RequestBody UserQo userInfo) {
         if (userInfo.getUserType() == EUserType.USER_TYPE_STUDENT.typeCode) {
+            if (studentService.alreadyExists(userInfo.getId())) {
+                return Response.error("该学号已注册");
+            }
             UserStudent student = new UserStudent();
             BeanUtils.copyProperties(userInfo, student);
             studentService.addStudent(student);
         } else {
+            if (teacherService.alreadyExists(userInfo.getId())) {
+                return Response.error("该教师工号已注册");
+            }
             UserTeacher teacher = new UserTeacher();
             BeanUtils.copyProperties(userInfo, teacher);
             teacherService.addTeacher(teacher);

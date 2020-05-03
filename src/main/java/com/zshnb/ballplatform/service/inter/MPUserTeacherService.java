@@ -34,8 +34,17 @@ public interface MPUserTeacherService extends IService<UserTeacher> {
 
     /**
      * 查找导师
+     *
      * @param id 导师id
      * @return 导师信息
      */
     UserTeacher getTeacherById(String id);
+
+    /**
+     * 教师号是否已经注册
+     *
+     * @param id 教师号
+     * @return true-存在，false-不存在
+     */
+    boolean alreadyExists(String id);
 }

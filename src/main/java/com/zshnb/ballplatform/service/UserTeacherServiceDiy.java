@@ -56,4 +56,9 @@ public class UserTeacherServiceDiy extends ServiceImpl<UserTeacherDao, UserTeach
     public UserTeacher getTeacherById(String id) {
         return teacherDao.selectById(id);
     }
+
+    @Override
+    public boolean alreadyExists(String id) {
+        return teacherDao.selectById(id) != null;
+    }
 }

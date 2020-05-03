@@ -36,4 +36,12 @@ public interface MPUserStudentService extends IService<UserStudent> {
      * @return 学生列表
      */
     List<UserStudent> students(QueryStudentQo queryStudentQo);
+
+    /**
+     * 学号是否已经存在
+     *
+     * @param id 学号
+     * @return true-存在，false-不存在
+     */
+    boolean alreadyExists(String id);
 }

@@ -39,5 +39,8 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
         return null;
     }
 
-
+    @Override
+    public boolean alreadyExists(String id) {
+        return studentDao.selectById(id) != null;
+    }
 }

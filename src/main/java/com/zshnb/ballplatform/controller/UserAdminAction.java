@@ -44,6 +44,7 @@ public class UserAdminAction {
 
     @PostMapping("job")
     public Response<String> addJob(@RequestBody JobRecruitment jobRecruitment) {
+        jobRecruitment.setPublisherId("0000");
         jobRecruitmentService.add(jobRecruitment);
         return Response.ok();
     }
