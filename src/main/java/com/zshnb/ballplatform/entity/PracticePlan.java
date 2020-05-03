@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
@@ -34,6 +32,7 @@ public class PracticePlan extends Model<PracticePlan> {
     @TableField("studentId")
     private String studentId;
 
+    @TableField(exist = false)
     private String evaluation;
 
     @TableField("createTime")
@@ -42,11 +41,22 @@ public class PracticePlan extends Model<PracticePlan> {
     @TableField("updateTime")
     private String updateTime;
 
-    @TableField("infoId")
-    private Integer infoId;
+    @TableField("practiceId")
+    private Integer practiceId;
 
     @TableField(exist = false)
     private String companyName;
+
+    @TableField("evaluationId")
+    private Integer evaluationId;
+
+    public Integer getEvaluationId() {
+        return evaluationId;
+    }
+
+    public void setEvaluationId(Integer evaluationId) {
+        this.evaluationId = evaluationId;
+    }
 
     public String getCompanyName() {
         return companyName;
@@ -120,12 +130,12 @@ public class PracticePlan extends Model<PracticePlan> {
         this.updateTime = updateTime;
     }
 
-    public Integer getInfoId() {
-        return infoId;
+    public Integer getPracticeId() {
+        return practiceId;
     }
 
-    public void setInfoId(Integer infoId) {
-        this.infoId = infoId;
+    public void setPracticeId(Integer practiceId) {
+        this.practiceId = practiceId;
     }
 
     @Override
@@ -144,8 +154,9 @@ public class PracticePlan extends Model<PracticePlan> {
                 ", evaluation='" + evaluation + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
-                ", infoId=" + infoId +
+                ", practiceId=" + practiceId +
                 ", companyName='" + companyName + '\'' +
+                ", evaluationId=" + evaluationId +
                 '}';
     }
 }

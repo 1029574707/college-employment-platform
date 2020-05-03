@@ -29,6 +29,7 @@ public class PracticeReport extends Model<PracticeReport> {
     @TableField("studentId")
     private String studentId;
 
+    @TableField(exist = false)
     private String evaluation;
 
     @TableField("createTime")
@@ -37,11 +38,23 @@ public class PracticeReport extends Model<PracticeReport> {
     @TableField("updateTime")
     private String updateTime;
 
-    @TableField("infoId")
-    private Integer infoId;
+    @TableField("practiceId")
+    private Integer practiceId;
 
     @TableField(exist = false)
     private String companyName;
+
+    @TableField("evaluationId")
+    private Integer evaluationId;
+
+    public Integer getEvaluationId() {
+        return evaluationId;
+    }
+
+    public void setEvaluationId(Integer evaluationId) {
+        this.evaluationId = evaluationId;
+    }
+
 
     public String getCompanyName() {
         return companyName;
@@ -107,12 +120,12 @@ public class PracticeReport extends Model<PracticeReport> {
         this.updateTime = updateTime;
     }
 
-    public Integer getInfoId() {
-        return infoId;
+    public Integer getPracticeId() {
+        return practiceId;
     }
 
-    public void setInfoId(Integer infoId) {
-        this.infoId = infoId;
+    public void setPracticeId(Integer practiceId) {
+        this.practiceId = practiceId;
     }
 
     @Override
@@ -130,8 +143,9 @@ public class PracticeReport extends Model<PracticeReport> {
                 ", evaluation='" + evaluation + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
-                ", infoId=" + infoId +
+                ", practiceId=" + practiceId +
                 ", companyName='" + companyName + '\'' +
+                ", evaluationId=" + evaluationId +
                 '}';
     }
 }

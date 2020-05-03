@@ -2,15 +2,17 @@ package com.zshnb.ballplatform.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.time.LocalDate;
+
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zsh
@@ -23,13 +25,12 @@ public class PracticeDiary extends Model<PracticeDiary> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private LocalDate date;
-
     private String content;
 
     @TableField("studentId")
     private String studentId;
 
+    @TableField(exist = false)
     private String evaluation;
 
     @TableField("createTime")
@@ -38,11 +39,23 @@ public class PracticeDiary extends Model<PracticeDiary> {
     @TableField("updateTime")
     private String updateTime;
 
-    @TableField("infoId")
-    private Integer infoId;
+    @TableField("practiceId")
+    private Integer practiceId;
 
     @TableField(exist = false)
     private String companyName;
+
+    @TableField("evaluationId")
+    private Integer evaluationId;
+
+    public Integer getEvaluationId() {
+        return evaluationId;
+    }
+
+    public void setEvaluationId(Integer evaluationId) {
+        this.evaluationId = evaluationId;
+    }
+
 
     public String getCompanyName() {
         return companyName;
@@ -59,13 +72,7 @@ public class PracticeDiary extends Model<PracticeDiary> {
     public void setId(Integer id) {
         this.id = id;
     }
-    public LocalDate getDate() {
-        return date;
-    }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
     public String getContent() {
         return content;
     }
@@ -73,6 +80,7 @@ public class PracticeDiary extends Model<PracticeDiary> {
     public void setContent(String content) {
         this.content = content;
     }
+
     public String getStudentId() {
         return studentId;
     }
@@ -80,6 +88,7 @@ public class PracticeDiary extends Model<PracticeDiary> {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
+
     public String getEvaluation() {
         return evaluation;
     }
@@ -87,6 +96,7 @@ public class PracticeDiary extends Model<PracticeDiary> {
     public void setEvaluation(String evaluation) {
         this.evaluation = evaluation;
     }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -94,6 +104,7 @@ public class PracticeDiary extends Model<PracticeDiary> {
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     public String getUpdateTime() {
         return updateTime;
     }
@@ -102,12 +113,12 @@ public class PracticeDiary extends Model<PracticeDiary> {
         this.updateTime = updateTime;
     }
 
-    public Integer getInfoId() {
-        return infoId;
+    public Integer getPracticeId() {
+        return practiceId;
     }
 
-    public void setInfoId(Integer infoId) {
-        this.infoId = infoId;
+    public void setPracticeId(Integer practiceId) {
+        this.practiceId = practiceId;
     }
 
     @Override
@@ -119,14 +130,14 @@ public class PracticeDiary extends Model<PracticeDiary> {
     public String toString() {
         return "PracticeDiary{" +
                 "id=" + id +
-                ", date=" + date +
                 ", content='" + content + '\'' +
                 ", studentId='" + studentId + '\'' +
                 ", evaluation='" + evaluation + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
-                ", infoId=" + infoId +
+                ", practiceId=" + practiceId +
                 ", companyName='" + companyName + '\'' +
+                ", evaluationId=" + evaluationId +
                 '}';
     }
 }

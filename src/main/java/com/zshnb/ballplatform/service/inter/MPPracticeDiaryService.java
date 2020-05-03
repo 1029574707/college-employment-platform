@@ -1,11 +1,14 @@
 package com.zshnb.ballplatform.service.inter;
 
+import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.PracticeDiary;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zshnb.ballplatform.entity.PracticePlan;
+import com.zshnb.ballplatform.qo.PageQo;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zsh
@@ -13,4 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MPPracticeDiaryService extends IService<PracticeDiary> {
 
+    void add(String studentId, PracticeDiary diary);
+
+    void delete(int id);
+
+    void update(int id, String diaryContent);
+
+    PageResponse<PracticeDiary> list(PageQo pageQo, String studentId);
 }

@@ -1,7 +1,9 @@
 package com.zshnb.ballplatform.service.inter;
 
-import com.zshnb.ballplatform.entity.PracticeReport;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zshnb.ballplatform.common.PageResponse;
+import com.zshnb.ballplatform.entity.PracticeReport;
+import com.zshnb.ballplatform.qo.PageQo;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MPPracticeReportService extends IService<PracticeReport> {
 
+    void add(String studentId, PracticeReport report);
+
+    void delete(int id);
+
+    void update(int id, String reportContent);
+
+    PageResponse<PracticeReport> list(PageQo pageQo, String studentId);
 }
