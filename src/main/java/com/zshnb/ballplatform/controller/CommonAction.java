@@ -17,7 +17,6 @@ import com.zshnb.ballplatform.service.inter.MPUserStudentService;
 import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -27,7 +26,7 @@ import javax.servlet.http.HttpSession;
  * Author：wh <br/>
  * Description: 公共接口
  **/
-@Controller
+@RestController
 @RequestMapping("/common")
 public class CommonAction {
 

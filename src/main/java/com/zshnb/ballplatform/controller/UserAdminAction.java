@@ -7,7 +7,6 @@ import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author zsh
  * @since 2020-05-03
  */
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class UserAdminAction {
 

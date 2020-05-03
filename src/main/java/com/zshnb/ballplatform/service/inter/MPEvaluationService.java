@@ -17,5 +17,5 @@ public interface MPEvaluationService extends IService<Evaluation> {
 
     void delete(int id);
 
-    void update(Evaluation evaluation);
+    void update(int id, Evaluation evaluation);
 }

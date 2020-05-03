@@ -2,8 +2,7 @@ package com.zshnb.ballplatform.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Controller;
  * @author zsh
  * @since 2020-05-03
  */
-@Controller
+@RestController
 @RequestMapping("/jobInfo")
 public class JobInfoAction {
 
