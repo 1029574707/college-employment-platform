@@ -27,10 +27,10 @@ public class PracticeInfo extends Model<PracticeInfo> {
     private String position;
 
     @TableField("beginTime")
-    private LocalDateTime beginTime;
+    private String beginTime;
 
     @TableField("endTime")
-    private LocalDateTime endTime;
+    private String endTime;
 
     private String address;
 
@@ -52,10 +52,10 @@ public class PracticeInfo extends Model<PracticeInfo> {
     private Integer fraction;
 
     @TableField("createTime")
-    private LocalDateTime createTime;
+    private String createTime;
 
     @TableField("updateTime")
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     private Integer type;
 
@@ -80,18 +80,18 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setPosition(String position) {
         this.position = position;
     }
-    public LocalDateTime getBeginTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(LocalDateTime beginTime) {
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
-    public LocalDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
     public String getAddress() {
@@ -143,18 +143,18 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setFraction(Integer fraction) {
         this.fraction = fraction;
     }
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
-    public LocalDateTime getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
     public Integer getType() {

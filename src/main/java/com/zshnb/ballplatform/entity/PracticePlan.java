@@ -34,10 +34,10 @@ public class PracticePlan extends Model<PracticePlan> {
     private String evaluation;
 
     @TableField("createTime")
-    private LocalDateTime createTime;
+    private String createTime;
 
     @TableField("updateTime")
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     public Integer getId() {
         return id;
@@ -81,18 +81,18 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setEvaluation(String evaluation) {
         this.evaluation = evaluation;
     }
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
-    public LocalDateTime getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

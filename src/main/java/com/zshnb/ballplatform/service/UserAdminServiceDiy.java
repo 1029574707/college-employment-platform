@@ -17,4 +17,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAdminServiceDiy extends ServiceImpl<UserAdminDao, UserAdmin> implements MPUserAdminService {
 
+
 }

@@ -30,7 +30,7 @@ public class MybatisPlusGenerator {
 		gc.setAuthor("zsh");
 		String projectPath = System.getProperty("user.dir");
 		gc.setOutputDir(projectPath + "/src/main/java");
-		gc.setFileOverride(true);// 是否覆盖同名文件，默认是false
+		gc.setFileOverride(false);// 是否覆盖同名文件，默认是false
 		gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
 		gc.setEnableCache(false);// XML 二级缓存
 		gc.setBaseResultMap(true);// XML ResultMap

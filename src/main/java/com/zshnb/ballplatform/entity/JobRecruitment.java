@@ -44,7 +44,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
 
     private String address;
 
-    private LocalDateTime deadline;
+    private String deadline;
 
     @TableField("concatInfo")
     private String concatInfo;
@@ -53,10 +53,10 @@ public class JobRecruitment extends Model<JobRecruitment> {
     private String publisherId;
 
     @TableField("createTime")
-    private LocalDateTime createTime;
+    private String createTime;
 
     @TableField("updateTime")
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     public Integer getId() {
         return id;
@@ -128,11 +128,11 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setAddress(String address) {
         this.address = address;
     }
-    public LocalDateTime getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
     public String getConcatInfo() {
@@ -149,18 +149,18 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setPublisherId(String publisherId) {
         this.publisherId = publisherId;
     }
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
-    public LocalDateTime getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

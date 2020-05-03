@@ -3,7 +3,6 @@ package com.zshnb.ballplatform.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
@@ -26,10 +25,10 @@ public class Evaluation extends Model<Evaluation> {
     private String studentId;
 
     @TableField("createTime")
-    private LocalDateTime createTime;
+    private String createTime;
 
     @TableField("updateTime")
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     private String content;
 
@@ -52,18 +51,18 @@ public class Evaluation extends Model<Evaluation> {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
-    public LocalDateTime getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
     public String getContent() {
