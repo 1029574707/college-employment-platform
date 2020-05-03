@@ -38,6 +38,20 @@ public class PracticeDiary extends Model<PracticeDiary> {
     @TableField("updateTime")
     private String updateTime;
 
+    @TableField("infoId")
+    private Integer infoId;
+
+    @TableField(exist = false)
+    private String companyName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -88,6 +102,14 @@ public class PracticeDiary extends Model<PracticeDiary> {
         this.updateTime = updateTime;
     }
 
+    public Integer getInfoId() {
+        return infoId;
+    }
+
+    public void setInfoId(Integer infoId) {
+        this.infoId = infoId;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -96,13 +118,15 @@ public class PracticeDiary extends Model<PracticeDiary> {
     @Override
     public String toString() {
         return "PracticeDiary{" +
-            "id=" + id +
-            ", date=" + date +
-            ", content=" + content +
-            ", studentId=" + studentId +
-            ", evaluation=" + evaluation +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "id=" + id +
+                ", date=" + date +
+                ", content='" + content + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", evaluation='" + evaluation + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", infoId=" + infoId +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }

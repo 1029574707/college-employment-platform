@@ -3,13 +3,16 @@ package com.zshnb.ballplatform.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zsh
@@ -39,6 +42,20 @@ public class PracticePlan extends Model<PracticePlan> {
     @TableField("updateTime")
     private String updateTime;
 
+    @TableField("infoId")
+    private Integer infoId;
+
+    @TableField(exist = false)
+    private String companyName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -46,6 +63,7 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public Integer getType() {
         return type;
     }
@@ -53,6 +71,7 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setType(Integer type) {
         this.type = type;
     }
+
     public String getName() {
         return name;
     }
@@ -60,6 +79,7 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getContent() {
         return content;
     }
@@ -67,6 +87,7 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setContent(String content) {
         this.content = content;
     }
+
     public String getStudentId() {
         return studentId;
     }
@@ -74,6 +95,7 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
+
     public String getEvaluation() {
         return evaluation;
     }
@@ -81,6 +103,7 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setEvaluation(String evaluation) {
         this.evaluation = evaluation;
     }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -88,12 +111,21 @@ public class PracticePlan extends Model<PracticePlan> {
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     public String getUpdateTime() {
         return updateTime;
     }
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getInfoId() {
+        return infoId;
+    }
+
+    public void setInfoId(Integer infoId) {
+        this.infoId = infoId;
     }
 
     @Override
@@ -104,14 +136,16 @@ public class PracticePlan extends Model<PracticePlan> {
     @Override
     public String toString() {
         return "PracticePlan{" +
-            "id=" + id +
-            ", type=" + type +
-            ", name=" + name +
-            ", content=" + content +
-            ", studentId=" + studentId +
-            ", evaluation=" + evaluation +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "id=" + id +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", content='" + content + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", evaluation='" + evaluation + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", infoId=" + infoId +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }

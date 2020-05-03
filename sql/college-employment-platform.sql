@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-03 21:21:31
+Date: 2020-05-03 23:10:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,14 +20,15 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `class`;
 CREATE TABLE `class` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `collegeId` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of class
 -- ----------------------------
+INSERT INTO `class` VALUES ('1', '三班', '1');
 
 -- ----------------------------
 -- Table structure for `college`
@@ -35,13 +36,16 @@ CREATE TABLE `class` (
 DROP TABLE IF EXISTS `college`;
 CREATE TABLE `college` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of college
 -- ----------------------------
+INSERT INTO `college` VALUES ('1', '人文学院');
+INSERT INTO `college` VALUES ('2', '物联网学院');
+INSERT INTO `college` VALUES ('3', '机械学院');
 
 -- ----------------------------
 -- Table structure for `evaluation`
@@ -71,19 +75,20 @@ CREATE TABLE `job_info` (
   `position` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
   `tripartite` tinyint(4) NOT NULL,
-  `contactName` varchar(10) NOT NULL,
-  `contactPhone` varchar(11) NOT NULL,
+  `contactName` varchar(255) NOT NULL,
+  `contactPhone` varchar(255) NOT NULL,
   `contactEmail` varchar(255) DEFAULT NULL,
   `note` varchar(255) NOT NULL,
   `studentId` varchar(12) NOT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of job_info
 -- ----------------------------
+INSERT INTO `job_info` VALUES ('1', 'zd', '工程师', 'cd', '0', 'zz', '123', '111', '', '1', '2020-05-03 22:58:46', null);
 
 -- ----------------------------
 -- Table structure for `job_recruitment`
@@ -91,7 +96,7 @@ CREATE TABLE `job_info` (
 DROP TABLE IF EXISTS `job_recruitment`;
 CREATE TABLE `job_recruitment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `companyName` varchar(30) NOT NULL,
+  `companyName` varchar(255) NOT NULL,
   `companyProperty` varchar(2048) NOT NULL,
   `position` varchar(255) NOT NULL,
   `personCount` int(11) NOT NULL,
@@ -137,17 +142,17 @@ CREATE TABLE `practice_diary` (
 DROP TABLE IF EXISTS `practice_info`;
 CREATE TABLE `practice_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `company` varchar(30) NOT NULL,
-  `position` varchar(20) NOT NULL,
+  `company` varchar(255) NOT NULL,
+  `position` varchar(255) NOT NULL,
   `beginTime` datetime NOT NULL,
   `endTime` datetime DEFAULT NULL,
-  `address` varchar(128) DEFAULT NULL,
-  `principalName` varchar(20) NOT NULL,
-  `principalPhone` varchar(11) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `principalName` varchar(255) NOT NULL,
+  `principalPhone` varchar(255) NOT NULL,
   `practiceStatus` tinyint(4) NOT NULL,
   `jobContent` varchar(1024) DEFAULT NULL,
   `studentId` varchar(12) NOT NULL,
-  `fraction` int(3) DEFAULT NULL,
+  `fraction` int(11) DEFAULT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
@@ -184,7 +189,7 @@ CREATE TABLE `practice_plan` (
 DROP TABLE IF EXISTS `practice_report`;
 CREATE TABLE `practice_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `content` varchar(2048) NOT NULL,
   `studentId` varchar(12) NOT NULL,
   `evaluation` varchar(2048) DEFAULT NULL,
@@ -219,13 +224,13 @@ INSERT INTO `user_admin` VALUES ('0000', 'admin', '123456');
 DROP TABLE IF EXISTS `user_student`;
 CREATE TABLE `user_student` (
   `id` varchar(12) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `collegeId` int(11) NOT NULL,
   `classId` int(11) NOT NULL,
   `gender` tinyint(4) NOT NULL,
   `phoneNumber` varchar(11) DEFAULT NULL,
   `teacherId` varchar(8) NOT NULL,
-  `email` varchar(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -233,6 +238,8 @@ CREATE TABLE `user_student` (
 -- ----------------------------
 -- Records of user_student
 -- ----------------------------
+INSERT INTO `user_student` VALUES ('1', 'wh', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `user_student` VALUES ('11', 'beichuli', '1', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `user_teacher`
@@ -240,9 +247,9 @@ CREATE TABLE `user_student` (
 DROP TABLE IF EXISTS `user_teacher`;
 CREATE TABLE `user_teacher` (
   `id` varchar(8) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `phoneNumber` varchar(11) DEFAULT NULL,
-  `email` varchar(20) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `collegeId` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `gender` tinyint(4) NOT NULL,
@@ -252,3 +259,4 @@ CREATE TABLE `user_teacher` (
 -- ----------------------------
 -- Records of user_teacher
 -- ----------------------------
+INSERT INTO `user_teacher` VALUES ('1', 'zzz', '123', '741', '1', '1', '1');
