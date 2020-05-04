@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
@@ -41,7 +39,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
 
     private Integer type;
 
-    private String require;
+    private String requires;
 
     private Integer salary;
 
@@ -128,12 +126,12 @@ public class JobRecruitment extends Model<JobRecruitment> {
         this.type = type;
     }
 
-    public String getRequire() {
-        return require;
+    public String getRequires() {
+        return requires;
     }
 
-    public void setRequire(String require) {
-        this.require = require;
+    public void setRequires(String requires) {
+        this.requires = requires;
     }
 
     public Integer getSalary() {
@@ -207,7 +205,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
                 ", personCount=" + personCount +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", type=" + type +
-                ", require='" + require + '\'' +
+                ", requires='" + requires + '\'' +
                 ", salary=" + salary +
                 ", address='" + address + '\'' +
                 ", deadline='" + deadline + '\'' +

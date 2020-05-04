@@ -11,7 +11,7 @@
         <result column="personCount" property="personCount" />
         <result column="imgUrl" property="imgUrl" />
         <result column="type" property="type" />
-        <result column="require" property="require" />
+        <result column="requires" property="requires" />
         <result column="salary" property="salary" />
         <result column="address" property="address" />
         <result column="deadline" property="deadline" />

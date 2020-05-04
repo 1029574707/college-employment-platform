@@ -1,7 +1,9 @@
 package com.zshnb.ballplatform.service;
 
+import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
+import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPPracticeInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +28,25 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         PracticeInfo practiceInfo = practiceInfoDao.selectById(id);
         practiceInfo.setFraction(fraction);
         practiceInfoDao.updateById(practiceInfo);
+    }
+
+    @Override
+    public void add(String studentId, PracticeInfo info) {
+        
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public void update(int id, PracticeInfo info) {
+
+    }
+
+    @Override
+    public PageResponse<PracticeInfo> list(String studentId, PageQo pageQo) {
+        return null;
     }
 }
