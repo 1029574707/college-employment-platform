@@ -4,13 +4,9 @@ package com.zshnb.ballplatform.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.common.Response;
-import com.zshnb.ballplatform.entity.JobInfo;
-import com.zshnb.ballplatform.entity.JobRecruitment;
-import com.zshnb.ballplatform.entity.PracticePlan;
+import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
-import com.zshnb.ballplatform.service.inter.MPJobInfoService;
-import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
-import com.zshnb.ballplatform.service.inter.MPPracticePlanService;
+import com.zshnb.ballplatform.service.inter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +31,12 @@ public class UserStudentAction {
 
     @Autowired
     private MPPracticePlanService practicePlanService;
+
+    @Autowired
+    private MPPracticeDiaryService practiceDiaryService;
+
+    @Autowired
+    private MPPracticeReportService practiceReportService;
 
     @PostMapping("{studentId}/job/info")
     public Response<String> addJobInfo(@PathVariable String studentId, @RequestBody JobInfo jobInfo) {
@@ -87,6 +89,54 @@ public class UserStudentAction {
     @PostMapping("/{studentId}/practice/plans")
     public Response<PageResponse<PracticePlan>> listPlans(@PathVariable String studentId, @RequestBody PageQo pageQo) {
         PageResponse<PracticePlan> list = practicePlanService.list(pageQo, studentId);
+        return Response.ok(list);
+    }
+
+    @PostMapping("/{studentId}/practice/diary")
+    public Response<String> addPracticeDiary(@PathVariable String studentId, @RequestBody PracticeDiary diary) {
+        practiceDiaryService.add(studentId, diary);
+        return Response.ok();
+    }
+
+    @DeleteMapping("/practice/diary/{id}")
+    public Response<String> deletePracticeDiary(@PathVariable int id) {
+        practiceDiaryService.delete(id);
+        return Response.ok();
+    }
+
+    @PutMapping("/practice/diary/{id}")
+    public Response<String> updatePracticeDiary(@PathVariable int id, @RequestBody JSONObject contentObject) {
+        practiceDiaryService.update(id, contentObject.getString("content"));
+        return Response.ok();
+    }
+
+    @PostMapping("/{studentId}/practice/diaries")
+    public Response<PageResponse<PracticeDiary>> listDiaries(@PathVariable String studentId, @RequestBody PageQo pageQo) {
+        PageResponse<PracticeDiary> list = practiceDiaryService.list(pageQo, studentId);
+        return Response.ok(list);
+    }
+
+    @PostMapping("/{studentId}/practice/report")
+    public Response<String> addPracticeReport(@PathVariable String studentId, @RequestBody PracticeReport report) {
+        practiceReportService.add(studentId, report);
+        return Response.ok();
+    }
+
+    @DeleteMapping("/practice/report/{id}")
+    public Response<String> deletePracticeReport(@PathVariable int id) {
+        practiceReportService.delete(id);
+        return Response.ok();
+    }
+
+    @PutMapping("/practice/report/{id}")
+    public Response<String> updatePracticeReport(@PathVariable int id, @RequestBody JSONObject contentObject) {
+        practiceReportService.update(id, contentObject.getString("content"));
+        return Response.ok();
+    }
+
+    @PostMapping("/{studentId}/practice/reports")
+    public Response<PageResponse<PracticeReport>> listReports(@PathVariable String studentId, @RequestBody PageQo pageQo) {
+        PageResponse<PracticeReport> list = practiceReportService.list(pageQo, studentId);
         return Response.ok(list);
     }
 
