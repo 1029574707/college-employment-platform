@@ -31,6 +31,16 @@ public class UserInfo {
 
     private String password;
 
+    private int userType;
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
     public String getId() {
         return id;
     }
@@ -142,6 +152,7 @@ public class UserInfo {
                 ", teacherName='" + teacherName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", userType=" + userType +
                 '}';
     }
 }

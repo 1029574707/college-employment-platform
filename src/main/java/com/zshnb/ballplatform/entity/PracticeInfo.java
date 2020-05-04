@@ -3,13 +3,16 @@ package com.zshnb.ballplatform.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zsh
@@ -59,6 +62,17 @@ public class PracticeInfo extends Model<PracticeInfo> {
 
     private Integer type;
 
+    @TableField(exist = false)
+    private String typeName;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -66,6 +80,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getCompany() {
         return company;
     }
@@ -73,6 +88,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setCompany(String company) {
         this.company = company;
     }
+
     public String getPosition() {
         return position;
     }
@@ -80,6 +96,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setPosition(String position) {
         this.position = position;
     }
+
     public String getBeginTime() {
         return beginTime;
     }
@@ -87,6 +104,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
+
     public String getEndTime() {
         return endTime;
     }
@@ -94,6 +112,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+
     public String getAddress() {
         return address;
     }
@@ -101,6 +120,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getPrincipalName() {
         return principalName;
     }
@@ -108,6 +128,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setPrincipalName(String principalName) {
         this.principalName = principalName;
     }
+
     public String getPrincipalPhone() {
         return principalPhone;
     }
@@ -115,6 +136,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setPrincipalPhone(String principalPhone) {
         this.principalPhone = principalPhone;
     }
+
     public Integer getPracticeStatus() {
         return practiceStatus;
     }
@@ -122,6 +144,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setPracticeStatus(Integer practiceStatus) {
         this.practiceStatus = practiceStatus;
     }
+
     public String getJobContent() {
         return jobContent;
     }
@@ -129,6 +152,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setJobContent(String jobContent) {
         this.jobContent = jobContent;
     }
+
     public String getStudentId() {
         return studentId;
     }
@@ -136,6 +160,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
+
     public Integer getFraction() {
         return fraction;
     }
@@ -143,6 +168,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setFraction(Integer fraction) {
         this.fraction = fraction;
     }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -150,6 +176,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     public String getUpdateTime() {
         return updateTime;
     }
@@ -157,6 +184,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
+
     public Integer getType() {
         return type;
     }
@@ -173,21 +201,22 @@ public class PracticeInfo extends Model<PracticeInfo> {
     @Override
     public String toString() {
         return "PracticeInfo{" +
-            "id=" + id +
-            ", company=" + company +
-            ", position=" + position +
-            ", beginTime=" + beginTime +
-            ", endTime=" + endTime +
-            ", address=" + address +
-            ", principalName=" + principalName +
-            ", principalPhone=" + principalPhone +
-            ", practiceStatus=" + practiceStatus +
-            ", jobContent=" + jobContent +
-            ", studentId=" + studentId +
-            ", fraction=" + fraction +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", type=" + type +
-        "}";
+                "id=" + id +
+                ", company='" + company + '\'' +
+                ", position='" + position + '\'' +
+                ", beginTime='" + beginTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", address='" + address + '\'' +
+                ", principalName='" + principalName + '\'' +
+                ", principalPhone='" + principalPhone + '\'' +
+                ", practiceStatus=" + practiceStatus +
+                ", jobContent='" + jobContent + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", fraction=" + fraction +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", type=" + type +
+                ", typeName='" + typeName + '\'' +
+                '}';
     }
 }

@@ -7,9 +7,9 @@ package com.zshnb.ballplatform.enums;
  **/
 public enum EUserType {
 
-    USER_TYPE_ADMIN(0, "admin"),
-    USER_TYPE_TEACHER(1, "teacher"),
-    USER_TYPE_STUDENT(2, "student");
+    USER_TYPE_ADMIN(0, "管理员"),
+    USER_TYPE_TEACHER(1, "导师"),
+    USER_TYPE_STUDENT(2, "学生");
 
     public int typeCode;
     public String desc;

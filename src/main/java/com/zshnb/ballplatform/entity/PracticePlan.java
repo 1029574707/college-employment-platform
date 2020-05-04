@@ -50,6 +50,17 @@ public class PracticePlan extends Model<PracticePlan> {
     @TableField("evaluationId")
     private Integer evaluationId;
 
+    @TableField(exist = false)
+    private String typeName;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public Integer getEvaluationId() {
         return evaluationId;
     }
@@ -157,6 +168,7 @@ public class PracticePlan extends Model<PracticePlan> {
                 ", practiceId=" + practiceId +
                 ", companyName='" + companyName + '\'' +
                 ", evaluationId=" + evaluationId +
+                ", typeName='" + typeName + '\'' +
                 '}';
     }
 }

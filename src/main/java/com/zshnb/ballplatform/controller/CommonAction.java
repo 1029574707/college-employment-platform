@@ -89,7 +89,8 @@ public class CommonAction {
 
     /**
      * 登录，登陆成功后设置session
-     *  @param loginQo 登录信息
+     *
+     * @param loginQo 登录信息
      * @param session session信息
      * @return
      */
@@ -105,6 +106,7 @@ public class CommonAction {
                 userInfo.setId("0000");
                 userInfo.setName("admin");
                 userInfo.setPassword("123456");
+                userInfo.setUserType(0);
                 break;
             case 1:
                 UserTeacher teacher = teacherService.getTeacherById(loginQo.getId());
@@ -114,6 +116,7 @@ public class CommonAction {
                 BeanUtils.copyProperties(teacher, userInfo);
                 College collegeByTeacher = collegeService.college(userInfo.getCollegeId());
                 userInfo.setCollegeName(collegeByTeacher.getName());
+                userInfo.setUserType(1);
                 break;
             case 2:
                 UserStudent student = studentService.getStudentById(loginQo.getId());
@@ -127,6 +130,7 @@ public class CommonAction {
                 userInfo.setClassName(aClass.getName());
                 College collegeByStudent = collegeService.college(userInfo.getCollegeId());
                 userInfo.setCollegeName(collegeByStudent.getName());
+                userInfo.setUserType(2);
                 break;
         }
         session.setAttribute("userId", loginQo.getId());

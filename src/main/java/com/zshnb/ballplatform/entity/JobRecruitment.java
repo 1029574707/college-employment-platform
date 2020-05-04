@@ -3,13 +3,16 @@ package com.zshnb.ballplatform.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableField;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zsh
@@ -58,6 +61,17 @@ public class JobRecruitment extends Model<JobRecruitment> {
     @TableField("updateTime")
     private String updateTime;
 
+    @TableField(exist = false)
+    private String typeName;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -65,6 +79,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -72,6 +87,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+
     public String getCompanyProperty() {
         return companyProperty;
     }
@@ -79,6 +95,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setCompanyProperty(String companyProperty) {
         this.companyProperty = companyProperty;
     }
+
     public String getPosition() {
         return position;
     }
@@ -86,6 +103,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setPosition(String position) {
         this.position = position;
     }
+
     public Integer getPersonCount() {
         return personCount;
     }
@@ -93,6 +111,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setPersonCount(Integer personCount) {
         this.personCount = personCount;
     }
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -100,6 +119,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
     public Integer getType() {
         return type;
     }
@@ -107,6 +127,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setType(Integer type) {
         this.type = type;
     }
+
     public String getRequire() {
         return require;
     }
@@ -114,6 +135,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setRequire(String require) {
         this.require = require;
     }
+
     public Integer getSalary() {
         return salary;
     }
@@ -121,6 +143,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setSalary(Integer salary) {
         this.salary = salary;
     }
+
     public String getAddress() {
         return address;
     }
@@ -128,6 +151,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getDeadline() {
         return deadline;
     }
@@ -135,6 +159,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
+
     public String getConcatInfo() {
         return concatInfo;
     }
@@ -142,6 +167,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setConcatInfo(String concatInfo) {
         this.concatInfo = concatInfo;
     }
+
     public String getPublisherId() {
         return publisherId;
     }
@@ -149,6 +175,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setPublisherId(String publisherId) {
         this.publisherId = publisherId;
     }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -156,6 +183,7 @@ public class JobRecruitment extends Model<JobRecruitment> {
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     public String getUpdateTime() {
         return updateTime;
     }
@@ -172,21 +200,22 @@ public class JobRecruitment extends Model<JobRecruitment> {
     @Override
     public String toString() {
         return "JobRecruitment{" +
-            "id=" + id +
-            ", companyName=" + companyName +
-            ", companyProperty=" + companyProperty +
-            ", position=" + position +
-            ", personCount=" + personCount +
-            ", imgUrl=" + imgUrl +
-            ", type=" + type +
-            ", require=" + require +
-            ", salary=" + salary +
-            ", address=" + address +
-            ", deadline=" + deadline +
-            ", concatInfo=" + concatInfo +
-            ", publisherId=" + publisherId +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", companyProperty='" + companyProperty + '\'' +
+                ", position='" + position + '\'' +
+                ", personCount=" + personCount +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", type=" + type +
+                ", require='" + require + '\'' +
+                ", salary=" + salary +
+                ", address='" + address + '\'' +
+                ", deadline='" + deadline + '\'' +
+                ", concatInfo='" + concatInfo + '\'' +
+                ", publisherId='" + publisherId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", typeName='" + typeName + '\'' +
+                '}';
     }
 }

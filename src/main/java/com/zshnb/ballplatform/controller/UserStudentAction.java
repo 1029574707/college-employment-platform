@@ -60,7 +60,7 @@ public class UserStudentAction {
         return Response.ok(list);
     }
 
-    @PostMapping("/{studentId}/job/recruitments/")
+    @PostMapping("/{studentId}/job/recruitments")
     public Response<PageResponse<JobRecruitment>> listJobRecruitment(@PathVariable String studentId, @RequestBody PageQo pageQo) {
         PageResponse<JobRecruitment> list = jobRecruitmentService.listStudentJob(pageQo, studentId);
         return Response.ok(list);

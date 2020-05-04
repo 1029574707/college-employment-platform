@@ -37,6 +37,17 @@ public class Evaluation extends Model<Evaluation> {
     @TableField("associateId")
     private Integer associateId;
 
+    @TableField(exist = false)
+    private String typeName;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -95,13 +106,14 @@ public class Evaluation extends Model<Evaluation> {
     @Override
     public String toString() {
         return "Evaluation{" +
-            "id=" + id +
-            ", studentId=" + studentId +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", content=" + content +
-            ", type=" + type +
-            ", associateId=" + associateId +
-        "}";
+                "id=" + id +
+                ", studentId='" + studentId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", content='" + content + '\'' +
+                ", type=" + type +
+                ", associateId=" + associateId +
+                ", typeName='" + typeName + '\'' +
+                '}';
     }
 }
