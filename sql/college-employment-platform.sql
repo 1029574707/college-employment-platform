@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-04 08:57:22
+Date: 2020-05-04 10:11:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,7 +102,7 @@ CREATE TABLE `job_recruitment` (
   `personCount` int(11) NOT NULL,
   `imgUrl` varchar(255) DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
-  `require` varchar(255) NOT NULL,
+  `requires` varchar(255) NOT NULL,
   `salary` int(11) NOT NULL,
   `address` varchar(255) NOT NULL,
   `deadline` datetime NOT NULL,
@@ -111,11 +111,12 @@ CREATE TABLE `job_recruitment` (
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of job_recruitment
 -- ----------------------------
+INSERT INTO `job_recruitment` VALUES ('1', '大声道', '沽泡去', 'java', '111', null, '1', '111', '111', 'cd', '2020-04-05 00:00:00', '111', '0000', '2020-04-05 00:00:00', null);
 
 -- ----------------------------
 -- Table structure for `practice_diary`
@@ -176,6 +177,7 @@ CREATE TABLE `practice_plan` (
   `updateTime` datetime DEFAULT NULL,
   `practiceId` int(11) NOT NULL,
   `evaluationId` int(11) DEFAULT NULL,
+  `type` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
