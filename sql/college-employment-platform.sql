@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-03 23:10:14
+Date: 2020-05-04 08:57:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -123,12 +123,12 @@ CREATE TABLE `job_recruitment` (
 DROP TABLE IF EXISTS `practice_diary`;
 CREATE TABLE `practice_diary` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
   `content` varchar(2048) NOT NULL,
   `studentId` varchar(12) NOT NULL,
-  `evaluation` varchar(2048) DEFAULT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
+  `practiceId` int(11) NOT NULL,
+  `evaluationId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -169,13 +169,13 @@ CREATE TABLE `practice_info` (
 DROP TABLE IF EXISTS `practice_plan`;
 CREATE TABLE `practice_plan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `content` varchar(2048) NOT NULL,
   `studentId` varchar(12) NOT NULL,
-  `evaluation` varchar(2048) DEFAULT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
+  `practiceId` int(11) NOT NULL,
+  `evaluationId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -192,9 +192,10 @@ CREATE TABLE `practice_report` (
   `name` varchar(255) NOT NULL,
   `content` varchar(2048) NOT NULL,
   `studentId` varchar(12) NOT NULL,
-  `evaluation` varchar(2048) DEFAULT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
+  `practiceId` int(11) NOT NULL,
+  `evaluationId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
