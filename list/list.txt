@@ -88,7 +88,7 @@ POST
 
 查看企业招聘信息
 POST
-/student/{studentId}/job/recruitments/
+/student/{studentId}/job/recruitments
 
 查看实习计划
 POST
@@ -105,3 +105,35 @@ DELETE
 修改实习计划
 PUT
 /student/practice/plan/{id}
+
+增加实习日记
+POST
+/student/{studentId}/practice/diary
+
+删除实习日记
+DELETE
+/student/practice/diary/{id}
+
+修改实习日记
+PUT
+/student/practice/diary/{id}
+
+查看实习日记
+POST
+/student/{studentId}/practice/diaries
+
+增加实习报告
+POST
+/student/{studentId}/practice/report
+
+删除实习报告
+DELETE
+/student/practice/report/{id}
+
+修改实习报告
+PUT
+/student/practice/report/{id}
+
+查看实习报告
+POST
+/student/{studentId}/practice/reports

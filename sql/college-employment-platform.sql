@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-04 10:11:17
+Date: 2020-05-04 10:43:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -74,11 +74,11 @@ CREATE TABLE `job_info` (
   `company` varchar(255) NOT NULL,
   `position` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `tripartite` tinyint(4) NOT NULL,
+  `tripartite` tinyint(4) NOT NULL DEFAULT '0',
   `contactName` varchar(255) NOT NULL,
   `contactPhone` varchar(255) NOT NULL,
   `contactEmail` varchar(255) DEFAULT NULL,
-  `note` varchar(255) NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
   `studentId` varchar(12) NOT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
@@ -105,18 +105,19 @@ CREATE TABLE `job_recruitment` (
   `requires` varchar(255) NOT NULL,
   `salary` int(11) NOT NULL,
   `address` varchar(255) NOT NULL,
-  `deadline` datetime NOT NULL,
+  `deadline` datetime DEFAULT NULL,
   `concatInfo` varchar(255) NOT NULL,
   `publisherId` varchar(8) NOT NULL,
   `createTime` datetime NOT NULL,
   `updateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of job_recruitment
 -- ----------------------------
 INSERT INTO `job_recruitment` VALUES ('1', '大声道', '沽泡去', 'java', '111', null, '1', '111', '111', 'cd', '2020-04-05 00:00:00', '111', '0000', '2020-04-05 00:00:00', null);
+INSERT INTO `job_recruitment` VALUES ('2', '大声道', '沽泡去', 'java', '11', null, '1', '111', '111', '111', '2020-05-05 00:00:00', '111', '0000', '2020-05-04 10:13:06', null);
 
 -- ----------------------------
 -- Table structure for `practice_diary`
@@ -145,7 +146,7 @@ CREATE TABLE `practice_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company` varchar(255) NOT NULL,
   `position` varchar(255) NOT NULL,
-  `beginTime` datetime NOT NULL,
+  `beginTime` datetime DEFAULT NULL,
   `endTime` datetime DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `principalName` varchar(255) NOT NULL,
@@ -230,7 +231,7 @@ CREATE TABLE `user_student` (
   `name` varchar(255) NOT NULL,
   `collegeId` int(11) NOT NULL,
   `classId` int(11) NOT NULL,
-  `gender` tinyint(4) NOT NULL,
+  `gender` tinyint(4) NOT NULL DEFAULT '1',
   `phoneNumber` varchar(11) DEFAULT NULL,
   `teacherId` varchar(8) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -255,7 +256,7 @@ CREATE TABLE `user_teacher` (
   `email` varchar(255) DEFAULT NULL,
   `collegeId` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `gender` tinyint(4) NOT NULL,
+  `gender` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
