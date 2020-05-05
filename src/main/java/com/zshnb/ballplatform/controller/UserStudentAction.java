@@ -171,7 +171,7 @@ public class UserStudentAction {
         return Response.ok(list);
     }
 
-    @PostMapping("{id}/password")
+    @PutMapping("{id}/password")
     public Response<String> updatePwd(@PathVariable String id, @RequestBody JSONObject pwdObject) {
         UserStudent studentById = studentService.getStudentById(id);
         if (studentById.getPassword().equals(pwdObject.getString("oriPwd"))) {
@@ -182,7 +182,7 @@ public class UserStudentAction {
         throw new RuntimeException("原始密码输入错误");
     }
 
-    @PostMapping("{studentId}/personal")
+    @PutMapping("{studentId}/personal")
     public Response<String> updatePersonalInfo(@PathVariable String studentId, @RequestBody UserStudent student) {
         studentService.updateStudent(studentId, student);
         return Response.ok();
