@@ -4,12 +4,9 @@ package com.zshnb.ballplatform.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.common.Response;
-import com.zshnb.ballplatform.entity.Evaluation;
-import com.zshnb.ballplatform.entity.JobRecruitment;
+import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
-import com.zshnb.ballplatform.service.inter.MPEvaluationService;
-import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
-import com.zshnb.ballplatform.service.inter.MPPracticeInfoService;
+import com.zshnb.ballplatform.service.inter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +30,15 @@ public class UserTeacherAction {
 
     @Autowired
     private MPPracticeInfoService practiceInfoService;
+
+    @Autowired
+    private MPPracticePlanService planService;
+
+    @Autowired
+    private MPPracticeDiaryService diaryService;
+
+    @Autowired
+    private MPPracticeReportService reportService;
 
     @PostMapping("{id}/job")
     public Response<String> addJob(@PathVariable String id, @RequestBody JobRecruitment jobRecruitment) {
@@ -83,4 +89,21 @@ public class UserTeacherAction {
         return Response.ok();
     }
 
+    @PostMapping("/{teacherId}/practice/plans")
+    public Response<PageResponse<PracticePlan>> practicePlanList(@PathVariable String teacherId,  @RequestBody PageQo pageQo) {
+        PageResponse<PracticePlan> list = planService.teacherList(pageQo, teacherId);
+        return Response.ok(list);
+    }
+
+    @PostMapping("/{teacherId}/practice/diaries")
+    public Response<PageResponse<PracticeDiary>> practiceDiaryList(@PathVariable String teacherId, @RequestBody  PageQo pageQo) {
+        PageResponse<PracticeDiary> list = diaryService.teacherList(pageQo, teacherId);
+        return Response.ok(list);
+    }
+
+    @PostMapping("/{teacherId}/practice/reports")
+    public Response<PageResponse<PracticeReport>> practiceReportList(@PathVariable String teacherId,  @RequestBody PageQo pageQo) {
+        PageResponse<PracticeReport> list = reportService.teacherList(pageQo, teacherId);
+        return Response.ok(list);
+    }
 }

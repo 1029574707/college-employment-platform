@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.Evaluation;
 import com.zshnb.ballplatform.entity.PracticePlan;
+import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.enums.EEvaluationType;
 import com.zshnb.ballplatform.enums.EPlanType;
 import com.zshnb.ballplatform.mapper.EvaluationDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
 import com.zshnb.ballplatform.mapper.PracticePlanDao;
+import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPPracticePlanService;
 import com.zshnb.ballplatform.utils.DateUtils;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,6 +42,9 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
 
     @Autowired
     private EvaluationDao evaluationDao;
+
+    @Autowired
+    private UserStudentDao studentDao;
 
     @Override
     public void add(String studentId, PracticePlan plan) {
@@ -64,6 +70,42 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
     public PageResponse<PracticePlan> list(PageQo pageQo, String studentId) {
         QueryWrapper<PracticePlan> wrapper = new QueryWrapper<>();
         wrapper.eq("studentId", studentId);
+
+        if (pageQo.getPageSize() == -1) {
+            List<PracticePlan> list = practicePlanDao.selectList(wrapper);
+            for (PracticePlan practicePlan : list) {
+                practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+                practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+                if (practicePlan.getEvaluationId() != null) {
+                    practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
+                }
+            }
+            return new PageResponse<>(list.size(), list);
+        }
+
+        Page<PracticePlan> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
+        Page<PracticePlan> list = practicePlanDao.selectPage(page, wrapper);
+        List<PracticePlan> records = list.getRecords();
+        for (PracticePlan practicePlan : records) {
+            practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+            practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+            if (practicePlan.getEvaluationId() != null) {
+                practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
+            }
+        }
+        return new PageResponse<>(page.getTotal(), records);
+    }
+
+    @Override
+    public PageResponse<PracticePlan> teacherList(PageQo pageQo, String teacherId) {
+
+        QueryWrapper<UserStudent> studentQueryWrapper = new QueryWrapper<>();
+        studentQueryWrapper.eq("teacherId", teacherId);
+        List<UserStudent> userStudents = studentDao.selectList(studentQueryWrapper);
+        List<String> studentIdList = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+
+        QueryWrapper<PracticePlan> wrapper = new QueryWrapper<>();
+        wrapper.in("studentId", studentIdList);
 
         if (pageQo.getPageSize() == -1) {
             List<PracticePlan> list = practicePlanDao.selectList(wrapper);

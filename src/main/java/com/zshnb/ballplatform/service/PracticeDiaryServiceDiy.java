@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.PracticeDiary;
 import com.zshnb.ballplatform.entity.PracticePlan;
+import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.enums.EPlanType;
 import com.zshnb.ballplatform.mapper.EvaluationDao;
 import com.zshnb.ballplatform.mapper.PracticeDiaryDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
+import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPPracticeDiaryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -37,6 +41,9 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
 
     @Autowired
     private EvaluationDao evaluationDao;
+
+    @Autowired
+    private UserStudentDao studentDao;
 
     @Override
     public void add(String studentId, PracticeDiary diary) {
@@ -62,6 +69,40 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
     public PageResponse<PracticeDiary> list(PageQo pageQo, String studentId) {
         QueryWrapper<PracticeDiary> wrapper = new QueryWrapper<>();
         wrapper.eq("studentId", studentId);
+
+        if (pageQo.getPageSize() == -1) {
+            List<PracticeDiary> list = practiceDiaryDao.selectList(wrapper);
+            for (PracticeDiary diary : list) {
+                diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+                if (diary.getEvaluationId() != null) {
+                    diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
+                }
+            }
+            return new PageResponse<>(list.size(), list);
+        }
+
+        Page<PracticeDiary> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
+        Page<PracticeDiary> list = practiceDiaryDao.selectPage(page, wrapper);
+        List<PracticeDiary> records = list.getRecords();
+        for (PracticeDiary diary : records) {
+            diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+            if (diary.getEvaluationId() != null) {
+                diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
+            }
+        }
+        return new PageResponse<>(page.getTotal(), records);
+    }
+
+    @Override
+    public PageResponse<PracticeDiary> teacherList(PageQo pageQo, String teacherId) {
+
+        QueryWrapper<UserStudent> studentQueryWrapper = new QueryWrapper<>();
+        studentQueryWrapper.eq("teacherId", teacherId);
+        List<UserStudent> userStudents = studentDao.selectList(studentQueryWrapper);
+        List<String> studentIdList = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+
+        QueryWrapper<PracticeDiary> wrapper = new QueryWrapper<>();
+        wrapper.in("studentId", studentIdList);
 
         if (pageQo.getPageSize() == -1) {
             List<PracticeDiary> list = practiceDiaryDao.selectList(wrapper);

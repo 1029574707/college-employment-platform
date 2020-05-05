@@ -22,4 +22,7 @@ public interface MPPracticeReportService extends IService<PracticeReport> {
     void update(int id, String reportContent);
 
     PageResponse<PracticeReport> list(PageQo pageQo, String studentId);
+
+    PageResponse<PracticeReport> teacherList(PageQo pageQo, String teacherId);
+
 }

@@ -23,4 +23,6 @@ public interface MPPracticeDiaryService extends IService<PracticeDiary> {
     void update(int id, String diaryContent);
 
     PageResponse<PracticeDiary> list(PageQo pageQo, String studentId);
+
+    PageResponse<PracticeDiary> teacherList(PageQo pageQo, String teacherId);
 }
