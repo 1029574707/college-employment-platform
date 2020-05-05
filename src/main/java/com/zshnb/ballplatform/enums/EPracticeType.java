@@ -17,4 +17,14 @@ public enum EPracticeType {
         this.typeCode = typeCode;
         this.desc = desc;
     }
+
+    public static String getDescByCode(int typeCode) {
+        EPracticeType[] values = EPracticeType.values();
+        for (EPracticeType value : values) {
+            if (value.typeCode == typeCode) {
+                return value.desc;
+            }
+        }
+        return "";
+    }
 }
