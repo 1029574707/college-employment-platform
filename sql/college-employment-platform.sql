@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-05 22:23:00
+Date: 2020-05-05 23:29:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -166,7 +166,7 @@ CREATE TABLE `practice_info` (
 -- ----------------------------
 -- Records of practice_info
 -- ----------------------------
-INSERT INTO `practice_info` VALUES ('3', '中国电子', 'cpp', '2020-04-01 00:00:00', null, '成都', '老王', '2222', '1', '摸鱼', '1', null, '2020-05-05 12:10:09', null, '1');
+INSERT INTO `practice_info` VALUES ('3', '中国电子', 'cpp', '2020-04-01 00:00:00', null, '成都', '老王', '2222', '2', '摸鱼', '1', null, '2020-05-05 12:10:09', null, '1');
 INSERT INTO `practice_info` VALUES ('4', '中国电ddd子', 'cpp', '2020-04-01 00:00:00', null, '成都', '老王', '2222', '1', '摸dfd鱼', '11', null, '2020-05-05 12:10:43', null, '1');
 
 -- ----------------------------
@@ -253,6 +253,7 @@ CREATE TABLE `user_student` (
 -- ----------------------------
 INSERT INTO `user_student` VALUES ('1', 'wh', '1', '1', '1', '15928776666', '1', '1', '123456');
 INSERT INTO `user_student` VALUES ('11', 'beichuli', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `user_student` VALUES ('2', '33', '1', '1', '1', '22', '1', '1', '22');
 
 -- ----------------------------
 -- Table structure for `user_teacher`

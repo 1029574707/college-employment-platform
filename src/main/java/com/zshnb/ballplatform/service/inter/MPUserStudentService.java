@@ -42,4 +42,5 @@ public interface MPUserStudentService extends IService<UserStudent> {
 
     PageResponse<StudentInfo> listStudentInfo(String teacherId, QueryStudentQo studentQo);
 
+    PageResponse<StudentInfo> listStudentInfo(QueryStudentQo studentQo);
 }

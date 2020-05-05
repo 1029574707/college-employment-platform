@@ -5,9 +5,11 @@ import com.zshnb.ballplatform.entity.JobInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.qo.PageQo;
 
+import java.util.List;
+
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zsh
@@ -22,4 +24,8 @@ public interface MPJobInfoService extends IService<JobInfo> {
     void update(int id, JobInfo jobInfo);
 
     PageResponse<JobInfo> list(String studentId, PageQo pageQo);
+
+    List<String> listStudentId(int tripartite);
+
+    List<String> listAllStudentId();
 }

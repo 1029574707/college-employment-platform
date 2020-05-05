@@ -126,6 +126,112 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
                     if (doneStudentIdList.size() != 0) {
                         studentQueryWrapper.notIn("id", doneStudentIdList);
                     }
+                    studentQueryWrapper.and(qw -> qw.in("id", notBeginStudentIdList).or().notIn("id", allNotBeginStudents));
+            }
+        }
+
+        if (studentQo.getPageSize() == -1) {
+            List<UserStudent> userStudents = studentDao.selectList(studentQueryWrapper);
+            List<StudentInfo> studentInfoList = new ArrayList<>(userStudents.size());
+            for (UserStudent userStudent : userStudents) {
+                StudentInfo studentInfo = new StudentInfo();
+                BeanUtils.copyProperties(userStudent, studentInfo);
+                studentInfo.setClassName(classDao.selectById(studentInfo.getClassId()).getName());
+                studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
+                PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
+                studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+                PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
+                studentInfo.setJobInfoList(jobInfoPageList.getResults());
+                studentInfoList.add(studentInfo);
+            }
+            return new PageResponse<>(studentInfoList.size(), studentInfoList);
+        }
+
+        Page<UserStudent> page = new Page<>(studentQo.getPageNo(), studentQo.getPageSize());
+        Page<UserStudent> list = studentDao.selectPage(page, studentQueryWrapper);
+        List<UserStudent> records = list.getRecords();
+        List<StudentInfo> studentInfoList = new ArrayList<>(records.size());
+        for (UserStudent userStudent : records) {
+            StudentInfo studentInfo = new StudentInfo();
+            BeanUtils.copyProperties(userStudent, studentInfo);
+            studentInfo.setClassName(classDao.selectById(studentInfo.getClassId()).getName());
+            studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
+            PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
+            studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+            PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
+            studentInfo.setJobInfoList(jobInfoPageList.getResults());
+            studentInfoList.add(studentInfo);
+        }
+        return new PageResponse<>(list.getTotal(), studentInfoList);
+    }
+
+    @Override
+    public PageResponse<StudentInfo> listStudentInfo(QueryStudentQo studentQo) {
+        QueryWrapper<UserStudent> studentQueryWrapper = new QueryWrapper<>();
+
+        if (studentQo.getClassId() != null) {
+            studentQueryWrapper.eq("classId", studentQo.getClassId());
+        }
+        if (studentQo.getStudentId() != null) {
+            studentQueryWrapper.like("id", studentQo.getStudentId());
+        }
+        if (studentQo.getCollegeId() != null) {
+            studentQueryWrapper.eq("collegeId", studentQo.getCollegeId());
+        }
+        if (studentQo.getTripartite() != null) {
+            if (studentQo.getTripartite() == 1) {
+                List<String> jobStudentIds = jobInfoService.listStudentId(1);
+                if (jobStudentIds.size() == 0) {
+                    return new PageResponse<>(0, new ArrayList<>());
+                }
+                studentQueryWrapper.in("id", jobStudentIds);
+            } else {
+                List<String> notTripartiteIdList = jobInfoService.listStudentId(0);
+                List<String> allStudentId = jobInfoService.listAllStudentId();
+                if (notTripartiteIdList.size() == 0) {
+                    if (allStudentId.size() != 0) {
+                        studentQueryWrapper.notIn("id", allStudentId);
+                    }
+                } else {
+                    studentQueryWrapper.and(qw -> qw.in("id", notTripartiteIdList).or().notIn("id", allStudentId));
+                }
+            }
+        }
+        if (studentQo.getPracticeStatus() != null) {
+            List<String> doingStudentIdList = practiceInfoService.listStudentId(1);
+            List<String> doneStudentIdList = practiceInfoService.listStudentId(2);
+            List<String> notBeginStudentIdList = practiceInfoService.listStudentId(0);
+            switch (studentQo.getPracticeStatus()) {
+                case 1:
+                    if (doingStudentIdList.size() == 0) {
+                        return new PageResponse<>(0, new ArrayList<>());
+                    }
+                    studentQueryWrapper.in("id", doingStudentIdList);
+                    break;
+                case 2:
+                    if (doneStudentIdList.size() == 0) {
+                        return new PageResponse<>(0, new ArrayList<>());
+                    }
+                    if (doingStudentIdList.size() != 0) {
+                        studentQueryWrapper.notIn("id", doingStudentIdList);
+                    }
+                    studentQueryWrapper.in("id", doneStudentIdList);
+                    break;
+                case 0:
+                    List<String> allNotBeginStudents = practiceInfoService.listAllStudentId();
+                    if (notBeginStudentIdList.size() == 0) {
+                        if (allNotBeginStudents.size() == 0) {
+                            break;
+                        }
+                        studentQueryWrapper.notIn("id", allNotBeginStudents);
+                        break;
+                    }
+                    if (doingStudentIdList.size() != 0) {
+                        studentQueryWrapper.notIn("id", doingStudentIdList);
+                    }
+                    if (doneStudentIdList.size() != 0) {
+                        studentQueryWrapper.notIn("id", doneStudentIdList);
+                    }
                     studentQueryWrapper.in("id", notBeginStudentIdList);
                     studentQueryWrapper.or().notIn("id", allNotBeginStudents);
             }

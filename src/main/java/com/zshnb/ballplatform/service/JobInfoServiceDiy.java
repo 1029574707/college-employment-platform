@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobInfo;
+import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.mapper.JobInfoDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobInfoService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -63,5 +65,19 @@ public class JobInfoServiceDiy extends ServiceImpl<JobInfoDao, JobInfo> implemen
         Page<JobInfo> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
         Page<JobInfo> jobInfoPage = jobInfoDao.selectPage(page, eWrapper);
         return new PageResponse<>(jobInfoPage.getTotal(), jobInfoPage.getRecords());
+    }
+
+    @Override
+    public List<String> listStudentId(int tripartite) {
+        QueryWrapper<JobInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("tripartite", tripartite);
+        List<JobInfo> jobInfos = jobInfoDao.selectList(queryWrapper);
+        return jobInfos.stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> listAllStudentId() {
+        List<JobInfo> jobInfos = jobInfoDao.selectList(null);
+        return jobInfos.stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
     }
 }
