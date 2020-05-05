@@ -22,4 +22,6 @@ public interface MPPracticePlanService extends IService<PracticePlan> {
     void update(int id, String planContent);
 
     PageResponse<PracticePlan> list(PageQo pageQo, String studentId);
+
+    // void deleteByPracticeId(int practiceId);
 }

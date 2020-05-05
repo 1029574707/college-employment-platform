@@ -38,6 +38,9 @@ public class UserStudentAction {
     @Autowired
     private MPPracticeReportService practiceReportService;
 
+    @Autowired
+    private MPPracticeInfoService practiceInfoService;
+
     @PostMapping("{studentId}/job/info")
     public Response<String> addJobInfo(@PathVariable String studentId, @RequestBody JobInfo jobInfo) {
         jobInfoService.add(studentId, jobInfo);
@@ -140,4 +143,27 @@ public class UserStudentAction {
         return Response.ok(list);
     }
 
+    @PostMapping("{studentId}/practice/info")
+    public Response<String> addPracticeInfo(@PathVariable String studentId, @RequestBody PracticeInfo info) {
+        practiceInfoService.add(studentId, info);
+        return Response.ok();
+    }
+
+    @DeleteMapping("/practice/info/{id}")
+    public Response<String> deletePracticeInfo(@PathVariable int id) {
+        practiceInfoService.delete(id);
+        return Response.ok();
+    }
+
+    @PutMapping("/practice/info/{id}")
+    public Response<String> updatePracticeInfo(@PathVariable int id, @RequestBody PracticeInfo info) {
+        practiceInfoService.update(id, info);
+        return Response.ok();
+    }
+
+    @PostMapping("/{studentId}/practice/infos")
+    public Response<PageResponse<PracticeInfo>> listPracticeInfo(@PathVariable String studentId, @RequestBody PageQo pageQo) {
+        PageResponse<PracticeInfo> list = practiceInfoService.list(studentId, pageQo);
+        return Response.ok(list);
+    }
 }

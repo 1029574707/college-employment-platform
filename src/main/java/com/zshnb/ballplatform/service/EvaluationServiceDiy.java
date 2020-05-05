@@ -1,5 +1,6 @@
 package com.zshnb.ballplatform.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zshnb.ballplatform.entity.Evaluation;
 import com.zshnb.ballplatform.entity.PracticeDiary;
 import com.zshnb.ballplatform.entity.PracticePlan;
@@ -74,5 +75,13 @@ public class EvaluationServiceDiy extends ServiceImpl<EvaluationDao, Evaluation>
         evaluation.setId(id);
         evaluation.setUpdateTime(DateUtils.format(new Date()));
         evaluationDao.updateById(evaluation);
+    }
+
+    @Override
+    public void deleteByAssociateId(int type, int associateId) {
+        QueryWrapper<Evaluation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type", type);
+        queryWrapper.eq("associateId", associateId);
+        evaluationDao.delete(queryWrapper);
     }
 }

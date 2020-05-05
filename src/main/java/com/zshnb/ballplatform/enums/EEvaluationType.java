@@ -11,9 +11,9 @@ public enum EEvaluationType {
     EVALUATION_TYPE_DIARY(2, "实习日记评价"),
     EVALUATION_TYPE_REPORT(3, "实习报告评价");
 
-    private int typeCode;
+    public int typeCode;
 
-    private String desc;
+    public String desc;
 
     EEvaluationType(int typeCode, String desc) {
         this.typeCode = typeCode;
