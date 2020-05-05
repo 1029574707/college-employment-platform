@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-04 10:43:39
+Date: 2020-05-05 22:23:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -59,11 +59,13 @@ CREATE TABLE `evaluation` (
   `type` int(11) NOT NULL,
   `associateId` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of evaluation
 -- ----------------------------
+INSERT INTO `evaluation` VALUES ('1', '2020-05-05 11:30:42', null, 'henhao', '1', '1');
+INSERT INTO `evaluation` VALUES ('2', '2020-05-05 11:39:29', null, 'bucuo', '2', '1');
 
 -- ----------------------------
 -- Table structure for `job_info`
@@ -132,7 +134,7 @@ CREATE TABLE `practice_diary` (
   `practiceId` int(11) NOT NULL,
   `evaluationId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of practice_diary
@@ -159,11 +161,13 @@ CREATE TABLE `practice_info` (
   `updateTime` datetime DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of practice_info
 -- ----------------------------
+INSERT INTO `practice_info` VALUES ('3', '中国电子', 'cpp', '2020-04-01 00:00:00', null, '成都', '老王', '2222', '1', '摸鱼', '1', null, '2020-05-05 12:10:09', null, '1');
+INSERT INTO `practice_info` VALUES ('4', '中国电ddd子', 'cpp', '2020-04-01 00:00:00', null, '成都', '老王', '2222', '1', '摸dfd鱼', '11', null, '2020-05-05 12:10:43', null, '1');
 
 -- ----------------------------
 -- Table structure for `practice_plan`
@@ -180,11 +184,16 @@ CREATE TABLE `practice_plan` (
   `evaluationId` int(11) DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of practice_plan
 -- ----------------------------
+INSERT INTO `practice_plan` VALUES ('3', '第一篇', '111232323', '1', '2020-05-05 12:12:12', '2020-05-05 22:04:21', '3', null, '2');
+INSERT INTO `practice_plan` VALUES ('4', '第2篇', 'bucuo', '1', '2020-05-05 12:12:17', null, '3', null, '2');
+INSERT INTO `practice_plan` VALUES ('5', '77', 'ddddd', '11', '2020-05-05 12:12:31', null, '4', null, '2');
+INSERT INTO `practice_plan` VALUES ('6', '88', 'd低点的dddd', '11', '2020-05-05 12:12:38', null, '4', null, '2');
+INSERT INTO `practice_plan` VALUES ('7', '88', 'd低点的dddd', '11', '2020-05-05 12:16:04', null, '4', null, '2');
 
 -- ----------------------------
 -- Table structure for `practice_report`
@@ -242,7 +251,7 @@ CREATE TABLE `user_student` (
 -- ----------------------------
 -- Records of user_student
 -- ----------------------------
-INSERT INTO `user_student` VALUES ('1', 'wh', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `user_student` VALUES ('1', 'wh', '1', '1', '1', '15928776666', '1', '1', '123456');
 INSERT INTO `user_student` VALUES ('11', 'beichuli', '1', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
