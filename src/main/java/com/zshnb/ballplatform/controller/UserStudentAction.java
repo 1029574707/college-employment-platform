@@ -10,6 +10,7 @@ import com.zshnb.ballplatform.service.inter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
+import sun.text.normalizer.UBiDiProps;
 
 /**
  * <p>
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/student")
 public class UserStudentAction {
+
+    @Autowired
+    private MPUserStudentService studentService;
 
     @Autowired
     private MPJobInfoService jobInfoService;
@@ -165,5 +169,28 @@ public class UserStudentAction {
     public Response<PageResponse<PracticeInfo>> listPracticeInfo(@PathVariable String studentId, @RequestBody PageQo pageQo) {
         PageResponse<PracticeInfo> list = practiceInfoService.list(studentId, pageQo);
         return Response.ok(list);
+    }
+
+    @PostMapping("{id}/password")
+    public Response<String> updatePwd(@PathVariable String id, @RequestBody JSONObject pwdObject) {
+        UserStudent studentById = studentService.getStudentById(id);
+        if (studentById.getPassword().equals(pwdObject.getString("oriPwd"))) {
+            studentById.setPassword(pwdObject.getString("password"));
+            studentService.updateStudent(id, studentById);
+            return Response.ok();
+        }
+        throw new RuntimeException("原始密码输入错误");
+    }
+
+    @PostMapping("{studentId}/personal")
+    public Response<String> updatePersonalInfo(@PathVariable String studentId, @RequestBody UserStudent student) {
+        studentService.updateStudent(studentId, student);
+        return Response.ok();
+    }
+
+    @GetMapping("{id}/personal")
+    public Response<UserStudent> getPersonalInfo(@PathVariable String id) {
+        UserStudent studentById = studentService.getStudentById(id);
+        return Response.ok(studentById);
     }
 }

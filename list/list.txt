@@ -153,3 +153,15 @@ PUT
 删除实习信息
 DELETE
 /student/practice/info/{id}
+
+修改个人信息
+PUT
+/student/{studentId}/personal
+
+修改密码
+PUT
+/student/{id}/password
+
+查看个人信息
+GET
+/student/{id}/personal

@@ -2,7 +2,10 @@ package com.zshnb.ballplatform.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.mapper.ClassDao;
+import com.zshnb.ballplatform.mapper.CollegeDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
+import com.zshnb.ballplatform.mapper.UserTeacherDao;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,15 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
     @Autowired
     private UserStudentDao studentDao;
 
+    @Autowired
+    private ClassDao classDao;
+
+    @Autowired
+    private CollegeDao collegeDao;
+
+    @Autowired
+    private UserTeacherDao teacherDao;
+
     @Override
     public void addStudent(UserStudent student) {
         studentDao.insert(student);
@@ -31,7 +43,17 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
 
     @Override
     public UserStudent getStudentById(String id) {
-        return studentDao.selectById(id);
+        UserStudent student = studentDao.selectById(id);
+        student.setClassName(classDao.selectById(student.getClassId()).getName());
+        student.setCollegeName(collegeDao.selectById(student.getCollegeId()).getName());
+        student.setTeacherName(teacherDao.selectById(student.getTeacherId()).getName());
+        return student;
+    }
+
+    @Override
+    public void updateStudent(String id, UserStudent student) {
+        student.setId(id);
+        studentDao.updateById(student);
     }
 
     @Override

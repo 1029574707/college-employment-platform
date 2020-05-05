@@ -4,6 +4,7 @@ import com.zshnb.ballplatform.entity.UserStudent;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 
+import javax.sound.midi.VoiceStatus;
 import java.util.List;
 
 /**
@@ -28,6 +29,8 @@ public interface MPUserStudentService extends IService<UserStudent> {
      * @return 学生信息
      */
     UserStudent getStudentById(String id);
+
+    void updateStudent(String id, UserStudent student);
 
     /**
      * 查询学生列表
