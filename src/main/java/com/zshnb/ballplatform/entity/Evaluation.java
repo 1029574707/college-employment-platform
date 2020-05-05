@@ -21,9 +21,6 @@ public class Evaluation extends Model<Evaluation> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField("studentId")
-    private String studentId;
-
     @TableField("createTime")
     private String createTime;
 
@@ -54,13 +51,6 @@ public class Evaluation extends Model<Evaluation> {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
     }
     public String getCreateTime() {
         return createTime;
@@ -107,7 +97,6 @@ public class Evaluation extends Model<Evaluation> {
     public String toString() {
         return "Evaluation{" +
                 "id=" + id +
-                ", studentId='" + studentId + '\'' +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", content='" + content + '\'' +

@@ -7,6 +7,7 @@ import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.Evaluation;
 import com.zshnb.ballplatform.entity.PracticePlan;
 import com.zshnb.ballplatform.enums.EEvaluationType;
+import com.zshnb.ballplatform.enums.EPlanType;
 import com.zshnb.ballplatform.mapper.EvaluationDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
 import com.zshnb.ballplatform.mapper.PracticePlanDao;
@@ -68,6 +69,7 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
             List<PracticePlan> list = practicePlanDao.selectList(wrapper);
             for (PracticePlan practicePlan : list) {
                 practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+                practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
                 if (practicePlan.getEvaluationId() != null) {
                     practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
                 }
@@ -80,6 +82,7 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
         List<PracticePlan> records = list.getRecords();
         for (PracticePlan practicePlan : records) {
             practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+            practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
             if (practicePlan.getEvaluationId() != null) {
                 practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
             }
