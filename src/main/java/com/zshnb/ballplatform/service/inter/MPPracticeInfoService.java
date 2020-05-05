@@ -5,6 +5,8 @@ import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.qo.PageQo;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -24,4 +26,8 @@ public interface MPPracticeInfoService extends IService<PracticeInfo> {
     void update(int id, PracticeInfo info);
 
     PageResponse<PracticeInfo> list(String studentId, PageQo pageQo);
+
+    List<String> listStudentId(int status);
+
+    List<String> listAllStudentId();
 }

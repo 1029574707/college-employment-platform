@@ -1,16 +1,28 @@
 package com.zshnb.ballplatform.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zshnb.ballplatform.common.PageResponse;
+import com.zshnb.ballplatform.entity.JobInfo;
+import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.mapper.ClassDao;
 import com.zshnb.ballplatform.mapper.CollegeDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.mapper.UserTeacherDao;
+import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
+import com.zshnb.ballplatform.service.inter.MPJobInfoService;
+import com.zshnb.ballplatform.service.inter.MPPracticeInfoService;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
+import com.zshnb.ballplatform.vo.StudentInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +48,12 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
     @Autowired
     private UserTeacherDao teacherDao;
 
+    @Autowired
+    private MPPracticeInfoService practiceInfoService;
+
+    @Autowired
+    private MPJobInfoService jobInfoService;
+
     @Override
     public void addStudent(UserStudent student) {
         studentDao.insert(student);
@@ -57,12 +75,94 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
     }
 
     @Override
-    public List<UserStudent> students(QueryStudentQo queryStudentQo) {
-        return null;
-    }
-
-    @Override
     public boolean alreadyExists(String id) {
         return studentDao.selectById(id) != null;
+    }
+
+
+    @Override
+    public PageResponse<StudentInfo> listStudentInfo(String teacherId, QueryStudentQo studentQo) {
+        QueryWrapper<UserStudent> studentQueryWrapper = new QueryWrapper<>();
+        studentQueryWrapper.eq("teacherId", teacherId);
+
+        if (studentQo.getClassId() != null) {
+            studentQueryWrapper.eq("classId", studentQo.getClassId());
+        }
+        if (studentQo.getStudentId() != null) {
+            studentQueryWrapper.like("id", studentQo.getStudentId());
+        }
+        if (studentQo.getPracticeStatus() != null) {
+            List<String> doingStudentIdList = practiceInfoService.listStudentId(1);
+            List<String> doneStudentIdList = practiceInfoService.listStudentId(2);
+            List<String> notBeginStudentIdList = practiceInfoService.listStudentId(0);
+            switch (studentQo.getPracticeStatus()) {
+                case 1:
+                    if (doingStudentIdList.size() == 0) {
+                        return new PageResponse<>(0, new ArrayList<>());
+                    }
+                    studentQueryWrapper.in("id", doingStudentIdList);
+                    break;
+                case 2:
+                    if (doneStudentIdList.size() == 0) {
+                        return new PageResponse<>(0, new ArrayList<>());
+                    }
+                    if (doingStudentIdList.size() != 0) {
+                        studentQueryWrapper.notIn("id", doingStudentIdList);
+                    }
+                    studentQueryWrapper.in("id", doneStudentIdList);
+                    break;
+                case 0:
+                    List<String> allNotBeginStudents = practiceInfoService.listAllStudentId();
+                    if (notBeginStudentIdList.size() == 0) {
+                        if (allNotBeginStudents.size() == 0) {
+                            break;
+                        }
+                        studentQueryWrapper.notIn("id", allNotBeginStudents);
+                        break;
+                    }
+                    if (doingStudentIdList.size() != 0) {
+                        studentQueryWrapper.notIn("id", doingStudentIdList);
+                    }
+                    if (doneStudentIdList.size() != 0) {
+                        studentQueryWrapper.notIn("id", doneStudentIdList);
+                    }
+                    studentQueryWrapper.in("id", notBeginStudentIdList);
+                    studentQueryWrapper.or().notIn("id", allNotBeginStudents);
+            }
+        }
+
+        if (studentQo.getPageSize() == -1) {
+            List<UserStudent> userStudents = studentDao.selectList(studentQueryWrapper);
+            List<StudentInfo> studentInfoList = new ArrayList<>(userStudents.size());
+            for (UserStudent userStudent : userStudents) {
+                StudentInfo studentInfo = new StudentInfo();
+                BeanUtils.copyProperties(userStudent, studentInfo);
+                studentInfo.setClassName(classDao.selectById(studentInfo.getClassId()).getName());
+                studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
+                PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
+                studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+                PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
+                studentInfo.setJobInfoList(jobInfoPageList.getResults());
+                studentInfoList.add(studentInfo);
+            }
+            return new PageResponse<>(studentInfoList.size(), studentInfoList);
+        }
+
+        Page<UserStudent> page = new Page<>(studentQo.getPageNo(), studentQo.getPageSize());
+        Page<UserStudent> list = studentDao.selectPage(page, studentQueryWrapper);
+        List<UserStudent> records = list.getRecords();
+        List<StudentInfo> studentInfoList = new ArrayList<>(records.size());
+        for (UserStudent userStudent : records) {
+            StudentInfo studentInfo = new StudentInfo();
+            BeanUtils.copyProperties(userStudent, studentInfo);
+            studentInfo.setClassName(classDao.selectById(studentInfo.getClassId()).getName());
+            studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
+            PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
+            studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+            PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
+            studentInfo.setJobInfoList(jobInfoPageList.getResults());
+            studentInfoList.add(studentInfo);
+        }
+        return new PageResponse<>(list.getTotal(), studentInfoList);
     }
 }

@@ -6,7 +6,9 @@ import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.common.Response;
 import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.*;
+import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/teacher")
 public class UserTeacherAction {
+
+    @Autowired
+    private MPUserStudentService studentService;
 
     @Autowired
     private MPJobRecruitmentService jobRecruitmentService;
@@ -90,20 +95,26 @@ public class UserTeacherAction {
     }
 
     @PostMapping("/{teacherId}/practice/plans")
-    public Response<PageResponse<PracticePlan>> practicePlanList(@PathVariable String teacherId,  @RequestBody PageQo pageQo) {
+    public Response<PageResponse<PracticePlan>> practicePlanList(@PathVariable String teacherId, @RequestBody PageQo pageQo) {
         PageResponse<PracticePlan> list = planService.teacherList(pageQo, teacherId);
         return Response.ok(list);
     }
 
     @PostMapping("/{teacherId}/practice/diaries")
-    public Response<PageResponse<PracticeDiary>> practiceDiaryList(@PathVariable String teacherId, @RequestBody  PageQo pageQo) {
+    public Response<PageResponse<PracticeDiary>> practiceDiaryList(@PathVariable String teacherId, @RequestBody PageQo pageQo) {
         PageResponse<PracticeDiary> list = diaryService.teacherList(pageQo, teacherId);
         return Response.ok(list);
     }
 
     @PostMapping("/{teacherId}/practice/reports")
-    public Response<PageResponse<PracticeReport>> practiceReportList(@PathVariable String teacherId,  @RequestBody PageQo pageQo) {
+    public Response<PageResponse<PracticeReport>> practiceReportList(@PathVariable String teacherId, @RequestBody PageQo pageQo) {
         PageResponse<PracticeReport> list = reportService.teacherList(pageQo, teacherId);
+        return Response.ok(list);
+    }
+
+    @PostMapping("/{id}/students")
+    public Response<PageResponse<StudentInfo>> listStudentInfo(@PathVariable String id, @RequestBody QueryStudentQo studentQo) {
+        PageResponse<StudentInfo> list = studentService.listStudentInfo(id, studentQo);
         return Response.ok(list);
     }
 }

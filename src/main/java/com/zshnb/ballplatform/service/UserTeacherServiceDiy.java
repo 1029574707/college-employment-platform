@@ -6,10 +6,14 @@ import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
+import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.entity.UserTeacher;
+import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.mapper.UserTeacherDao;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
+import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +32,9 @@ public class UserTeacherServiceDiy extends ServiceImpl<UserTeacherDao, UserTeach
 
     @Autowired
     private UserTeacherDao teacherDao;
+
+    @Autowired
+    private UserStudentDao studentDao;
 
     @Override
     public PageResponse<UserTeacher> teachers(int collegeId, PageQo pageQo) {

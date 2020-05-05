@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -102,5 +103,19 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         records.forEach(info -> info.setTypeName(EPracticeType.getDescByCode(info.getType())));
         records.forEach(info -> info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus())));
         return new PageResponse<>(list.getTotal(), records);
+    }
+
+    @Override
+    public List<String> listStudentId(int status) {
+        QueryWrapper<PracticeInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("practiceStatus", status);
+        List<PracticeInfo> list = practiceInfoDao.selectList(queryWrapper);
+        return list.stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> listAllStudentId() {
+        List<PracticeInfo> list = practiceInfoDao.selectList(null);
+        return list.stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
     }
 }

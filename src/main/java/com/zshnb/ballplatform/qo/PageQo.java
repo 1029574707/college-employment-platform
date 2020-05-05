@@ -11,6 +11,12 @@ public class PageQo {
 
     private int pageNo;
 
+    public static PageQo allPage() {
+        PageQo pageQo = new PageQo();
+        pageQo.setPageSize(-1);
+        return pageQo;
+    }
+
     public int getPageSize() {
         return pageSize;
     }

@@ -1,11 +1,11 @@
 package com.zshnb.ballplatform.service.inter;
 
-import com.zshnb.ballplatform.entity.UserStudent;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zshnb.ballplatform.common.PageResponse;
+import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
-
-import javax.sound.midi.VoiceStatus;
-import java.util.List;
+import com.zshnb.ballplatform.vo.StudentInfo;
 
 /**
  * <p>
@@ -33,18 +33,13 @@ public interface MPUserStudentService extends IService<UserStudent> {
     void updateStudent(String id, UserStudent student);
 
     /**
-     * 查询学生列表
-     *
-     * @param queryStudentQo 查询条件
-     * @return 学生列表
-     */
-    List<UserStudent> students(QueryStudentQo queryStudentQo);
-
-    /**
      * 学号是否已经存在
      *
      * @param id 学号
      * @return true-存在，false-不存在
      */
     boolean alreadyExists(String id);
+
+    PageResponse<StudentInfo> listStudentInfo(String teacherId, QueryStudentQo studentQo);
+
 }

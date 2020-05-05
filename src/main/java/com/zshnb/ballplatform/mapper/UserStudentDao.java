@@ -1,10 +1,7 @@
 package com.zshnb.ballplatform.mapper;
 
-import com.zshnb.ballplatform.entity.UserStudent;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zshnb.ballplatform.qo.QueryStudentQo;
-
-import java.util.List;
+import com.zshnb.ballplatform.entity.UserStudent;
 
 /**
  * <p>
@@ -16,5 +13,4 @@ import java.util.List;
  */
 public interface UserStudentDao extends BaseMapper<UserStudent> {
 
-    List<UserStudent> listStudents(QueryStudentQo queryStudentQo);
 }
