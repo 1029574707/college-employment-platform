@@ -165,3 +165,15 @@ PUT
 查看个人信息
 GET
 /student/{id}/personal
+
+查看学生实习报告列表
+POST
+/teacher/{teacherId}/practice/reports
+
+查看学生实习日记列表
+POST
+/teacher/{teacherId}/practice/diaries
+
+查看学生实习计划列表
+POST
+/teacher/{teacherId}/practice/plans
