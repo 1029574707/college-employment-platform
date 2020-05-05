@@ -177,3 +177,11 @@ POST
 查看学生实习计划列表
 POST
 /teacher/{teacherId}/practice/plans
+
+查看学生信息
+POST
+/admin/students
+
+查看学生信息
+POST
+/teacher/{id}/students
