@@ -109,6 +109,8 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
             List<PracticeReport> list = practiceReportDao.selectList(wrapper);
             for (PracticeReport report : list) {
                 report.setCompanyName(practiceInfoDao.selectById(report.getPracticeId()).getCompany());
+                UserStudent studentForReport = userStudents.stream().filter(student -> student.getId().equals(report.getStudentId())).collect(Collectors.toList()).get(0);
+                report.setStudentName(studentForReport.getName());
                 if (report.getEvaluationId() != null) {
                     report.setEvaluation(evaluationDao.selectById(report.getEvaluationId()).getContent());
                 }
@@ -121,6 +123,8 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
         List<PracticeReport> records = list.getRecords();
         for (PracticeReport report : records) {
             report.setCompanyName(practiceInfoDao.selectById(report.getPracticeId()).getCompany());
+            UserStudent studentForReport = userStudents.stream().filter(student -> student.getId().equals(report.getStudentId())).collect(Collectors.toList()).get(0);
+            report.setStudentName(studentForReport.getName());
             if (report.getEvaluationId() != null) {
                 report.setEvaluation(evaluationDao.selectById(report.getEvaluationId()).getContent());
             }

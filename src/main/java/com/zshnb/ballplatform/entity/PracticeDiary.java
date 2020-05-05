@@ -48,6 +48,17 @@ public class PracticeDiary extends Model<PracticeDiary> {
     @TableField("evaluationId")
     private Integer evaluationId;
 
+    @TableField(exist = false)
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
     public Integer getEvaluationId() {
         return evaluationId;
     }
@@ -138,6 +149,7 @@ public class PracticeDiary extends Model<PracticeDiary> {
                 ", practiceId=" + practiceId +
                 ", companyName='" + companyName + '\'' +
                 ", evaluationId=" + evaluationId +
+                ", studentName='" + studentName + '\'' +
                 '}';
     }
 }

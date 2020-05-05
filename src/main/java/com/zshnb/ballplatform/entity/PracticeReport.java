@@ -46,6 +46,16 @@ public class PracticeReport extends Model<PracticeReport> {
 
     @TableField("evaluationId")
     private Integer evaluationId;
+    @TableField(exist = false)
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
     public Integer getEvaluationId() {
         return evaluationId;
@@ -146,6 +156,7 @@ public class PracticeReport extends Model<PracticeReport> {
                 ", practiceId=" + practiceId +
                 ", companyName='" + companyName + '\'' +
                 ", evaluationId=" + evaluationId +
+                ", studentName='" + studentName + '\'' +
                 '}';
     }
 }

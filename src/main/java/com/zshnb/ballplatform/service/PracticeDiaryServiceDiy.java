@@ -108,6 +108,8 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
             List<PracticeDiary> list = practiceDiaryDao.selectList(wrapper);
             for (PracticeDiary diary : list) {
                 diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+                UserStudent studentForDiary = userStudents.stream().filter(student -> student.getId().equals(diary.getStudentId())).collect(Collectors.toList()).get(0);
+                diary.setStudentName(studentForDiary.getName());
                 if (diary.getEvaluationId() != null) {
                     diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
                 }
@@ -120,6 +122,8 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
         List<PracticeDiary> records = list.getRecords();
         for (PracticeDiary diary : records) {
             diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+            UserStudent studentForDiary = userStudents.stream().filter(student -> student.getId().equals(diary.getStudentId())).collect(Collectors.toList()).get(0);
+            diary.setStudentName(studentForDiary.getName());
             if (diary.getEvaluationId() != null) {
                 diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
             }

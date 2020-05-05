@@ -112,6 +112,8 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
             for (PracticePlan practicePlan : list) {
                 practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
                 practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+                UserStudent studentForPlan = userStudents.stream().filter(student -> student.getId().equals(practicePlan.getStudentId())).collect(Collectors.toList()).get(0);
+                practicePlan.setStudentName(studentForPlan.getName());
                 if (practicePlan.getEvaluationId() != null) {
                     practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
                 }
@@ -125,6 +127,8 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
         for (PracticePlan practicePlan : records) {
             practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
             practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+            UserStudent studentForPlan = userStudents.stream().filter(student -> student.getId().equals(practicePlan.getStudentId())).collect(Collectors.toList()).get(0);
+            practicePlan.setStudentName(studentForPlan.getName());
             if (practicePlan.getEvaluationId() != null) {
                 practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
             }

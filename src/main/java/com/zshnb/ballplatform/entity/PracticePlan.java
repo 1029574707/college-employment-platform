@@ -53,6 +53,17 @@ public class PracticePlan extends Model<PracticePlan> {
     @TableField(exist = false)
     private String typeName;
 
+    @TableField(exist = false)
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
     public String getTypeName() {
         return typeName;
     }
@@ -169,6 +180,7 @@ public class PracticePlan extends Model<PracticePlan> {
                 ", companyName='" + companyName + '\'' +
                 ", evaluationId=" + evaluationId +
                 ", typeName='" + typeName + '\'' +
+                ", studentName='" + studentName + '\'' +
                 '}';
     }
 }
