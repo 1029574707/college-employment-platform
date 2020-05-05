@@ -65,6 +65,17 @@ public class PracticeInfo extends Model<PracticeInfo> {
     @TableField(exist = false)
     private String typeName;
 
+    @TableField(exist = false)
+    private String statusName;
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
+    }
+
     public String getTypeName() {
         return typeName;
     }
@@ -217,6 +228,7 @@ public class PracticeInfo extends Model<PracticeInfo> {
                 ", updateTime='" + updateTime + '\'' +
                 ", type=" + type +
                 ", typeName='" + typeName + '\'' +
+                ", statusName='" + statusName + '\'' +
                 '}';
     }
 }

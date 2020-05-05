@@ -7,6 +7,7 @@ import com.zshnb.ballplatform.entity.PracticeDiary;
 import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.zshnb.ballplatform.entity.PracticePlan;
 import com.zshnb.ballplatform.entity.PracticeReport;
+import com.zshnb.ballplatform.enums.EPracticeStatus;
 import com.zshnb.ballplatform.enums.EPracticeType;
 import com.zshnb.ballplatform.mapper.PracticeDiaryDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
@@ -91,6 +92,7 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         if (pageQo.getPageSize() == -1) {
             List<PracticeInfo> list = practiceInfoDao.selectList(queryWrapper);
             list.forEach(info -> info.setTypeName(EPracticeType.getDescByCode(info.getType())));
+            list.forEach(info -> info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus())));
             return new PageResponse<>(list.size(), list);
         }
 
@@ -98,6 +100,7 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         Page<PracticeInfo> list = practiceInfoDao.selectPage(page, queryWrapper);
         List<PracticeInfo> records = list.getRecords();
         records.forEach(info -> info.setTypeName(EPracticeType.getDescByCode(info.getType())));
+        records.forEach(info -> info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus())));
         return new PageResponse<>(list.getTotal(), records);
     }
 }
