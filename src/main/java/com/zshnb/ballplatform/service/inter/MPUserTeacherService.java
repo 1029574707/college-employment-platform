@@ -27,6 +27,8 @@ public interface MPUserTeacherService extends IService<UserTeacher> {
      */
     PageResponse<UserTeacher> teachers(int collegeId, PageQo pageQo);
 
+    PageResponse<UserTeacher> teachers(PageQo pageQo);
+
     /**
      * 增加导师
      *

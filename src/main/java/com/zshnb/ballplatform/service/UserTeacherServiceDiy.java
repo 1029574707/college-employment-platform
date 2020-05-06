@@ -2,18 +2,14 @@ package com.zshnb.ballplatform.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
-import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.entity.UserTeacher;
-import com.zshnb.ballplatform.mapper.UserStudentDao;
+import com.zshnb.ballplatform.mapper.CollegeDao;
 import com.zshnb.ballplatform.mapper.UserTeacherDao;
 import com.zshnb.ballplatform.qo.PageQo;
-import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
-import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +30,7 @@ public class UserTeacherServiceDiy extends ServiceImpl<UserTeacherDao, UserTeach
     private UserTeacherDao teacherDao;
 
     @Autowired
-    private UserStudentDao studentDao;
+    private CollegeDao collegeDao;
 
     @Override
     public PageResponse<UserTeacher> teachers(int collegeId, PageQo pageQo) {
@@ -51,6 +47,21 @@ public class UserTeacherServiceDiy extends ServiceImpl<UserTeacherDao, UserTeach
         Page<UserTeacher> userTeacherPage = teacherDao.selectPage(page, eWrapper);
 
         List<UserTeacher> records = userTeacherPage.getRecords();
+        return new PageResponse<>(userTeacherPage.getTotal(), records);
+    }
+
+    @Override
+    public PageResponse<UserTeacher> teachers(PageQo pageQo) {
+        if (pageQo.getPageSize() == -1) {
+            List<UserTeacher> userTeachers = teacherDao.selectList(null);
+            userTeachers.forEach(teacher -> teacher.setCollegeName(collegeDao.selectById(teacher.getCollegeId()).getName()));
+            return new PageResponse<>(userTeachers.size(), userTeachers);
+        }
+        Page<UserTeacher> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
+        Page<UserTeacher> userTeacherPage = teacherDao.selectPage(page, null);
+
+        List<UserTeacher> records = userTeacherPage.getRecords();
+        records.forEach(teacher -> teacher.setCollegeName(collegeDao.selectById(teacher.getCollegeId()).getName()));
         return new PageResponse<>(userTeacherPage.getTotal(), records);
     }
 

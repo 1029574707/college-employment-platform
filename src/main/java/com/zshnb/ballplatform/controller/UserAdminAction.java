@@ -4,10 +4,12 @@ package com.zshnb.ballplatform.controller;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.common.Response;
 import com.zshnb.ballplatform.entity.JobRecruitment;
+import com.zshnb.ballplatform.entity.UserTeacher;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
+import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
 import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,9 @@ public class UserAdminAction {
 
     @Autowired
     private MPUserStudentService studentService;
+
+    @Autowired
+    private MPUserTeacherService teacherService;
 
     @PostMapping("jobs")
     public Response<PageResponse<JobRecruitment>> listJob(@RequestBody PageQo pageQo) {
@@ -58,6 +63,12 @@ public class UserAdminAction {
     @PostMapping("/students")
     public Response<PageResponse<StudentInfo>> listStudents(@RequestBody QueryStudentQo studentQo) {
         PageResponse<StudentInfo> list = studentService.listStudentInfo(studentQo);
+        return Response.ok(list);
+    }
+
+    @PostMapping("/teachers")
+    public Response<PageResponse<UserTeacher>> listTeachers(@RequestBody PageQo pageQo) {
+        PageResponse<UserTeacher> list = teacherService.teachers(pageQo);
         return Response.ok(list);
     }
 

@@ -1,12 +1,13 @@
 package com.zshnb.ballplatform.entity;
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zsh
@@ -32,6 +33,17 @@ public class UserTeacher extends Model<UserTeacher> {
 
     private Integer gender;
 
+    @TableField(exist = false)
+    private String collegeName;
+
+    public String getCollegeName() {
+        return collegeName;
+    }
+
+    public void setCollegeName(String collegeName) {
+        this.collegeName = collegeName;
+    }
+
     public String getId() {
         return id;
     }
@@ -39,6 +51,7 @@ public class UserTeacher extends Model<UserTeacher> {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -46,6 +59,7 @@ public class UserTeacher extends Model<UserTeacher> {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -53,6 +67,7 @@ public class UserTeacher extends Model<UserTeacher> {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public String getEmail() {
         return email;
     }
@@ -60,6 +75,7 @@ public class UserTeacher extends Model<UserTeacher> {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public Integer getCollegeId() {
         return collegeId;
     }
@@ -67,6 +83,7 @@ public class UserTeacher extends Model<UserTeacher> {
     public void setCollegeId(Integer collegeId) {
         this.collegeId = collegeId;
     }
+
     public String getPassword() {
         return password;
     }
@@ -74,6 +91,7 @@ public class UserTeacher extends Model<UserTeacher> {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public Integer getGender() {
         return gender;
     }
@@ -90,13 +108,14 @@ public class UserTeacher extends Model<UserTeacher> {
     @Override
     public String toString() {
         return "UserTeacher{" +
-            "id=" + id +
-            ", name=" + name +
-            ", phoneNumber=" + phoneNumber +
-            ", email=" + email +
-            ", collegeId=" + collegeId +
-            ", password=" + password +
-            ", gender=" + gender +
-        "}";
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", collegeId=" + collegeId +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", collegeName='" + collegeName + '\'' +
+                "} " + super.toString();
     }
 }
