@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobInfo;
-import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.mapper.JobInfoDao;
+import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobInfoService;
 import com.zshnb.ballplatform.utils.DateUtils;
+import com.zshnb.ballplatform.vo.JobInfoStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,9 @@ public class JobInfoServiceDiy extends ServiceImpl<JobInfoDao, JobInfo> implemen
 
     @Autowired
     private JobInfoDao jobInfoDao;
+
+    @Autowired
+    private UserStudentDao studentDao;
 
     @Override
     public void add(String studentId, JobInfo jobInfo) {
@@ -79,5 +83,13 @@ public class JobInfoServiceDiy extends ServiceImpl<JobInfoDao, JobInfo> implemen
     public List<String> listAllStudentId() {
         List<JobInfo> jobInfos = jobInfoDao.selectList(null);
         return jobInfos.stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public JobInfoStatistics statistics() {
+        JobInfoStatistics statistics = new JobInfoStatistics();
+        statistics.setHasJobCount(listAllStudentId().size());
+        statistics.setNoJobCount(studentDao.selectList(null).size() - statistics.getHasJobCount());
+        return statistics;
     }
 }

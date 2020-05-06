@@ -4,6 +4,7 @@ import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.vo.JobInfoStatistics;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface MPJobInfoService extends IService<JobInfo> {
     List<String> listStudentId(int tripartite);
 
     List<String> listAllStudentId();
+
+    JobInfoStatistics statistics();
 }

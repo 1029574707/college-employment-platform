@@ -4,6 +4,7 @@ import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
 
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface MPPracticeInfoService extends IService<PracticeInfo> {
     List<String> listStudentId(int status);
 
     List<String> listAllStudentId();
+
+    PracticeInfoStatistics statistics();
 }

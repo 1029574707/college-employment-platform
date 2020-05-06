@@ -2,21 +2,16 @@ package com.zshnb.ballplatform.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
-import com.zshnb.ballplatform.entity.PracticeDiary;
-import com.zshnb.ballplatform.entity.PracticeInfo;
-import com.zshnb.ballplatform.entity.PracticePlan;
-import com.zshnb.ballplatform.entity.PracticeReport;
+import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.enums.EPracticeStatus;
 import com.zshnb.ballplatform.enums.EPracticeType;
-import com.zshnb.ballplatform.mapper.PracticeDiaryDao;
-import com.zshnb.ballplatform.mapper.PracticeInfoDao;
-import com.zshnb.ballplatform.mapper.PracticePlanDao;
-import com.zshnb.ballplatform.mapper.PracticeReportDao;
+import com.zshnb.ballplatform.mapper.*;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPPracticeInfoService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.utils.DateUtils;
+import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +41,9 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
 
     @Autowired
     private PracticeReportDao reportDao;
+
+    @Autowired
+    private UserStudentDao studentDao;
 
     @Override
     public void score(int id, int fraction) {
@@ -117,5 +115,40 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
     public List<String> listAllStudentId() {
         List<PracticeInfo> list = practiceInfoDao.selectList(null);
         return list.stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public PracticeInfoStatistics statistics() {
+        PracticeInfoStatistics statistics = new PracticeInfoStatistics();
+        // 实习中
+        List<String> practicingStudents = listStudentId(EPracticeStatus.STATUS_DOING.statusCode);
+        statistics.setPracticingCount(practicingStudents.size());
+
+        // 结束实习
+        QueryWrapper<PracticeInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("practiceStatus", EPracticeStatus.STATUS_END.statusCode);
+        if (practicingStudents.size() != 0) {
+            wrapper.notIn("studentId", practicingStudents);
+        }
+        List<String> donePracticeStudents = practiceInfoDao.selectList(wrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+        statistics.setDonePracticeCount(donePracticeStudents.size());
+
+        // 未实习
+        List<UserStudent> userStudents = studentDao.selectList(null);
+        List<String> allStudents = userStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
+        // 未实习包括未统计的人数
+        int unDocumentStudents = allStudents.size() - listAllStudentId().size();
+        // 未实习还包括状态是只有未实习的人
+        wrapper = new QueryWrapper<>();
+        wrapper.eq("practiceStatus", EPracticeStatus.STATUS_NOT_BEGIN.statusCode);
+        if (practicingStudents.size() != 0) {
+            wrapper.notIn("studentId", practicingStudents);
+        }
+        if (donePracticeStudents.size() != 0) {
+            wrapper.notIn("studentId", donePracticeStudents);
+        }
+        List<String> notPracticeStudents = practiceInfoDao.selectList(wrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+        statistics.setNotPracticeCount(unDocumentStudents + notPracticeStudents.size());
+        return statistics;
     }
 }

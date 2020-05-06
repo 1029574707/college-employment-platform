@@ -7,9 +7,10 @@ import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.entity.UserTeacher;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
-import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
-import com.zshnb.ballplatform.service.inter.MPUserStudentService;
-import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
+import com.zshnb.ballplatform.service.inter.*;
+import com.zshnb.ballplatform.vo.JobInfoStatistics;
+import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
+import com.zshnb.ballplatform.vo.StatisticsVo;
 import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,12 @@ public class UserAdminAction {
 
     @Autowired
     private MPUserTeacherService teacherService;
+
+    @Autowired
+    private MPPracticeInfoService practiceInfoService;
+
+    @Autowired
+    private MPJobInfoService jobInfoService;
 
     @PostMapping("jobs")
     public Response<PageResponse<JobRecruitment>> listJob(@RequestBody PageQo pageQo) {
@@ -72,4 +79,13 @@ public class UserAdminAction {
         return Response.ok(list);
     }
 
+    @GetMapping("/statistics")
+    public Response<StatisticsVo> statistics() {
+        StatisticsVo statisticsVo = new StatisticsVo();
+        PracticeInfoStatistics practiceInfoStatistics = practiceInfoService.statistics();
+        statisticsVo.setPracticeInfoStatistics(practiceInfoStatistics);
+        JobInfoStatistics jobInfoStatistics = jobInfoService.statistics();
+        statisticsVo.setJobInfoStatistics(jobInfoStatistics);
+        return Response.ok(statisticsVo);
+    }
 }

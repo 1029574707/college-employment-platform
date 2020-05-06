@@ -185,3 +185,11 @@ POST
 查看学生信息
 POST
 /teacher/{id}/students
+
+查看导师列表
+GET
+/admin/teachers
+
+查看统计信息
+GET
+/admin/statistics
