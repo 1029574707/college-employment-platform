@@ -193,3 +193,15 @@ GET
 查看统计信息
 GET
 /admin/statistics
+
+导师查看统计信息
+GET
+/teacher/{id}/statics
+
+管理员招聘上传图片
+POST
+/admin/{jobId}/img
+
+导师招聘上传图片
+POST
+/teacher/{jobId}/img

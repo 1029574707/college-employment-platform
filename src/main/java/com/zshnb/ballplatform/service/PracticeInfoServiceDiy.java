@@ -151,4 +151,38 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         statistics.setNotPracticeCount(unDocumentStudents + notPracticeStudents.size());
         return statistics;
     }
+
+    @Override
+    public PracticeInfoStatistics statistics(String teacherId) {
+        PracticeInfoStatistics statistics = new PracticeInfoStatistics();
+        QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+        studentWrapper.eq("teacherId", teacherId);
+        List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+        if (userStudents.size() == 0) {
+            return statistics;
+        }
+
+        List<String> studentIds = userStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
+        QueryWrapper<PracticeInfo> infoQueryWrapper = new QueryWrapper<>();
+        infoQueryWrapper.eq("practiceStatus", EPracticeStatus.STATUS_DOING.statusCode);
+        infoQueryWrapper.in("studentId", studentIds);
+        // 实习中
+        List<PracticeInfo> practicingInfos = practiceInfoDao.selectList(infoQueryWrapper);
+        List<String> practicingStudents = practicingInfos.stream().map(PracticeInfo::getStudentId).collect(Collectors.toList());
+        statistics.setPracticingCount(practicingStudents.size());
+
+        // 结束实习
+        infoQueryWrapper = new QueryWrapper<>();
+        infoQueryWrapper.eq("practiceStatus", EPracticeStatus.STATUS_END.statusCode);
+        if (practicingInfos.size() != 0) {
+            infoQueryWrapper.notIn("studentId", practicingStudents);
+        }
+        List<String> donePracticeStudents = practiceInfoDao.selectList(infoQueryWrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+        statistics.setDonePracticeCount(donePracticeStudents.size());
+
+        // 未实习，总人数减去实习中和实习结束的
+        statistics.setNotPracticeCount(studentIds.size() - statistics.getPracticingCount() - statistics.getDonePracticeCount());
+        return statistics;
+
+    }
 }

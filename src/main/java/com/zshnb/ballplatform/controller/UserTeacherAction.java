@@ -8,9 +8,13 @@ import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.*;
+import com.zshnb.ballplatform.vo.JobInfoStatistics;
+import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
+import com.zshnb.ballplatform.vo.StatisticsVo;
 import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -44,6 +48,9 @@ public class UserTeacherAction {
 
     @Autowired
     private MPPracticeReportService reportService;
+
+    @Autowired
+    private MPJobInfoService jobInfoService;
 
     @PostMapping("{id}/job")
     public Response<String> addJob(@PathVariable String id, @RequestBody JobRecruitment jobRecruitment) {
@@ -116,5 +123,21 @@ public class UserTeacherAction {
     public Response<PageResponse<StudentInfo>> listStudentInfo(@PathVariable String id, @RequestBody QueryStudentQo studentQo) {
         PageResponse<StudentInfo> list = studentService.listStudentInfo(id, studentQo);
         return Response.ok(list);
+    }
+
+    @GetMapping("/{id}/statistics")
+    public Response<StatisticsVo> statistics(@PathVariable String id) {
+        StatisticsVo statisticsVo = new StatisticsVo();
+        PracticeInfoStatistics practiceInfoStatistics = practiceInfoService.statistics(id);
+        statisticsVo.setPracticeInfoStatistics(practiceInfoStatistics);
+        JobInfoStatistics jobInfoStatistics = jobInfoService.statistics(id);
+        statisticsVo.setJobInfoStatistics(jobInfoStatistics);
+        return Response.ok(statisticsVo);
+    }
+
+    @PostMapping("{jobId}/img")
+    public Response<String> uploadImg(@PathVariable int jobId, @RequestParam MultipartFile file) {
+        String fileName = jobRecruitmentService.uploadImg(jobId, file);
+        return Response.ok(fileName);
     }
 }

@@ -33,4 +33,6 @@ public interface MPPracticeInfoService extends IService<PracticeInfo> {
     List<String> listAllStudentId();
 
     PracticeInfoStatistics statistics();
+
+    PracticeInfoStatistics statistics(String teacherId);
 }

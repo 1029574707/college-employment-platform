@@ -31,4 +31,6 @@ public interface MPJobInfoService extends IService<JobInfo> {
     List<String> listAllStudentId();
 
     JobInfoStatistics statistics();
+
+    JobInfoStatistics statistics(String teacherId);
 }

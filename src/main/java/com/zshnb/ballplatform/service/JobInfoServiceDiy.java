@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobInfo;
+import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.mapper.JobInfoDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
@@ -91,5 +92,23 @@ public class JobInfoServiceDiy extends ServiceImpl<JobInfoDao, JobInfo> implemen
         statistics.setHasJobCount(listAllStudentId().size());
         statistics.setNoJobCount(studentDao.selectList(null).size() - statistics.getHasJobCount());
         return statistics;
+    }
+
+    @Override
+    public JobInfoStatistics statistics(String teacherId) {
+        JobInfoStatistics jobInfoStatistics = new JobInfoStatistics();
+        QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+        studentWrapper.eq("teacherId", teacherId);
+        List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+        if (userStudents.size() == 0) {
+            return jobInfoStatistics;
+        }
+        List<String> studentIds = userStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
+        QueryWrapper<JobInfo> jobInfoQueryWrapper = new QueryWrapper<>();
+        jobInfoQueryWrapper.in("studentId", studentIds);
+        List<String> jobStudentIds = jobInfoDao.selectList(jobInfoQueryWrapper).stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+        jobInfoStatistics.setHasJobCount(jobStudentIds.size());
+        jobInfoStatistics.setNoJobCount(userStudents.size() - jobInfoStatistics.getHasJobCount());
+        return jobInfoStatistics;
     }
 }
