@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.qo.PageQo;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -49,6 +48,4 @@ public interface MPJobRecruitmentService extends IService<JobRecruitment> {
      * @return 招聘信息列表
      */
     PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId);
-
-    String uploadImg(int id, MultipartFile file);
 }

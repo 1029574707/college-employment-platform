@@ -14,7 +14,6 @@ import com.zshnb.ballplatform.vo.StatisticsVo;
 import com.zshnb.ballplatform.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -133,11 +132,5 @@ public class UserTeacherAction {
         JobInfoStatistics jobInfoStatistics = jobInfoService.statistics(id);
         statisticsVo.setJobInfoStatistics(jobInfoStatistics);
         return Response.ok(statisticsVo);
-    }
-
-    @PostMapping("{jobId}/img")
-    public Response<String> uploadImg(@PathVariable int jobId, @RequestParam MultipartFile file) {
-        String fileName = jobRecruitmentService.uploadImg(jobId, file);
-        return Response.ok(fileName);
     }
 }

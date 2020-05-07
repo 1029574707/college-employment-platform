@@ -11,10 +11,8 @@ import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
 import com.zshnb.ballplatform.utils.DateUtils;
-import com.zshnb.ballplatform.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -35,9 +33,6 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
 
     @Autowired
     private UserStudentDao studentDao;
-
-    @Autowired
-    private ImageUtils imageUtils;
 
     @Override
     public void add(JobRecruitment jobRecruitment) {
@@ -93,14 +88,5 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
     public PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId) {
         UserStudent student = studentDao.selectById(studentId);
         return listTeacherJob(pageQo, student.getTeacherId());
-    }
-
-    @Override
-    public String uploadImg(int id, MultipartFile file) {
-        String fileName = imageUtils.uploadImg(file);
-        JobRecruitment jobRecruitment = jobRecruitmentDao.selectById(id);
-        jobRecruitment.setImgUrl(fileName);
-        jobRecruitmentDao.updateById(jobRecruitment);
-        return fileName;
     }
 }

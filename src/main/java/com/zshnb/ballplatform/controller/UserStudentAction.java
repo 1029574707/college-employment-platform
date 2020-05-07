@@ -8,9 +8,7 @@ import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.service.inter.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.*;
-import sun.text.normalizer.UBiDiProps;
 
 /**
  * <p>

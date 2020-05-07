@@ -16,6 +16,7 @@
         <result column="studentId" property="studentId" />
         <result column="createTime" property="createTime" />
         <result column="updateTime" property="updateTime" />
+        <result column="imgUrl" property="imgUrl" />
     </resultMap>
 
 </mapper>

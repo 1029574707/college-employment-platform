@@ -15,10 +15,12 @@ import com.zshnb.ballplatform.service.inter.MPClassService;
 import com.zshnb.ballplatform.service.inter.MPCollegeService;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
 import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
+import com.zshnb.ballplatform.utils.ImageUtils;
 import com.zshnb.ballplatform.vo.UserInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,6 +44,9 @@ public class CommonAction {
 
     @Autowired
     private MPUserStudentService studentService;
+
+    @Autowired
+    private ImageUtils imageUtils;
 
     @PostMapping("/college/{collegeId}/teachers")
     public Response<PageResponse<UserTeacher>> teachers(@PathVariable int collegeId, @RequestBody PageQo pageQo) {
@@ -132,6 +137,7 @@ public class CommonAction {
                 userInfo.setCollegeName(collegeByStudent.getName());
                 userInfo.setUserType(2);
                 break;
+            default:
         }
         session.setAttribute("userId", loginQo.getId());
         session.setAttribute("userType", loginQo.getUserType());
@@ -143,5 +149,11 @@ public class CommonAction {
         session.removeAttribute("userId");
         session.removeAttribute("userType");
         return Response.ok();
+    }
+
+    @PostMapping("/img")
+    public Response<String> uploadImg(@RequestParam MultipartFile file) {
+        String fileName = imageUtils.uploadImg(file);
+        return Response.ok(fileName);
     }
 }

@@ -1,21 +1,22 @@
 package com.zshnb.ballplatform.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zsh
  * @since 2020-05-03
  */
-public class JobInfo extends Model<JobInfo> {
+public class
+JobInfo extends Model<JobInfo> {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,6 +51,9 @@ public class JobInfo extends Model<JobInfo> {
     @TableField("updateTime")
     private String updateTime;
 
+    @TableField("imgUrl")
+    private String imgUrl;
+
     public Integer getId() {
         return id;
     }
@@ -57,6 +61,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getCompany() {
         return company;
     }
@@ -64,6 +69,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setCompany(String company) {
         this.company = company;
     }
+
     public String getPosition() {
         return position;
     }
@@ -71,6 +77,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setPosition(String position) {
         this.position = position;
     }
+
     public String getAddress() {
         return address;
     }
@@ -78,6 +85,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setAddress(String address) {
         this.address = address;
     }
+
     public Integer getTripartite() {
         return tripartite;
     }
@@ -85,6 +93,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setTripartite(Integer tripartite) {
         this.tripartite = tripartite;
     }
+
     public String getContactName() {
         return contactName;
     }
@@ -92,6 +101,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
+
     public String getContactPhone() {
         return contactPhone;
     }
@@ -99,6 +109,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setContactPhone(String contactPhone) {
         this.contactPhone = contactPhone;
     }
+
     public String getContactEmail() {
         return contactEmail;
     }
@@ -106,6 +117,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
     }
+
     public String getNote() {
         return note;
     }
@@ -113,6 +125,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setNote(String note) {
         this.note = note;
     }
+
     public String getStudentId() {
         return studentId;
     }
@@ -120,6 +133,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
+
     public String getCreateTime() {
         return createTime;
     }
@@ -127,6 +141,7 @@ public class JobInfo extends Model<JobInfo> {
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
+
     public String getUpdateTime() {
         return updateTime;
     }
@@ -140,21 +155,30 @@ public class JobInfo extends Model<JobInfo> {
         return this.id;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
     @Override
     public String toString() {
         return "JobInfo{" +
-            "id=" + id +
-            ", company=" + company +
-            ", position=" + position +
-            ", address=" + address +
-            ", tripartite=" + tripartite +
-            ", contactName=" + contactName +
-            ", contactPhone=" + contactPhone +
-            ", contactEmail=" + contactEmail +
-            ", note=" + note +
-            ", studentId=" + studentId +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "id=" + id +
+                ", company='" + company + '\'' +
+                ", position='" + position + '\'' +
+                ", address='" + address + '\'' +
+                ", tripartite=" + tripartite +
+                ", contactName='" + contactName + '\'' +
+                ", contactPhone='" + contactPhone + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
+                ", note='" + note + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                "} " + super.toString();
     }
 }
