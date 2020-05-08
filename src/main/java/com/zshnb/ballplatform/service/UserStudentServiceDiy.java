@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sun.xml.internal.ws.api.addressing.AddressingVersion;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobInfo;
 import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.enums.EPracticeStatus;
 import com.zshnb.ballplatform.mapper.ClassDao;
 import com.zshnb.ballplatform.mapper.CollegeDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -140,8 +143,23 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
                 studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
                 PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
                 studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+                List<Integer> collect = practiceInfoPageList.getResults().stream().map(PracticeInfo::getPracticeStatus).distinct().collect(Collectors.toList());
+                if (collect.contains(EPracticeStatus.STATUS_DOING.statusCode)) {
+                    studentInfo.setPracticeStatus(EPracticeStatus.STATUS_DOING.desc);
+                } else if (collect.contains(EPracticeStatus.STATUS_END.statusCode)) {
+                    studentInfo.setPracticeStatus(EPracticeStatus.STATUS_END.desc);
+                } else {
+                    studentInfo.setPracticeStatus(EPracticeStatus.STATUS_NOT_BEGIN.desc);
+                }
+
                 PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
                 studentInfo.setJobInfoList(jobInfoPageList.getResults());
+                List<Integer> collect1 = jobInfoPageList.getResults().stream().map(JobInfo::getTripartite).distinct().collect(Collectors.toList());
+                if (collect1.contains(1)) {
+                    studentInfo.setTripartite(true);
+                } else {
+                    studentInfo.setTripartite(false);
+                }
                 studentInfoList.add(studentInfo);
             }
             return new PageResponse<>(studentInfoList.size(), studentInfoList);
@@ -158,8 +176,23 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
             studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
             PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
             studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+            List<Integer> collect = practiceInfoPageList.getResults().stream().map(PracticeInfo::getPracticeStatus).distinct().collect(Collectors.toList());
+            if (collect.contains(EPracticeStatus.STATUS_DOING.statusCode)) {
+                studentInfo.setPracticeStatus(EPracticeStatus.STATUS_DOING.desc);
+            } else if (collect.contains(EPracticeStatus.STATUS_END.statusCode)) {
+                studentInfo.setPracticeStatus(EPracticeStatus.STATUS_END.desc);
+            } else {
+                studentInfo.setPracticeStatus(EPracticeStatus.STATUS_NOT_BEGIN.desc);
+            }
+
             PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
             studentInfo.setJobInfoList(jobInfoPageList.getResults());
+            List<Integer> collect1 = jobInfoPageList.getResults().stream().map(JobInfo::getTripartite).distinct().collect(Collectors.toList());
+            if (collect1.contains(1)) {
+                studentInfo.setTripartite(true);
+            } else {
+                studentInfo.setTripartite(false);
+            }
             studentInfoList.add(studentInfo);
         }
         return new PageResponse<>(list.getTotal(), studentInfoList);
@@ -247,8 +280,22 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
                 studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
                 PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
                 studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+                List<Integer> collect = practiceInfoPageList.getResults().stream().map(PracticeInfo::getPracticeStatus).distinct().collect(Collectors.toList());
+                if (collect.contains(EPracticeStatus.STATUS_DOING.statusCode)) {
+                    studentInfo.setPracticeStatus(EPracticeStatus.STATUS_DOING.desc);
+                } else if (collect.contains(EPracticeStatus.STATUS_END.statusCode)) {
+                    studentInfo.setPracticeStatus(EPracticeStatus.STATUS_END.desc);
+                } else {
+                    studentInfo.setPracticeStatus(EPracticeStatus.STATUS_NOT_BEGIN.desc);
+                }
                 PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
                 studentInfo.setJobInfoList(jobInfoPageList.getResults());
+                List<Integer> collect1 = jobInfoPageList.getResults().stream().map(JobInfo::getTripartite).distinct().collect(Collectors.toList());
+                if (collect1.contains(1)) {
+                    studentInfo.setTripartite(true);
+                } else {
+                    studentInfo.setTripartite(false);
+                }
                 studentInfoList.add(studentInfo);
             }
             return new PageResponse<>(studentInfoList.size(), studentInfoList);
@@ -265,8 +312,22 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
             studentInfo.setCollegeName(collegeDao.selectById(studentInfo.getCollegeId()).getName());
             PageResponse<PracticeInfo> practiceInfoPageList = practiceInfoService.list(studentInfo.getId(), PageQo.allPage());
             studentInfo.setPracticeInfoList(practiceInfoPageList.getResults());
+            List<Integer> collect = practiceInfoPageList.getResults().stream().map(PracticeInfo::getPracticeStatus).distinct().collect(Collectors.toList());
+            if (collect.contains(EPracticeStatus.STATUS_DOING.statusCode)) {
+                studentInfo.setPracticeStatus(EPracticeStatus.STATUS_DOING.desc);
+            } else if (collect.contains(EPracticeStatus.STATUS_END.statusCode)) {
+                studentInfo.setPracticeStatus(EPracticeStatus.STATUS_END.desc);
+            } else {
+                studentInfo.setPracticeStatus(EPracticeStatus.STATUS_NOT_BEGIN.desc);
+            }
             PageResponse<JobInfo> jobInfoPageList = jobInfoService.list(studentInfo.getId(), PageQo.allPage());
             studentInfo.setJobInfoList(jobInfoPageList.getResults());
+            List<Integer> collect1 = jobInfoPageList.getResults().stream().map(JobInfo::getTripartite).distinct().collect(Collectors.toList());
+            if (collect1.contains(1)) {
+                studentInfo.setTripartite(true);
+            } else {
+                studentInfo.setTripartite(false);
+            }
             studentInfoList.add(studentInfo);
         }
         return new PageResponse<>(list.getTotal(), studentInfoList);

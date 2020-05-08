@@ -34,6 +34,26 @@ public class StudentInfo {
 
     private List<JobInfo> jobInfoList;
 
+    private String practiceStatus;
+
+    private boolean tripartite;
+
+    public String getPracticeStatus() {
+        return practiceStatus;
+    }
+
+    public void setPracticeStatus(String practiceStatus) {
+        this.practiceStatus = practiceStatus;
+    }
+
+    public boolean isTripartite() {
+        return tripartite;
+    }
+
+    public void setTripartite(boolean tripartite) {
+        this.tripartite = tripartite;
+    }
+
     public String getId() {
         return id;
     }
@@ -136,6 +156,8 @@ public class StudentInfo {
                 ", collegeName='" + collegeName + '\'' +
                 ", practiceInfoList=" + practiceInfoList +
                 ", jobInfoList=" + jobInfoList +
+                ", practiceStatus='" + practiceStatus + '\'' +
+                ", tripartite=" + tripartite +
                 '}';
     }
 }

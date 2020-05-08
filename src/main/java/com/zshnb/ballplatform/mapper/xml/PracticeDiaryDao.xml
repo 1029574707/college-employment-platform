@@ -8,9 +8,10 @@
         <result column="date" property="date" />
         <result column="content" property="content" />
         <result column="studentId" property="studentId" />
-        <result column="evaluation" property="evaluation" />
+        <result column="practiceId" property="practiceId" />
         <result column="createTime" property="createTime" />
         <result column="updateTime" property="updateTime" />
+        <result column="evaluationId" property="evaluationId" />
     </resultMap>
 
 </mapper>
