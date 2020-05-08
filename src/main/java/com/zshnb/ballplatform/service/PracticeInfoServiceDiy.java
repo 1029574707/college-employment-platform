@@ -90,16 +90,32 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
 
         if (pageQo.getPageSize() == -1) {
             List<PracticeInfo> list = practiceInfoDao.selectList(queryWrapper);
-            list.forEach(info -> info.setTypeName(EPracticeType.getDescByCode(info.getType())));
-            list.forEach(info -> info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus())));
+            list.forEach(info -> {
+                info.setTypeName(EPracticeType.getDescByCode(info.getType()));
+                info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus()));
+                if (info.getBeginTime() != null && !"".equals(info.getBeginTime())) {
+                    info.setBeginTime(info.getBeginTime().split(" ")[0]);
+                }
+                if (info.getEndTime() != null && !"".equals(info.getEndTime())) {
+                    info.setEndTime(info.getEndTime().split(" ")[0]);
+                }
+            });
             return new PageResponse<>(list.size(), list);
         }
 
         Page<PracticeInfo> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
         Page<PracticeInfo> list = practiceInfoDao.selectPage(page, queryWrapper);
         List<PracticeInfo> records = list.getRecords();
-        records.forEach(info -> info.setTypeName(EPracticeType.getDescByCode(info.getType())));
-        records.forEach(info -> info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus())));
+        records.forEach(info -> {
+            info.setTypeName(EPracticeType.getDescByCode(info.getType()));
+            info.setStatusName(EPracticeStatus.getDescByCode(info.getPracticeStatus()));
+            if (info.getBeginTime() != null && !"".equals(info.getBeginTime())) {
+                info.setBeginTime(info.getBeginTime().split(" ")[0]);
+            }
+            if (info.getEndTime() != null && !"".equals(info.getEndTime())) {
+                info.setEndTime(info.getEndTime().split(" ")[0]);
+            }
+        });
         return new PageResponse<>(list.getTotal(), records);
     }
 
