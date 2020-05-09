@@ -49,6 +49,8 @@ public class PracticeReport extends Model<PracticeReport> {
     @TableField(exist = false)
     private String studentName;
 
+    private String date;
+
     public String getStudentName() {
         return studentName;
     }
@@ -143,6 +145,14 @@ public class PracticeReport extends Model<PracticeReport> {
         return this.id;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "PracticeReport{" +
@@ -157,6 +167,7 @@ public class PracticeReport extends Model<PracticeReport> {
                 ", companyName='" + companyName + '\'' +
                 ", evaluationId=" + evaluationId +
                 ", studentName='" + studentName + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }
