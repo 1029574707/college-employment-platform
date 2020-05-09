@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.enums.EJobRecruitmentType;
 import com.zshnb.ballplatform.mapper.JobRecruitmentDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
@@ -77,11 +78,14 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
         eWrapper.or(ew -> ew.eq("publisherId", "0000"));
         if (pageQo.getPageSize() == -1) {
             List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(eWrapper);
+            jobRecruitments.forEach(jobRecruitment -> jobRecruitment.setTypeName(EJobRecruitmentType.getDescByCode(jobRecruitment.getType())));
             return new PageResponse<>(jobRecruitments.size(), jobRecruitments);
         }
         Page<JobRecruitment> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
         Page<JobRecruitment> jobRecruitmentPage = jobRecruitmentDao.selectPage(page, eWrapper);
-        return new PageResponse<>(jobRecruitmentPage.getTotal(), jobRecruitmentPage.getRecords());
+        List<JobRecruitment> records = jobRecruitmentPage.getRecords();
+        records.forEach(jobRecruitment -> jobRecruitment.setTypeName(EJobRecruitmentType.getDescByCode(jobRecruitment.getType())));
+        return new PageResponse<>(jobRecruitmentPage.getTotal(), records);
     }
 
     @Override
