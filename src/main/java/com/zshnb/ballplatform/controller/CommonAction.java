@@ -114,7 +114,12 @@ public class CommonAction {
                 userInfo.setUserType(0);
                 break;
             case 1:
-                UserTeacher teacher = teacherService.getTeacherById(loginQo.getId());
+                UserTeacher teacher;
+                try {
+                    teacher = teacherService.getTeacherById(loginQo.getId());
+                } catch (Exception e) {
+                    throw new RuntimeException("账号或密码错误");
+                }
                 if (teacher == null || !teacher.getPassword().equals(loginQo.getPassword())) {
                     throw new RuntimeException("账号或密码错误");
                 }
@@ -124,7 +129,12 @@ public class CommonAction {
                 userInfo.setUserType(1);
                 break;
             case 2:
-                UserStudent student = studentService.getStudentById(loginQo.getId());
+                UserStudent student;
+                try {
+                    student = studentService.getStudentById(loginQo.getId());
+                } catch (Exception e) {
+                    throw new RuntimeException("账号或密码错误");
+                }
                 if (student == null || !student.getPassword().equals(loginQo.getPassword())) {
                     throw new RuntimeException("账号或密码错误");
                 }
