@@ -75,7 +75,7 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
     public PageResponse<JobRecruitment> listTeacherJob(PageQo pageQo, String teacherId) {
         QueryWrapper<JobRecruitment> eWrapper = new QueryWrapper<>();
         eWrapper.eq("publisherId", teacherId);
-        eWrapper.or(ew -> ew.eq("publisherId", "0000"));
+        eWrapper.or(ew -> ew.eq("publisherId", "admin"));
         if (pageQo.getPageSize() == -1) {
             List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(eWrapper);
             jobRecruitments.forEach(jobRecruitment -> jobRecruitment.setTypeName(EJobRecruitmentType.getDescByCode(jobRecruitment.getType())));

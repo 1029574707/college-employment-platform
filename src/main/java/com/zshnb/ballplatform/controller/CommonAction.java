@@ -105,12 +105,12 @@ public class CommonAction {
         UserInfo userInfo = new UserInfo();
         switch (loginQo.getUserType()) {
             case 0:
-                if (!loginQo.getId().equals("0000") || !loginQo.getPassword().equals("123456")) {
+                if (!loginQo.getId().equals("admin") || !loginQo.getPassword().equals("admin")) {
                     throw new RuntimeException("账号或密码错误");
                 }
-                userInfo.setId("0000");
+                userInfo.setId("admin");
                 userInfo.setName("admin");
-                userInfo.setPassword("123456");
+                userInfo.setPassword("admin");
                 userInfo.setUserType(0);
                 break;
             case 1:
