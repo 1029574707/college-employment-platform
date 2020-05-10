@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.Evaluation;
+import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.zshnb.ballplatform.entity.PracticePlan;
 import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.enums.EEvaluationType;
 import com.zshnb.ballplatform.enums.EPlanType;
+import com.zshnb.ballplatform.enums.EPracticeType;
 import com.zshnb.ballplatform.mapper.EvaluationDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
 import com.zshnb.ballplatform.mapper.PracticePlanDao;
@@ -74,8 +76,10 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
         if (pageQo.getPageSize() == -1) {
             List<PracticePlan> list = practicePlanDao.selectList(wrapper);
             for (PracticePlan practicePlan : list) {
-                practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+                PracticeInfo practiceInfo = practiceInfoDao.selectById(practicePlan.getPracticeId());
+                practicePlan.setCompanyName(practiceInfo.getCompany());
                 practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+                practicePlan.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
                 if (practicePlan.getEvaluationId() != null) {
                     practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
                 }
@@ -87,8 +91,10 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
         Page<PracticePlan> list = practicePlanDao.selectPage(page, wrapper);
         List<PracticePlan> records = list.getRecords();
         for (PracticePlan practicePlan : records) {
-            practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+            PracticeInfo practiceInfo = practiceInfoDao.selectById(practicePlan.getPracticeId());
+            practicePlan.setCompanyName(practiceInfo.getCompany());
             practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+            practicePlan.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
             if (practicePlan.getEvaluationId() != null) {
                 practicePlan.setEvaluation(evaluationDao.selectById(practicePlan.getEvaluationId()).getContent());
             }
@@ -110,8 +116,10 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
         if (pageQo.getPageSize() == -1) {
             List<PracticePlan> list = practicePlanDao.selectList(wrapper);
             for (PracticePlan practicePlan : list) {
-                practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+                PracticeInfo practiceInfo = practiceInfoDao.selectById(practicePlan.getPracticeId());
+                practicePlan.setCompanyName(practiceInfo.getCompany());
                 practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+                practicePlan.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
                 UserStudent studentForPlan = userStudents.stream().filter(student -> student.getId().equals(practicePlan.getStudentId())).collect(Collectors.toList()).get(0);
                 practicePlan.setStudentName(studentForPlan.getName());
                 if (practicePlan.getEvaluationId() != null) {
@@ -125,8 +133,10 @@ public class PracticePlanServiceDiy extends ServiceImpl<PracticePlanDao, Practic
         Page<PracticePlan> list = practicePlanDao.selectPage(page, wrapper);
         List<PracticePlan> records = list.getRecords();
         for (PracticePlan practicePlan : records) {
-            practicePlan.setCompanyName(practiceInfoDao.selectById(practicePlan.getPracticeId()).getCompany());
+            PracticeInfo practiceInfo = practiceInfoDao.selectById(practicePlan.getPracticeId());
+            practicePlan.setCompanyName(practiceInfo.getCompany());
             practicePlan.setTypeName(EPlanType.getDescByCode(practicePlan.getType()));
+            practicePlan.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
             UserStudent studentForPlan = userStudents.stream().filter(student -> student.getId().equals(practicePlan.getStudentId())).collect(Collectors.toList()).get(0);
             practicePlan.setStudentName(studentForPlan.getName());
             if (practicePlan.getEvaluationId() != null) {

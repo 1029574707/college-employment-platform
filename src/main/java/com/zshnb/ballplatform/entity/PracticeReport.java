@@ -51,6 +51,17 @@ public class PracticeReport extends Model<PracticeReport> {
 
     private String date;
 
+    @TableField(exist = false)
+    private String practiceInfoType;
+
+    public String getPracticeInfoType() {
+        return practiceInfoType;
+    }
+
+    public void setPracticeInfoType(String practiceInfoType) {
+        this.practiceInfoType = practiceInfoType;
+    }
+
     public String getStudentName() {
         return studentName;
     }
@@ -168,6 +179,7 @@ public class PracticeReport extends Model<PracticeReport> {
                 ", evaluationId=" + evaluationId +
                 ", studentName='" + studentName + '\'' +
                 ", date='" + date + '\'' +
+                ", practiceInfoType='" + practiceInfoType + '\'' +
                 '}';
     }
 }

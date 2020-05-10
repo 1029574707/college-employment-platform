@@ -3,10 +3,9 @@ package com.zshnb.ballplatform.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zshnb.ballplatform.common.PageResponse;
-import com.zshnb.ballplatform.entity.PracticePlan;
+import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.entity.PracticeReport;
-import com.zshnb.ballplatform.entity.PracticeReport;
-import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.enums.EPracticeType;
 import com.zshnb.ballplatform.mapper.EvaluationDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
 import com.zshnb.ballplatform.mapper.PracticeReportDao;
@@ -74,7 +73,9 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
         if (pageQo.getPageSize() == -1) {
             List<PracticeReport> list = practiceReportDao.selectList(wrapper);
             for (PracticeReport report : list) {
-                report.setCompanyName(practiceInfoDao.selectById(report.getPracticeId()).getCompany());
+                PracticeInfo practiceInfo = practiceInfoDao.selectById(report.getPracticeId());
+                report.setCompanyName(practiceInfo.getCompany());
+                report.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
                 if (report.getEvaluationId() != null) {
                     report.setEvaluation(evaluationDao.selectById(report.getEvaluationId()).getContent());
                 }
@@ -86,7 +87,9 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
         Page<PracticeReport> list = practiceReportDao.selectPage(page, wrapper);
         List<PracticeReport> records = list.getRecords();
         for (PracticeReport report : records) {
-            report.setCompanyName(practiceInfoDao.selectById(report.getPracticeId()).getCompany());
+            PracticeInfo practiceInfo = practiceInfoDao.selectById(report.getPracticeId());
+            report.setCompanyName(practiceInfo.getCompany());
+            report.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
             if (report.getEvaluationId() != null) {
                 report.setEvaluation(evaluationDao.selectById(report.getEvaluationId()).getContent());
             }
@@ -108,7 +111,9 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
         if (pageQo.getPageSize() == -1) {
             List<PracticeReport> list = practiceReportDao.selectList(wrapper);
             for (PracticeReport report : list) {
-                report.setCompanyName(practiceInfoDao.selectById(report.getPracticeId()).getCompany());
+                PracticeInfo practiceInfo = practiceInfoDao.selectById(report.getPracticeId());
+                report.setCompanyName(practiceInfo.getCompany());
+                report.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
                 UserStudent studentForReport = userStudents.stream().filter(student -> student.getId().equals(report.getStudentId())).collect(Collectors.toList()).get(0);
                 report.setStudentName(studentForReport.getName());
                 if (report.getEvaluationId() != null) {
@@ -122,7 +127,9 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
         Page<PracticeReport> list = practiceReportDao.selectPage(page, wrapper);
         List<PracticeReport> records = list.getRecords();
         for (PracticeReport report : records) {
-            report.setCompanyName(practiceInfoDao.selectById(report.getPracticeId()).getCompany());
+            PracticeInfo practiceInfo = practiceInfoDao.selectById(report.getPracticeId());
+            report.setCompanyName(practiceInfo.getCompany());
+            report.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
             UserStudent studentForReport = userStudents.stream().filter(student -> student.getId().equals(report.getStudentId())).collect(Collectors.toList()).get(0);
             report.setStudentName(studentForReport.getName());
             if (report.getEvaluationId() != null) {

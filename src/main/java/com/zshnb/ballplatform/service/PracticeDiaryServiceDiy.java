@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.PracticeDiary;
+import com.zshnb.ballplatform.entity.PracticeInfo;
 import com.zshnb.ballplatform.entity.PracticePlan;
 import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.enums.EPlanType;
+import com.zshnb.ballplatform.enums.EPracticeType;
 import com.zshnb.ballplatform.mapper.EvaluationDao;
 import com.zshnb.ballplatform.mapper.PracticeDiaryDao;
 import com.zshnb.ballplatform.mapper.PracticeInfoDao;
@@ -73,7 +75,9 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
         if (pageQo.getPageSize() == -1) {
             List<PracticeDiary> list = practiceDiaryDao.selectList(wrapper);
             for (PracticeDiary diary : list) {
-                diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+                PracticeInfo practiceInfo = practiceInfoDao.selectById(diary.getPracticeId());
+                diary.setCompanyName(practiceInfo.getCompany());
+                diary.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
                 if (diary.getEvaluationId() != null) {
                     diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
                 }
@@ -85,7 +89,9 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
         Page<PracticeDiary> list = practiceDiaryDao.selectPage(page, wrapper);
         List<PracticeDiary> records = list.getRecords();
         for (PracticeDiary diary : records) {
-            diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+            PracticeInfo practiceInfo = practiceInfoDao.selectById(diary.getPracticeId());
+            diary.setCompanyName(practiceInfo.getCompany());
+            diary.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
             if (diary.getEvaluationId() != null) {
                 diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
             }
@@ -107,7 +113,9 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
         if (pageQo.getPageSize() == -1) {
             List<PracticeDiary> list = practiceDiaryDao.selectList(wrapper);
             for (PracticeDiary diary : list) {
-                diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+                PracticeInfo practiceInfo = practiceInfoDao.selectById(diary.getPracticeId());
+                diary.setCompanyName(practiceInfo.getCompany());
+                diary.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
                 UserStudent studentForDiary = userStudents.stream().filter(student -> student.getId().equals(diary.getStudentId())).collect(Collectors.toList()).get(0);
                 diary.setStudentName(studentForDiary.getName());
                 if (diary.getEvaluationId() != null) {
@@ -121,9 +129,11 @@ public class PracticeDiaryServiceDiy extends ServiceImpl<PracticeDiaryDao, Pract
         Page<PracticeDiary> list = practiceDiaryDao.selectPage(page, wrapper);
         List<PracticeDiary> records = list.getRecords();
         for (PracticeDiary diary : records) {
-            diary.setCompanyName(practiceInfoDao.selectById(diary.getPracticeId()).getCompany());
+            PracticeInfo practiceInfo = practiceInfoDao.selectById(diary.getPracticeId());
+            diary.setCompanyName(practiceInfo.getCompany());
             UserStudent studentForDiary = userStudents.stream().filter(student -> student.getId().equals(diary.getStudentId())).collect(Collectors.toList()).get(0);
             diary.setStudentName(studentForDiary.getName());
+            diary.setPracticeInfoType(EPracticeType.getDescByCode(practiceInfo.getType()));
             if (diary.getEvaluationId() != null) {
                 diary.setEvaluation(evaluationDao.selectById(diary.getEvaluationId()).getContent());
             }
