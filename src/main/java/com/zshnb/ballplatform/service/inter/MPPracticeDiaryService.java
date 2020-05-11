@@ -5,6 +5,7 @@ import com.zshnb.ballplatform.entity.PracticeDiary;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.entity.PracticePlan;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.PracticeInfoQo;
 
 /**
  * <p>
@@ -24,5 +25,5 @@ public interface MPPracticeDiaryService extends IService<PracticeDiary> {
 
     PageResponse<PracticeDiary> list(PageQo pageQo, String studentId);
 
-    PageResponse<PracticeDiary> teacherList(PageQo pageQo, String teacherId);
+    PageResponse<PracticeDiary> teacherList(PracticeInfoQo pageQo, String teacherId);
 }

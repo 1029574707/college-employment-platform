@@ -11,12 +11,14 @@ import com.zshnb.ballplatform.mapper.PracticeInfoDao;
 import com.zshnb.ballplatform.mapper.PracticeReportDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.PracticeInfoQo;
 import com.zshnb.ballplatform.service.inter.MPPracticeReportService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zshnb.ballplatform.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -98,15 +100,35 @@ public class PracticeReportServiceDiy extends ServiceImpl<PracticeReportDao, Pra
     }
 
     @Override
-    public PageResponse<PracticeReport> teacherList(PageQo pageQo, String teacherId) {
+    public PageResponse<PracticeReport> teacherList(PracticeInfoQo pageQo, String teacherId) {
 
+        // 学生姓名+教师id搜索学生列表先
         QueryWrapper<UserStudent> studentQueryWrapper = new QueryWrapper<>();
+        if (pageQo.getStudentName() != null && !"".equals(pageQo.getStudentName())) {
+            studentQueryWrapper.like("name", pageQo.getStudentName());
+        }
+
         studentQueryWrapper.eq("teacherId", teacherId);
         List<UserStudent> userStudents = studentDao.selectList(studentQueryWrapper);
         List<String> studentIdList = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+        if (studentIdList.size() == 0) {
+            return new PageResponse<>(0, new ArrayList<>());
+        }
 
         QueryWrapper<PracticeReport> wrapper = new QueryWrapper<>();
         wrapper.in("studentId", studentIdList);
+
+        // type
+        if (pageQo.getType() != null) {
+            QueryWrapper<PracticeInfo> infoQueryWrapper = new QueryWrapper<>();
+            infoQueryWrapper.eq("type", pageQo.getType());
+            List<PracticeInfo> practiceInfos = practiceInfoDao.selectList(infoQueryWrapper);
+            List<Integer> infoIds = practiceInfos.stream().map(PracticeInfo::getId).distinct().collect(Collectors.toList());
+            if (infoIds.size() == 0) {
+                return new PageResponse<>(0, new ArrayList<>());
+            }
+            wrapper.in("practiceId", infoIds);
+        }
 
         if (pageQo.getPageSize() == -1) {
             List<PracticeReport> list = practiceReportDao.selectList(wrapper);

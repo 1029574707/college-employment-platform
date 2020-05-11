@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.PracticeReport;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.PracticeInfoQo;
 
 /**
  * <p>
@@ -23,6 +24,6 @@ public interface MPPracticeReportService extends IService<PracticeReport> {
 
     PageResponse<PracticeReport> list(PageQo pageQo, String studentId);
 
-    PageResponse<PracticeReport> teacherList(PageQo pageQo, String teacherId);
+    PageResponse<PracticeReport> teacherList(PracticeInfoQo pageQo, String teacherId);
 
 }
