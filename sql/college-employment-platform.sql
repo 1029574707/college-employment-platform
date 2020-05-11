@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2020-05-08 23:44:46
+Date: 2020-05-11 23:04:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,7 +38,7 @@ CREATE TABLE `college` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of college
@@ -57,11 +57,12 @@ CREATE TABLE `evaluation` (
   `type` int(11) NOT NULL,
   `associateId` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of evaluation
 -- ----------------------------
+INSERT INTO `evaluation` VALUES ('1', '2020-05-09 09:22:47', '2020-05-09 09:25:16', 'after', '2', '2');
 
 -- ----------------------------
 -- Table structure for `job_info`
@@ -115,6 +116,8 @@ CREATE TABLE `job_recruitment` (
 -- ----------------------------
 -- Records of job_recruitment
 -- ----------------------------
+INSERT INTO `job_recruitment` VALUES ('1', '中电', '11', 'i', '12', null, '1', 'abc', '3000', 'ffg', '2020-05-09 21:36:55', '方法', 'admin', '2020-05-09 21:37:08', null);
+INSERT INTO `job_recruitment` VALUES ('2', '中电11', '1122', 'i', '12', null, '2', 'abc', '5000', 'ffg', '2020-05-09 21:36:55', '方法', '1', '2020-05-09 22:04:11', null);
 
 -- ----------------------------
 -- Table structure for `practice_diary`
@@ -135,7 +138,7 @@ CREATE TABLE `practice_diary` (
 -- ----------------------------
 -- Records of practice_diary
 -- ----------------------------
-INSERT INTO `practice_diary` VALUES ('2', 'hhhhhh', '1', '2020-05-08 23:36:39', '2020-05-08 23:37:42', '1', null, '2020-06-05');
+INSERT INTO `practice_diary` VALUES ('2', 'hhhhhh', '1', '2020-05-08 23:36:39', '2020-05-08 23:37:42', '1', '1', '2020-06-05');
 INSERT INTO `practice_diary` VALUES ('3', '111', '1', '2020-05-08 23:39:19', null, '1', null, '2020-09-08');
 
 -- ----------------------------
@@ -159,7 +162,7 @@ CREATE TABLE `practice_info` (
   `updateTime` datetime DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of practice_info
@@ -180,12 +183,14 @@ CREATE TABLE `practice_plan` (
   `practiceId` int(11) NOT NULL,
   `evaluationId` int(11) DEFAULT NULL,
   `type` tinyint(4) NOT NULL,
+  `date` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of practice_plan
 -- ----------------------------
+INSERT INTO `practice_plan` VALUES ('1', '1234', 'n那你爸爸', '1', '2020-05-10 23:31:29', null, '1', null, '1', null);
 
 -- ----------------------------
 -- Table structure for `practice_report`
@@ -200,12 +205,14 @@ CREATE TABLE `practice_report` (
   `updateTime` datetime DEFAULT NULL,
   `practiceId` int(11) NOT NULL,
   `evaluationId` int(11) DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of practice_report
 -- ----------------------------
+INSERT INTO `practice_report` VALUES ('1', 're', '很好的方法是的', '1', '2020-05-09 15:26:45', null, '1', '1', '2020-09-08');
 
 -- ----------------------------
 -- Table structure for `user_admin`
@@ -221,6 +228,7 @@ CREATE TABLE `user_admin` (
 -- ----------------------------
 -- Records of user_admin
 -- ----------------------------
+INSERT INTO `user_admin` VALUES ('admin', 'admin', 'admin');
 
 -- ----------------------------
 -- Table structure for `user_student`
