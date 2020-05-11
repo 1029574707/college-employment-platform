@@ -7,6 +7,7 @@ import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.entity.UserTeacher;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
+import com.zshnb.ballplatform.qo.RecruitmentQo;
 import com.zshnb.ballplatform.service.inter.*;
 import com.zshnb.ballplatform.vo.JobInfoStatistics;
 import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
@@ -43,7 +44,7 @@ public class UserAdminAction {
     private MPJobInfoService jobInfoService;
 
     @PostMapping("jobs")
-    public Response<PageResponse<JobRecruitment>> listJob(@RequestBody PageQo pageQo) {
+    public Response<PageResponse<JobRecruitment>> listJob(@RequestBody RecruitmentQo pageQo) {
         PageResponse<JobRecruitment> list = jobRecruitmentService.list(pageQo);
         return Response.ok(list);
     }

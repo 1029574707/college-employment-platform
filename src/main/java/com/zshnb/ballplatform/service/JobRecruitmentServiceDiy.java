@@ -10,6 +10,7 @@ import com.zshnb.ballplatform.enums.EJobRecruitmentType;
 import com.zshnb.ballplatform.mapper.JobRecruitmentDao;
 import com.zshnb.ballplatform.mapper.UserStudentDao;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.RecruitmentQo;
 import com.zshnb.ballplatform.service.inter.MPJobRecruitmentService;
 import com.zshnb.ballplatform.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,21 +62,45 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
     }
 
     @Override
-    public PageResponse<JobRecruitment> list(PageQo pageQo) {
+    public PageResponse<JobRecruitment> list(RecruitmentQo pageQo) {
+        QueryWrapper<JobRecruitment> queryWrapper = new QueryWrapper<>();
+        if (pageQo.getType() != null) {
+            queryWrapper.eq("type", pageQo.getType());
+        }
+        if (pageQo.getMinSalary() != null) {
+            queryWrapper.ge("salary", pageQo.getMinSalary());
+        }
+        if (pageQo.getMaxSalary() != null) {
+            queryWrapper.le("salary", pageQo.getMaxSalary());
+        }
         if (pageQo.getPageSize() == -1) {
-            List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(null);
+            List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(queryWrapper);
+            jobRecruitments.forEach(jobRecruitment -> jobRecruitment.setTypeName(EJobRecruitmentType.getDescByCode(jobRecruitment.getType())));
             return new PageResponse<>(jobRecruitments.size(), jobRecruitments);
         }
         Page<JobRecruitment> page = new Page<>(pageQo.getPageNo(), pageQo.getPageSize());
-        Page<JobRecruitment> jobRecruitmentPage = jobRecruitmentDao.selectPage(page, null);
-        return new PageResponse<>(jobRecruitmentPage.getTotal(), jobRecruitmentPage.getRecords());
+        Page<JobRecruitment> jobRecruitmentPage = jobRecruitmentDao.selectPage(page, queryWrapper);
+        List<JobRecruitment> records = jobRecruitmentPage.getRecords();
+        records.forEach(jobRecruitment -> jobRecruitment.setTypeName(EJobRecruitmentType.getDescByCode(jobRecruitment.getType())));
+        return new PageResponse<>(jobRecruitmentPage.getTotal(), records);
     }
 
     @Override
-    public PageResponse<JobRecruitment> listTeacherJob(PageQo pageQo, String teacherId) {
+    public PageResponse<JobRecruitment> listTeacherJob(RecruitmentQo pageQo, String teacherId) {
         QueryWrapper<JobRecruitment> eWrapper = new QueryWrapper<>();
         eWrapper.eq("publisherId", teacherId);
         eWrapper.or(ew -> ew.eq("publisherId", "admin"));
+
+        if (pageQo.getType() != null) {
+            eWrapper.eq("type", pageQo.getType());
+        }
+        if (pageQo.getMinSalary() != null) {
+            eWrapper.ge("salary", pageQo.getMinSalary());
+        }
+        if (pageQo.getMaxSalary() != null) {
+            eWrapper.le("salary", pageQo.getMaxSalary());
+        }
+
         if (pageQo.getPageSize() == -1) {
             List<JobRecruitment> jobRecruitments = jobRecruitmentDao.selectList(eWrapper);
             jobRecruitments.forEach(jobRecruitment -> jobRecruitment.setTypeName(EJobRecruitmentType.getDescByCode(jobRecruitment.getType())));
@@ -89,7 +114,7 @@ public class JobRecruitmentServiceDiy extends ServiceImpl<JobRecruitmentDao, Job
     }
 
     @Override
-    public PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId) {
+    public PageResponse<JobRecruitment> listStudentJob(RecruitmentQo pageQo, String studentId) {
         UserStudent student = studentDao.selectById(studentId);
         return listTeacherJob(pageQo, student.getTeacherId());
     }

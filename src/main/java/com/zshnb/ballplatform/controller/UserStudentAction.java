@@ -6,6 +6,7 @@ import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.common.Response;
 import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.RecruitmentQo;
 import com.zshnb.ballplatform.service.inter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,7 @@ public class UserStudentAction {
     }
 
     @PostMapping("/{studentId}/job/recruitments")
-    public Response<PageResponse<JobRecruitment>> listJobRecruitment(@PathVariable String studentId, @RequestBody PageQo pageQo) {
+    public Response<PageResponse<JobRecruitment>> listJobRecruitment(@PathVariable String studentId, @RequestBody RecruitmentQo pageQo) {
         PageResponse<JobRecruitment> list = jobRecruitmentService.listStudentJob(pageQo, studentId);
         return Response.ok(list);
     }

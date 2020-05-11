@@ -8,6 +8,7 @@ import com.zshnb.ballplatform.entity.*;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.PracticeInfoQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
+import com.zshnb.ballplatform.qo.RecruitmentQo;
 import com.zshnb.ballplatform.service.inter.*;
 import com.zshnb.ballplatform.vo.JobInfoStatistics;
 import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
@@ -65,7 +66,7 @@ public class UserTeacherAction {
     }
 
     @PostMapping("{id}/jobs")
-    public Response<PageResponse<JobRecruitment>> listJob(@PathVariable String id, @RequestBody PageQo pageQo) {
+    public Response<PageResponse<JobRecruitment>> listJob(@PathVariable String id, @RequestBody RecruitmentQo pageQo) {
         PageResponse<JobRecruitment> list = jobRecruitmentService.listTeacherJob(pageQo, id);
         return Response.ok(list);
     }

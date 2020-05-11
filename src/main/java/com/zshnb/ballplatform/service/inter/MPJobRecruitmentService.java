@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.common.PageResponse;
 import com.zshnb.ballplatform.entity.JobRecruitment;
 import com.zshnb.ballplatform.qo.PageQo;
+import com.zshnb.ballplatform.qo.RecruitmentQo;
 
 /**
  * <p>
@@ -29,7 +30,7 @@ public interface MPJobRecruitmentService extends IService<JobRecruitment> {
      * @param pageQo 分页信息
      * @return 招聘信息列表
      */
-    PageResponse<JobRecruitment> list(PageQo pageQo);
+    PageResponse<JobRecruitment> list(RecruitmentQo pageQo);
 
     /**
      * 导师查看招聘列表
@@ -38,7 +39,7 @@ public interface MPJobRecruitmentService extends IService<JobRecruitment> {
      * @param teacherId 学生学号
      * @return 招聘信息列表
      */
-    PageResponse<JobRecruitment> listTeacherJob(PageQo pageQo, String teacherId);
+    PageResponse<JobRecruitment> listTeacherJob(RecruitmentQo pageQo, String teacherId);
 
     /**
      * 学生查看企业招聘信息
@@ -47,5 +48,5 @@ public interface MPJobRecruitmentService extends IService<JobRecruitment> {
      * @param studentId 学生学号
      * @return 招聘信息列表
      */
-    PageResponse<JobRecruitment> listStudentJob(PageQo pageQo, String studentId);
+    PageResponse<JobRecruitment> listStudentJob(RecruitmentQo pageQo, String studentId);
 }
