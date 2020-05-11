@@ -35,6 +35,6 @@ public class ImageUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "upload/" + fileName;
+        return fileName;
     }
 }

@@ -3,7 +3,7 @@ spring:
     multipart:
       max-file-size: 10MB
   file:
-    upload-dir: ./upload-img
+    upload-dir: upload-img
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/college-employment-platform?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
@@ -15,6 +15,8 @@ spring:
       idle-timeout: 5000
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${spring.file.upload-dir}
 
 mybatis-plus:
   configuration:
