@@ -205,3 +205,58 @@ POST
 导师招聘上传图片
 POST
 /teacher/{jobId}/img
+
+
+========== 2020-05-11 更新记录 ===========
+1. sql语句更新，practicePlan和practiceReport表的date字段改为非必填；
+2. 图片可直接通过ip:port+返回的路径查看；
+3. 查看实习日记、计划、报告接口：
+    POST
+    student/{studentId}/practice/plans
+
+    POST
+    student/{studentId}/practice/diaries
+
+    POST
+    student/{studentId}/practice/reports
+
+    POST
+    teacher/{teacherId}/practice/plans
+
+    POST
+    teacher/{studentId}/practice/diaries
+
+    POST
+    teacher/{studentId}/practice/reports
+
+    返回参数在原有参数的基础上增加字段：
+        practiceInfoType（String，必填，对应实习信息的类型）
+
+4. 老师查看学生计划、日记、报告接口：
+    POST
+    /teacher/{teacherId}/practice/plans
+
+    POST
+    /teacher/{teacherId}/practice/diaries
+
+    POST
+    /teacher/{teacherId}/practice/reports
+
+    请求参数在原有基础上增加字段：
+        studentName（String，非必填，学生姓名）
+        type（Integer，非必填，实习类型）
+
+5. 学生、老师、管理员查看招聘列表接口：
+    POST
+    /student/{studentId}/job/recruitments
+
+    POST
+    /teacher/{id}/jobs
+
+    POST
+    /admin/jobs
+
+    请求参数在原有基础上增加字段：
+         type（Integer，非必填，招聘类型）
+         minSalary（Integer，非必填，最低薪资，包含）
+         maxSalary（Integer，非必填，最高薪资，包含）
