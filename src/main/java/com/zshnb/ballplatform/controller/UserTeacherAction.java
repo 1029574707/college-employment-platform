@@ -10,12 +10,13 @@ import com.zshnb.ballplatform.qo.PracticeInfoQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.qo.RecruitmentQo;
 import com.zshnb.ballplatform.service.inter.*;
-import com.zshnb.ballplatform.vo.JobInfoStatistics;
-import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
-import com.zshnb.ballplatform.vo.StatisticsVo;
-import com.zshnb.ballplatform.vo.StudentInfo;
+import com.zshnb.ballplatform.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -52,6 +53,9 @@ public class UserTeacherAction {
 
     @Autowired
     private MPJobInfoService jobInfoService;
+
+    @Autowired
+    private MPUserTeacherService teacherService;
 
     @PostMapping("{id}/job")
     public Response<String> addJob(@PathVariable String id, @RequestBody JobRecruitment jobRecruitment) {
@@ -134,5 +138,17 @@ public class UserTeacherAction {
         JobInfoStatistics jobInfoStatistics = jobInfoService.statistics(id);
         statisticsVo.setJobInfoStatistics(jobInfoStatistics);
         return Response.ok(statisticsVo);
+    }
+
+    @GetMapping("/{id}/class/statistics")
+    public Response<List<ClassStatisticsVo>> classStatistics(@PathVariable String id, @RequestParam Integer classId) {
+        if (classId == null) {
+            UserTeacher teacher = teacherService.getTeacherById(id);
+            int collegeId = teacher.getCollegeId();
+            return Response.ok(studentService.collegeStudentsStatistics(collegeId));
+        } else {
+            ClassStatisticsVo statisticsVo = studentService.classStudentStatistics(id, classId);
+            return Response.ok(Collections.singletonList(statisticsVo));
+        }
     }
 }

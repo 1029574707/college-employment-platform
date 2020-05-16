@@ -2,10 +2,15 @@ package com.zshnb.ballplatform.service.inter;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zshnb.ballplatform.common.PageResponse;
+import com.zshnb.ballplatform.entity.College;
 import com.zshnb.ballplatform.entity.UserStudent;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
+import com.zshnb.ballplatform.vo.ClassStatisticsVo;
+import com.zshnb.ballplatform.vo.CollegeStatisticsVo;
 import com.zshnb.ballplatform.vo.StudentInfo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -43,4 +48,16 @@ public interface MPUserStudentService extends IService<UserStudent> {
     PageResponse<StudentInfo> listStudentInfo(String teacherId, QueryStudentQo studentQo);
 
     PageResponse<StudentInfo> listStudentInfo(QueryStudentQo studentQo);
+
+    /**
+     * 查看班级统计
+     *
+     * @param classId 班级id
+     * @return 班级统计信息
+     */
+    ClassStatisticsVo classStudentStatistics(String teacherId, int classId);
+
+    List<CollegeStatisticsVo> schoolStatistics();
+
+    List<ClassStatisticsVo> collegeStudentsStatistics(int collegeId);
 }

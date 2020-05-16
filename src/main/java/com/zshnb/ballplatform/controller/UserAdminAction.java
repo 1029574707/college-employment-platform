@@ -9,12 +9,11 @@ import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.qo.RecruitmentQo;
 import com.zshnb.ballplatform.service.inter.*;
-import com.zshnb.ballplatform.vo.JobInfoStatistics;
-import com.zshnb.ballplatform.vo.PracticeInfoStatistics;
-import com.zshnb.ballplatform.vo.StatisticsVo;
-import com.zshnb.ballplatform.vo.StudentInfo;
+import com.zshnb.ballplatform.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -88,5 +87,15 @@ public class UserAdminAction {
         JobInfoStatistics jobInfoStatistics = jobInfoService.statistics();
         statisticsVo.setJobInfoStatistics(jobInfoStatistics);
         return Response.ok(statisticsVo);
+    }
+
+    @GetMapping("/school/statistics")
+    public Response<List<CollegeStatisticsVo>> schoolStatistics() {
+        return Response.ok(studentService.schoolStatistics());
+    }
+
+    @GetMapping("/college/{collegeId}/statistics")
+    public Response<List<ClassStatisticsVo>> collegeStatistics(@PathVariable int collegeId) {
+        return Response.ok(studentService.collegeStudentsStatistics(collegeId));
     }
 }

@@ -1,25 +1,22 @@
 package com.zshnb.ballplatform.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.xml.internal.ws.api.addressing.AddressingVersion;
 import com.zshnb.ballplatform.common.PageResponse;
-import com.zshnb.ballplatform.entity.JobInfo;
-import com.zshnb.ballplatform.entity.PracticeInfo;
-import com.zshnb.ballplatform.entity.UserStudent;
+import com.zshnb.ballplatform.entity.*;
+import com.zshnb.ballplatform.entity.Class;
 import com.zshnb.ballplatform.enums.EPracticeStatus;
-import com.zshnb.ballplatform.mapper.ClassDao;
-import com.zshnb.ballplatform.mapper.CollegeDao;
-import com.zshnb.ballplatform.mapper.UserStudentDao;
-import com.zshnb.ballplatform.mapper.UserTeacherDao;
+import com.zshnb.ballplatform.mapper.*;
 import com.zshnb.ballplatform.qo.PageQo;
 import com.zshnb.ballplatform.qo.QueryStudentQo;
 import com.zshnb.ballplatform.service.inter.MPJobInfoService;
 import com.zshnb.ballplatform.service.inter.MPPracticeInfoService;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
+import com.zshnb.ballplatform.vo.ClassStatisticsVo;
+import com.zshnb.ballplatform.vo.CollegeStatisticsVo;
 import com.zshnb.ballplatform.vo.StudentInfo;
+import net.sf.jsqlparser.util.cnfexpression.CNFConverter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +53,12 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
 
     @Autowired
     private MPJobInfoService jobInfoService;
+
+    @Autowired
+    private JobInfoDao jobInfoDao;
+
+    @Autowired
+    private PracticeInfoDao practiceInfoDao;
 
     @Override
     public void addStudent(UserStudent student) {
@@ -331,5 +334,116 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
             studentInfoList.add(studentInfo);
         }
         return new PageResponse<>(list.getTotal(), studentInfoList);
+    }
+
+    @Override
+    public ClassStatisticsVo classStudentStatistics(String teacherId, int classId) {
+        ClassStatisticsVo statisticsVo = new ClassStatisticsVo();
+
+        Class aClass = classDao.selectById(classId);
+        String className = aClass.getName();
+        statisticsVo.setClassName(className);
+
+        QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+        studentWrapper.eq("teacherId", teacherId);
+        studentWrapper.eq("classId", classId);
+        List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+        if (userStudents.size() == 0) {
+            return statisticsVo;
+        }
+        statisticsVo.setStudentCount(userStudents.size());
+
+        List<String> studentIds = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+        QueryWrapper<JobInfo> jobInfoWrapper = new QueryWrapper<>();
+        jobInfoWrapper.in("studentId", studentIds);
+        List<String> jobStudentIds = jobInfoDao.selectList(jobInfoWrapper).stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+        statisticsVo.setJobStudentCount(jobStudentIds.size());
+        statisticsVo.setJobPercent((String.format("%.2f", (float) jobStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+
+        QueryWrapper<PracticeInfo> practiceQueryWrapper = new QueryWrapper<>();
+        practiceQueryWrapper.in("practiceStatus", EPracticeStatus.STATUS_DOING.statusCode, EPracticeStatus.STATUS_END.statusCode);
+        practiceQueryWrapper.in("studentId", studentIds);
+        List<String> practiceStudentIds = practiceInfoDao.selectList(practiceQueryWrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+        statisticsVo.setPracticeStudentCount(practiceStudentIds.size());
+        statisticsVo.setPracticePercent((String.format("%.2f", (float) practiceStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+
+        return statisticsVo;
+    }
+
+    @Override
+    public List<CollegeStatisticsVo> schoolStatistics() {
+        List<CollegeStatisticsVo> results = new ArrayList<>();
+        List<College> colleges = collegeDao.selectList(null);
+        for (College college : colleges) {
+            CollegeStatisticsVo statisticsVo = new CollegeStatisticsVo();
+            statisticsVo.setCollegeName(college.getName());
+            results.add(statisticsVo);
+
+            QueryWrapper<Class> classWrapper = new QueryWrapper<>();
+            classWrapper.eq("collegeId", college.getId());
+            List<Class> classes = classDao.selectList(classWrapper);
+            statisticsVo.setClassCount(classes.size());
+
+            QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+            studentWrapper.eq("collegeId", college.getId());
+            List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+            if (userStudents.size() == 0) {
+                continue;
+            }
+            statisticsVo.setStudentCount(userStudents.size());
+
+            List<String> studentIds = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+            QueryWrapper<JobInfo> jobInfoWrapper = new QueryWrapper<>();
+            jobInfoWrapper.in("studentId", studentIds);
+            List<String> jobStudentIds = jobInfoDao.selectList(jobInfoWrapper).stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+            statisticsVo.setJobStudentCount(jobStudentIds.size());
+            statisticsVo.setJobPercent((String.format("%.2f", (float) jobStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+
+            QueryWrapper<PracticeInfo> practiceQueryWrapper = new QueryWrapper<>();
+            practiceQueryWrapper.in("practiceStatus", EPracticeStatus.STATUS_DOING.statusCode, EPracticeStatus.STATUS_END.statusCode);
+            practiceQueryWrapper.in("studentId", studentIds);
+            List<String> practiceStudentIds = practiceInfoDao.selectList(practiceQueryWrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+            statisticsVo.setPracticeStudentCount(practiceStudentIds.size());
+            statisticsVo.setPracticePercent((String.format("%.2f", (float) practiceStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+
+        }
+        return results;
+    }
+
+    @Override
+    public List<ClassStatisticsVo> collegeStudentsStatistics(int collegeId) {
+        List<ClassStatisticsVo> results = new ArrayList<>();
+        QueryWrapper<Class> classWrapper = new QueryWrapper<>();
+        classWrapper.eq("collegeId", collegeId);
+        List<Class> classes = classDao.selectList(classWrapper);
+        for (Class aClass : classes) {
+            ClassStatisticsVo statisticsVo = new ClassStatisticsVo();
+            statisticsVo.setClassName(aClass.getName());
+
+            results.add(statisticsVo);
+
+            QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+            studentWrapper.eq("classId", aClass.getId());
+            List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+            if (userStudents.size() == 0) {
+                continue;
+            }
+            statisticsVo.setStudentCount(userStudents.size());
+
+            List<String> studentIds = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+            QueryWrapper<JobInfo> jobInfoWrapper = new QueryWrapper<>();
+            jobInfoWrapper.in("studentId", studentIds);
+            List<String> jobStudentIds = jobInfoDao.selectList(jobInfoWrapper).stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+            statisticsVo.setJobStudentCount(jobStudentIds.size());
+            statisticsVo.setJobPercent((String.format("%.2f", (float) jobStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+
+            QueryWrapper<PracticeInfo> practiceQueryWrapper = new QueryWrapper<>();
+            practiceQueryWrapper.in("practiceStatus", EPracticeStatus.STATUS_DOING.statusCode, EPracticeStatus.STATUS_END.statusCode);
+            practiceQueryWrapper.in("studentId", studentIds);
+            List<String> practiceStudentIds = practiceInfoDao.selectList(practiceQueryWrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+            statisticsVo.setPracticeStudentCount(practiceStudentIds.size());
+            statisticsVo.setPracticePercent((String.format("%.2f", (float) practiceStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+        }
+        return results;
     }
 }
