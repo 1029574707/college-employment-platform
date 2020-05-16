@@ -314,6 +314,13 @@ POST
 		{...}
 	]
 
+4. GET
+	/admin/statistics?collegeId=
+	修改：增加collegeId的requestParam，选定了学院就填入学院id
+	
+5. GET
+	/teacher/{id}/statistics?classId=
+	修改：增加classId的requestParam，选定了班级就填入班级id
 
 
 
