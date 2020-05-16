@@ -131,11 +131,11 @@ public class UserTeacherAction {
     }
 
     @GetMapping("/{id}/statistics")
-    public Response<StatisticsVo> statistics(@PathVariable String id) {
+    public Response<StatisticsVo> statistics(@PathVariable String id, @RequestParam Integer classId) {
         StatisticsVo statisticsVo = new StatisticsVo();
-        PracticeInfoStatistics practiceInfoStatistics = practiceInfoService.statistics(id);
+        PracticeInfoStatistics practiceInfoStatistics = practiceInfoService.statistics(id, classId);
         statisticsVo.setPracticeInfoStatistics(practiceInfoStatistics);
-        JobInfoStatistics jobInfoStatistics = jobInfoService.statistics(id);
+        JobInfoStatistics jobInfoStatistics = jobInfoService.statistics(id, classId);
         statisticsVo.setJobInfoStatistics(jobInfoStatistics);
         return Response.ok(statisticsVo);
     }

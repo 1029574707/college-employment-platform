@@ -87,18 +87,35 @@ public class JobInfoServiceDiy extends ServiceImpl<JobInfoDao, JobInfo> implemen
     }
 
     @Override
-    public JobInfoStatistics statistics() {
+    public JobInfoStatistics statistics(Integer collegeId) {
         JobInfoStatistics statistics = new JobInfoStatistics();
-        statistics.setHasJobCount(listAllStudentId().size());
-        statistics.setNoJobCount(studentDao.selectList(null).size() - statistics.getHasJobCount());
+        QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+        if (collegeId != null) {
+            studentWrapper.eq("collegeId", collegeId);
+        }
+        List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+        if (userStudents.size() == 0) {
+            return statistics;
+        }
+        List<String> studentIds = userStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
+
+        QueryWrapper<JobInfo> jobWrapper = new QueryWrapper<>();
+        jobWrapper.in("studentId", studentIds);
+
+        List<JobInfo> jobInfos = jobInfoDao.selectList(jobWrapper);
+        statistics.setHasJobCount((int) jobInfos.stream().map(JobInfo::getStudentId).distinct().count());
+        statistics.setNoJobCount(studentIds.size() - statistics.getHasJobCount());
         return statistics;
     }
 
     @Override
-    public JobInfoStatistics statistics(String teacherId) {
+    public JobInfoStatistics statistics(String teacherId, Integer classId) {
         JobInfoStatistics jobInfoStatistics = new JobInfoStatistics();
         QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
         studentWrapper.eq("teacherId", teacherId);
+        if (classId != null) {
+            studentWrapper.eq("classId", classId);
+        }
         List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
         if (userStudents.size() == 0) {
             return jobInfoStatistics;

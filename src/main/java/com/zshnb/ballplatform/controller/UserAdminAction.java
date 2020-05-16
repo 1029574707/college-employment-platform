@@ -80,11 +80,11 @@ public class UserAdminAction {
     }
 
     @GetMapping("/statistics")
-    public Response<StatisticsVo> statistics() {
+    public Response<StatisticsVo> statistics(@RequestParam Integer collegeId) {
         StatisticsVo statisticsVo = new StatisticsVo();
-        PracticeInfoStatistics practiceInfoStatistics = practiceInfoService.statistics();
+        PracticeInfoStatistics practiceInfoStatistics = practiceInfoService.statistics(collegeId);
         statisticsVo.setPracticeInfoStatistics(practiceInfoStatistics);
-        JobInfoStatistics jobInfoStatistics = jobInfoService.statistics();
+        JobInfoStatistics jobInfoStatistics = jobInfoService.statistics(collegeId);
         statisticsVo.setJobInfoStatistics(jobInfoStatistics);
         return Response.ok(statisticsVo);
     }

@@ -134,10 +134,25 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
     }
 
     @Override
-    public PracticeInfoStatistics statistics() {
+    public PracticeInfoStatistics statistics(Integer collegeId) {
         PracticeInfoStatistics statistics = new PracticeInfoStatistics();
+
+        QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+        if (collegeId != null) {
+            studentWrapper.eq("collegeId", collegeId);
+        }
+        List<UserStudent> allStudents = studentDao.selectList(studentWrapper);
+        if (allStudents.size() == 0) {
+            return statistics;
+        }
+        List<String> allStudentIds = allStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
+
         // 实习中
-        List<String> practicingStudents = listStudentId(EPracticeStatus.STATUS_DOING.statusCode);
+        QueryWrapper<PracticeInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("practiceStatus", EPracticeStatus.STATUS_DOING.statusCode);
+        queryWrapper.in("studentId", allStudentIds);
+        List<PracticeInfo> list = practiceInfoDao.selectList(queryWrapper);
+        List<String> practicingStudents = list.stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
         statistics.setPracticingCount(practicingStudents.size());
 
         // 结束实习
@@ -146,33 +161,40 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         if (practicingStudents.size() != 0) {
             wrapper.notIn("studentId", practicingStudents);
         }
+        wrapper.in("studentId", allStudentIds);
         List<String> donePracticeStudents = practiceInfoDao.selectList(wrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
         statistics.setDonePracticeCount(donePracticeStudents.size());
 
         // 未实习
-        List<UserStudent> userStudents = studentDao.selectList(null);
-        List<String> allStudents = userStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
-        // 未实习包括未统计的人数
-        int unDocumentStudents = allStudents.size() - listAllStudentId().size();
-        // 未实习还包括状态是只有未实习的人
-        wrapper = new QueryWrapper<>();
-        wrapper.eq("practiceStatus", EPracticeStatus.STATUS_NOT_BEGIN.statusCode);
-        if (practicingStudents.size() != 0) {
-            wrapper.notIn("studentId", practicingStudents);
-        }
-        if (donePracticeStudents.size() != 0) {
-            wrapper.notIn("studentId", donePracticeStudents);
-        }
-        List<String> notPracticeStudents = practiceInfoDao.selectList(wrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
-        statistics.setNotPracticeCount(unDocumentStudents + notPracticeStudents.size());
+        // List<UserStudent> userStudents = studentDao.selectList(null);
+        // List<String> allStudents = userStudents.stream().map(UserStudent::getId).distinct().collect(Collectors.toList());
+        // // 未实习包括未统计的人数
+        // int unDocumentStudents = allStudents.size() - listAllStudentId().size();
+        // // 未实习还包括状态是只有未实习的人
+        // wrapper = new QueryWrapper<>();
+        // wrapper.eq("practiceStatus", EPracticeStatus.STATUS_NOT_BEGIN.statusCode);
+        // if (practicingStudents.size() != 0) {
+        //     wrapper.notIn("studentId", practicingStudents);
+        // }
+        // if (donePracticeStudents.size() != 0) {
+        //     wrapper.notIn("studentId", donePracticeStudents);
+        // }
+        // List<String> notPracticeStudents = practiceInfoDao.selectList(wrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+        // statistics.setNotPracticeCount(unDocumentStudents + notPracticeStudents.size());
+        // 未实习
+        statistics.setNotPracticeCount(allStudents.size() - practicingStudents.size() - donePracticeStudents.size());
         return statistics;
     }
 
     @Override
-    public PracticeInfoStatistics statistics(String teacherId) {
+    public PracticeInfoStatistics statistics(String teacherId, Integer classId) {
+
         PracticeInfoStatistics statistics = new PracticeInfoStatistics();
         QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
         studentWrapper.eq("teacherId", teacherId);
+        if (classId != null) {
+            studentWrapper.eq("classId", classId);
+        }
         List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
         if (userStudents.size() == 0) {
             return statistics;
@@ -193,6 +215,7 @@ public class PracticeInfoServiceDiy extends ServiceImpl<PracticeInfoDao, Practic
         if (practicingInfos.size() != 0) {
             infoQueryWrapper.notIn("studentId", practicingStudents);
         }
+        infoQueryWrapper.in("studentId", studentIds);
         List<String> donePracticeStudents = practiceInfoDao.selectList(infoQueryWrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
         statistics.setDonePracticeCount(donePracticeStudents.size());
 
