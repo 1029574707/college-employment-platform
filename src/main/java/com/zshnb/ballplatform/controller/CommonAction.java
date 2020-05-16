@@ -15,14 +15,25 @@ import com.zshnb.ballplatform.service.inter.MPClassService;
 import com.zshnb.ballplatform.service.inter.MPCollegeService;
 import com.zshnb.ballplatform.service.inter.MPUserStudentService;
 import com.zshnb.ballplatform.service.inter.MPUserTeacherService;
+import com.zshnb.ballplatform.utils.ExportExcelUtils;
 import com.zshnb.ballplatform.utils.ImageUtils;
+import com.zshnb.ballplatform.vo.ClassStatisticsVo;
+import com.zshnb.ballplatform.vo.CollegeStatisticsVo;
 import com.zshnb.ballplatform.vo.UserInfo;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * CreateDate：2020/5/3 <br/>
@@ -165,5 +176,57 @@ public class CommonAction {
     public Response<String> uploadImg(@RequestParam MultipartFile file) {
         String fileName = imageUtils.uploadImg(file);
         return Response.ok(fileName);
+    }
+
+    @PostMapping("/export/college")
+    public void exportCollegeFile(@RequestBody List<CollegeStatisticsVo> statisticsVos, HttpServletResponse response) {
+        XSSFWorkbook wb;
+        ServletOutputStream outputStream = null;
+        try {
+            wb = ExportExcelUtils.exportCollege(statisticsVos);
+            //导出文件名称
+            String exportFileName = "学院就业情况统计";
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + exportFileName + ".xlsx");
+            response.setCharacterEncoding("UTF-8");
+            outputStream = response.getOutputStream();
+            wb.write(outputStream);
+        } catch (Exception e) {
+            throw new RuntimeException("导出文件失败");
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @PostMapping("/export/class")
+    public void exportClassFile(@RequestBody List<ClassStatisticsVo> statisticsVos, HttpServletResponse response) {
+        XSSFWorkbook wb;
+        ServletOutputStream outputStream = null;
+        try {
+            wb = ExportExcelUtils.exportClass(statisticsVos);
+            //导出文件名称
+            String exportFileName = "班级就业情况统计";
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + exportFileName + ".xlsx");
+            response.setCharacterEncoding("UTF-8");
+            outputStream = response.getOutputStream();
+            wb.write(outputStream);
+        } catch (Exception e) {
+            throw new RuntimeException("导出文件失败");
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

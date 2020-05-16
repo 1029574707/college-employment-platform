@@ -322,5 +322,9 @@ POST
 	/teacher/{id}/statistics?classId=
 	修改：增加classId的requestParam，选定了班级就填入班级id
 
-
+6. POST
+    /common/export/college
+   POST
+    /common/export/class
+    这两个接口对应按学院和按班级导出，需要参数与今日新增接口1/2/3的返回值相同
 
