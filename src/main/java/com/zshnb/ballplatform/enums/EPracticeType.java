@@ -8,7 +8,7 @@ package com.zshnb.ballplatform.enums;
 public enum EPracticeType {
 
     PRACTICE_TYPE_PROFESSION(1, "专业实习"),
-    PRACTICE_TYPE_JOB(2, "就业实习");
+    PRACTICE_TYPE_JOB(2, "毕业实习");
 
     private int typeCode;
     private String desc;
