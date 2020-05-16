@@ -260,3 +260,60 @@ POST
          type（Integer，非必填，招聘类型）
          minSalary（Integer，非必填，最低薪资，包含）
          maxSalary（Integer，非必填，最高薪资，包含）
+		 
+		 
+		 
+		 
+============= 2020/05/16 更新内容 ==================
+1. GET
+	/admin/school/statistics
+	管理员查看全校统计，每个学院为一行
+	返回值：
+	[
+		{
+		  "collegeName": "",
+		  "classCount": 0,
+		  "studentCount": 0,
+		  "jobStudentCount": 0,
+		  "jobPercent": "",
+		  "practiceStudentCount": 0,
+		  "practicePercent": ""
+		},
+		{...}
+	]
+
+2. GET
+	/admin/college/{collegeId}/statistics
+	管理员查看某个学院的统计，前端通过下拉框选择某个学院，调用该接口，每个班级为一行
+	返回值：
+	[
+		{
+		  "className": "",
+		  "studentCount": 0,
+		  "jobStudentCount": 0,
+		  "jobPercent": "",
+		  "practiceStudentCount": 0,
+		  "practicePercent": ""
+		},
+		{...}
+	]
+
+3. GET
+	/teacher/{id}/class/statistics?classId=
+	导师查看统计，每个班级为一行，只查看有自己学生的班级和自己学生的状态；当选定某一班级时，classId为选定的班级id
+	返回值：
+	[
+		{
+		  "className": "",
+		  "studentCount": 0,
+		  "jobStudentCount": 0,
+		  "jobPercent": "",
+		  "practiceStudentCount": 0,
+		  "practicePercent": ""
+		},
+		{...}
+	]
+
+
+
+
