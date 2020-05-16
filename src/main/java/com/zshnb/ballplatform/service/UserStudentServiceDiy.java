@@ -446,4 +446,44 @@ public class UserStudentServiceDiy extends ServiceImpl<UserStudentDao, UserStude
         }
         return results;
     }
+
+    @Override
+    public List<ClassStatisticsVo> collegeStudentsStatistics(int collegeId, String teacherId) {
+        List<ClassStatisticsVo> results = new ArrayList<>();
+        QueryWrapper<Class> classWrapper = new QueryWrapper<>();
+        classWrapper.eq("collegeId", collegeId);
+        List<Class> classes = classDao.selectList(classWrapper);
+        for (Class aClass : classes) {
+            ClassStatisticsVo statisticsVo = new ClassStatisticsVo();
+            statisticsVo.setClassName(aClass.getName());
+
+            QueryWrapper<UserStudent> studentWrapper = new QueryWrapper<>();
+            studentWrapper.eq("classId", aClass.getId());
+            studentWrapper.eq("teacherId", teacherId);
+            List<UserStudent> userStudents = studentDao.selectList(studentWrapper);
+            if (userStudents.size() == 0) {
+                // 该班级没有该老师的学生，不统计
+                continue;
+            }
+
+            results.add(statisticsVo);
+
+            statisticsVo.setStudentCount(userStudents.size());
+
+            List<String> studentIds = userStudents.stream().map(UserStudent::getId).collect(Collectors.toList());
+            QueryWrapper<JobInfo> jobInfoWrapper = new QueryWrapper<>();
+            jobInfoWrapper.in("studentId", studentIds);
+            List<String> jobStudentIds = jobInfoDao.selectList(jobInfoWrapper).stream().map(JobInfo::getStudentId).distinct().collect(Collectors.toList());
+            statisticsVo.setJobStudentCount(jobStudentIds.size());
+            statisticsVo.setJobPercent((String.format("%.2f", (float) jobStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+
+            QueryWrapper<PracticeInfo> practiceQueryWrapper = new QueryWrapper<>();
+            practiceQueryWrapper.in("practiceStatus", EPracticeStatus.STATUS_DOING.statusCode, EPracticeStatus.STATUS_END.statusCode);
+            practiceQueryWrapper.in("studentId", studentIds);
+            List<String> practiceStudentIds = practiceInfoDao.selectList(practiceQueryWrapper).stream().map(PracticeInfo::getStudentId).distinct().collect(Collectors.toList());
+            statisticsVo.setPracticeStudentCount(practiceStudentIds.size());
+            statisticsVo.setPracticePercent((String.format("%.2f", (float) practiceStudentIds.size() / (float) userStudents.size() * 100)) + "%");
+        }
+        return results;
+    }
 }

@@ -60,4 +60,6 @@ public interface MPUserStudentService extends IService<UserStudent> {
     List<CollegeStatisticsVo> schoolStatistics();
 
     List<ClassStatisticsVo> collegeStudentsStatistics(int collegeId);
+
+    List<ClassStatisticsVo> collegeStudentsStatistics(int collegeId, String teacherId);
 }

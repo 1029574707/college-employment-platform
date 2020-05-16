@@ -145,7 +145,7 @@ public class UserTeacherAction {
         if (classId == null) {
             UserTeacher teacher = teacherService.getTeacherById(id);
             int collegeId = teacher.getCollegeId();
-            return Response.ok(studentService.collegeStudentsStatistics(collegeId));
+            return Response.ok(studentService.collegeStudentsStatistics(collegeId, id));
         } else {
             ClassStatisticsVo statisticsVo = studentService.classStudentStatistics(id, classId);
             return Response.ok(Collections.singletonList(statisticsVo));
